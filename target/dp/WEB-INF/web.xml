@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://java.sun.com/xml/ns/javaee" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd" version="3.0">
+  	<display-name>JavaServerFaces</display-name>
+
+	<welcome-file-list>
+		<!-- <welcome-file>faces/pages/index.xhtml</welcome-file> -->
+		<welcome-file>pages/rrr.xhtml</welcome-file>
+	</welcome-file-list>
+
+	<servlet>
+		<servlet-name>Faces Servlet</servlet-name>
+		<servlet-class>javax.faces.webapp.FacesServlet</servlet-class>
+		<load-on-startup>1</load-on-startup>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>Faces Servlet</servlet-name>
+		<url-pattern>*.xhtml</url-pattern>
+		<url-pattern>/faces/*</url-pattern>
+	</servlet-mapping>
+	<context-param>
+		<description>State saving method: 'client' or 'server' (=default). See JSF Specification 2.5.2</description>
+		<param-name>javax.faces.STATE_SAVING_METHOD</param-name>
+		<param-value>client</param-value>
+	</context-param>
+	<context-param>
+		<param-name>javax.servlet.jsp.jstl.fmt.localizationContext</param-name>
+		<param-value>resources.application</param-value>
+	</context-param>
+	<listener>
+		<listener-class>com.sun.faces.config.ConfigureListener</listener-class>
+	</listener>
+	
+	<servlet>
+		<servlet-name>jersey-serlvet</servlet-name>
+		<servlet-class>com.sun.jersey.spi.container.servlet.ServletContainer</servlet-class>
+		<init-param>
+			<param-name>com.sun.jersey.config.property.packages</param-name>
+			<param-value>rest</param-value>
+		</init-param>
+		<init-param>
+			<param-name>com.sun.jersey.api.json.POJOMappingFeature</param-name>
+			<param-value>true</param-value>
+		</init-param>
+		<load-on-startup>1</load-on-startup>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>jersey-serlvet</servlet-name>
+		<url-pattern>/rest/*</url-pattern>
+	</servlet-mapping>
+	<!-- 	<security-constraint>
+		<web-resource-collection>
+			<web-resource-name>records</web-resource-name>
+			<url-pattern>/rest/*</url-pattern>
+		</web-resource-collection>
+		<user-data-constraint>
+			<transport-guarantee>CONFIDENTIAL</transport-guarantee>
+		</user-data-constraint>
+	</security-constraint> -->
+
+	<security-constraint> <web-resource-collection> <web-resource-name>Admin 
+		Area</web-resource-name> <url-pattern>/pages/admin/*</url-pattern> </web-resource-collection> 
+		<auth-constraint> <role-name>Administrator</role-name> </auth-constraint> 
+		</security-constraint> <security-constraint> <web-resource-collection> <web-resource-name>User 
+		Area</web-resource-name> <url-pattern>/pages/user/*</url-pattern> </web-resource-collection> 
+		<auth-constraint> <role-name>User</role-name> <role-name>Administrator</role-name> 
+		</auth-constraint> </security-constraint> <login-config> <auth-method>FORM</auth-method> 
+		<realm-name>WSNRealm</realm-name> <form-login-config> <form-login-page>/pages/login.xhtml</form-login-page> 
+		<form-error-page>/pages/login.xhtml</form-error-page> </form-login-config> 
+		</login-config> <security-role> <role-name>Administrator</role-name> </security-role> 
+		<security-role> <role-name>User</role-name> </security-role> <error-page> 
+		<error-code>403</error-code> <location>/pages/accessDenied.xhtml</location> 
+		</error-page>
+
+	<filter>
+		<filter-name>LoginCheckFilter</filter-name>
+		<filter-class>filter.LoginCheckFilter</filter-class>
+		<init-param>
+			<param-name>loginActionURI</param-name>
+			<param-value>/dp/pages/login.xhtml</param-value>
+		</init-param>
+	</filter>
+	<filter-mapping>
+		<filter-name>LoginCheckFilter</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+
+	<filter>
+		<filter-name>AdminPagesFilter</filter-name>
+		<filter-class>filter.AdminPagesFilter</filter-class>
+	</filter>
+	<filter-mapping>
+		<filter-name>AdminPagesFilter</filter-name>
+		<url-pattern>/pages/admin/*</url-pattern>
+	</filter-mapping>
+
+	<filter>
+		<filter-name>LogoutFilter</filter-name>
+		<filter-class>filter.LogoutFilter</filter-class>
+	</filter>
+
+	<filter-mapping>
+		<filter-name>LogoutFilter</filter-name>
+		<url-pattern>/pages/admin/*</url-pattern>
+		<url-pattern>/pages/user/*</url-pattern>
+	</filter-mapping>
+</web-app>

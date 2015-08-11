@@ -1,0 +1,27 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+
+<h:body>
+	<ui:composition template="/pages/templates/common.xhtml">
+		<ui:define name="menu">
+			<ul>
+				<li><h:link value="Home" outcome="user.xhtml" /></li>
+			</ul>
+		</ui:define>
+
+		<ui:define name="content">
+			<h2>Users Dashboard!!!</h2>
+			<h:form>
+				<h:commandLink value="Logout" action="#{userBean.logout}"></h:commandLink>
+			</h:form>
+		</ui:define>
+	</ui:composition>
+</h:body>
+</html>
