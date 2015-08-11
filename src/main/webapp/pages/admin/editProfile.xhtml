@@ -1,0 +1,96 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+
+<h:body>
+	<ui:composition template="/pages/templates/commonAdmin.xhtml">
+		<ui:define name="content">
+
+			<h:form>
+				<p:contextMenu for="profiles">
+					<p:menuitem value="View" update="profileDetail"
+						icon="ui-icon-search" oncomplete="PF('profileDialog').show()" />
+					<p:menuitem value="Delete" update="profiles" icon="ui-icon-close"
+						actionListener="#{profileViewBean.deleteProfile}" />
+				</p:contextMenu>
+
+				<p:dataTable id="profiles" var="user"
+					value="#{profileViewBean.users}" widgetVar="profilesTable"
+					emptyMessage="No profiles found with given criteria"
+					filteredValue="#{profileViewBean.filteredProfiles}"
+					rowKey="#{user.username}"
+					selection="#{profileViewBean.selectedUser}" selectionMode="single">
+
+					<f:facet name="header">
+           				 RightClick to View Options
+        			</f:facet>
+
+
+					<p:column filterBy="#{user.username}" headerText="Username"
+						filterMatchMode="contains">
+						<h:outputText value="#{user.username}" />
+					</p:column>
+
+					<p:column filterBy="#{user.firstname}" headerText="First Name"
+						filterMatchMode="contains">
+						<h:outputText value="#{user.firstname}" />
+					</p:column>
+
+					<p:column filterBy="#{user.lastname}" headerText="Last Name"
+						filterMatchMode="contains">
+						<h:outputText value="#{user.lastname}" />
+					</p:column>
+
+					<p:column filterBy="#{user.group.groupname}" headerText="Group"
+						filterMatchMode="exact">
+						<f:facet name="filter">
+							<p:selectOneMenu onchange="PF('profilesTable').filter()">
+								<f:selectItem itemLabel="Select One" itemValue="#{null}"
+									noSelectionOption="true" />
+								<f:selectItems value="#{profileViewBean.groups}" />
+							</p:selectOneMenu>
+						</f:facet>
+						<h:outputText value="#{user.group.groupname}" />
+					</p:column>
+
+				</p:dataTable>
+				<p:dialog header="Profile Info" widgetVar="profileDialog"
+					modal="true" showEffect="fade" hideEffect="fade" resizable="false">
+					<p:outputPanel id="profileDetail" style="text-align:center ">
+						<p:panelGrid columns="2" 
+							rendered="#{not empty profileViewBean.selectedUser}"
+							columnClasses="label,value">
+
+							<h:outputText value="Username:" />
+							<h:outputText value="#{profileViewBean.selectedUser.username}" />
+
+							<h:outputText value="First Name" />
+							<h:outputText value="#{profileViewBean.selectedUser.firstname}" />
+
+							<h:outputText value="Last Name:" />
+							<h:outputText value="#{profileViewBean.selectedUser.lastname}" />
+
+							<h:outputText value="Role" />
+							<h:outputText
+								value="#{profileViewBean.selectedUser.group.groupname}" />
+
+							<h:outputText value="Birthday" />
+							<h:outputText value="#{profileViewBean.selectedUser.birthday}" />
+
+							<h:outputText value="Email" />
+							<h:outputText value="#{profileViewBean.selectedUser.email}" />
+						</p:panelGrid>
+					</p:outputPanel>
+				</p:dialog>
+			</h:form>
+
+		</ui:define>
+	</ui:composition>
+</h:body>
+</html>

@@ -1,0 +1,63 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+
+<h:body>
+	<ui:composition template="templates/common.xhtml">
+	<ui:define name="menu">
+				<div class="menuLeft">
+				<p:tabMenu activeIndex="#{param.i}"> 
+
+					<p:menuitem value="Login" outcome="login.xhtml" >
+						<f:param name="i" value="0" />
+					</p:menuitem>
+
+				</p:tabMenu>
+			</div>
+			<div class="menuRight">
+				<p:button value="Back" outcome="index.xhtml"  />
+			</div>
+	</ui:define>
+		<ui:define name="content">
+			<h:form id="loginForm">
+				<p:fieldset styleClass="fieldset" legend="Authentication Form">
+					<p:messages />
+
+					<h:panelGrid id="logPanelGrid"
+						style="margin: 0 auto; margin-top: 25px; text-align: left"
+						cellspacing="8" columns="3">
+
+						<h:panelGroup>
+							<h:outputText value="Username:" />
+							<h:outputText style="color:red" value="*  " />
+						</h:panelGroup>
+						<p:inputText id="username" value="#{loginBean.username}"
+							label="Username" title="Enter your Username!" />
+						<p:tooltip for="username" styleClass="tooltip" showEvent="focus"
+							hideEvent="blur" />
+						<h:panelGroup>
+							<h:outputText value="Password:" />
+							<h:outputText style="color:red" value="*  " />
+						</h:panelGroup>
+						<p:password id="password" value="#{loginBean.password}"
+							label="Password" title="Please enter a password!" />
+
+						<p:tooltip for="password" styleClass="tooltip" showEvent="focus"
+							hideEvent="blur" />
+
+						<p:commandButton action="#{loginBean.login}" value="Login"
+							update="logPanelGrid" />
+					</h:panelGrid>
+				</p:fieldset>
+			</h:form>
+
+		</ui:define>
+
+	</ui:composition>
+</h:body>
+</html>

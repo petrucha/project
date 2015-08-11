@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PROCESS model-entity="JSFProcess">
+ <PROCESS-ITEM NAME="rules:#pages#login.xhtml" PATH="/pages/login.xhtml"
+  SHAPE="32,17,0,0" model-entity="JSFProcessGroup">
+  <PROCESS-ITEM ID="rules:#pages#login.xhtml:0" NAME="item"
+   PATH="/pages/login.xhtml" model-entity="JSFProcessItem">
+   <PROCESS-ITEM-OUTPUT ID="user::#pages#user#user.xhtml" NAME="output"
+    PATH="/pages/user/user.xhtml" TARGET="rules:#pages#user#user.xhtml"
+    TITLE="user" model-entity="JSFProcessItemOutput"/>
+  </PROCESS-ITEM>
+  <PROCESS-ITEM ID="rules:#pages#login.xhtml:1" NAME="item1"
+   PATH="/pages/login.xhtml" model-entity="JSFProcessItem">
+   <PROCESS-ITEM-OUTPUT ID="admin::#pages#admin#admin.xhtml"
+    NAME="output" PATH="/pages/admin/admin.xhtml"
+    TARGET="rules:#pages#admin#admin.xhtml" TITLE="admin" model-entity="JSFProcessItemOutput"/>
+  </PROCESS-ITEM>
+  <PROCESS-ITEM ID="rules:#pages#login.xhtml:2" NAME="item2"
+   PATH="/pages/login.xhtml" model-entity="JSFProcessItem">
+   <PROCESS-ITEM-OUTPUT ID="failure::#pages#login.xhtml" NAME="output"
+    PATH="/pages/login.xhtml" TARGET="rules:#pages#login.xhtml"
+    TITLE="failure" model-entity="JSFProcessItemOutput"/>
+  </PROCESS-ITEM>
+  <PROCESS-ITEM ID="rules:#pages#login.xhtml:3" NAME="item3"
+   PATH="/pages/login.xhtml" model-entity="JSFProcessItem">
+   <PROCESS-ITEM-OUTPUT
+    ID="first::#pages#firstReg#firstRegistration.xhtml" NAME="output"
+    PATH="/pages/firstReg/firstRegistration.xhtml"
+    TARGET="rules:#pages#firstReg#firstRegistration.xhtml" TITLE="first" model-entity="JSFProcessItemOutput"/>
+  </PROCESS-ITEM>
+ </PROCESS-ITEM>
+ <PROCESS-ITEM NAME="rules:#pages#admin#registration.xhtml"
+  PATH="/pages/admin/registration.xhtml" SHAPE="32,481,0,0" model-entity="JSFProcessGroup">
+  <PROCESS-ITEM ID="rules:#pages#admin#registration.xhtml:0" NAME="item"
+   PATH="/pages/admin/registration.xhtml" model-entity="JSFProcessItem">
+   <PROCESS-ITEM-OUTPUT ID="failure::#pages#admin#registration.xhtml"
+    NAME="output" PATH="/pages/admin/registration.xhtml"
+    TARGET="rules:#pages#admin#registration.xhtml" TITLE="failure" model-entity="JSFProcessItemOutput"/>
+  </PROCESS-ITEM>
+  <PROCESS-ITEM ID="rules:#pages#admin#registration.xhtml:1"
+   NAME="item1" PATH="/pages/admin/registration.xhtml" model-entity="JSFProcessItem">
+   <PROCESS-ITEM-OUTPUT ID="success::#pages#admin#regConfirmation.xhtml"
+    NAME="output" PATH="/pages/admin/regConfirmation.xhtml"
+    TARGET="rules:#pages#admin#regConfirmation.xhtml" TITLE="success" model-entity="JSFProcessItemOutput"/>
+  </PROCESS-ITEM>
+ </PROCESS-ITEM>
+ <PROCESS-ITEM NAME="rules:#pages#firstReg#firstRegistration.xhtml"
+  PATH="/pages/firstReg/firstRegistration.xhtml" SHAPE="288,353,0,0" model-entity="JSFProcessGroup">
+  <PROCESS-ITEM ID="rules:#pages#firstReg#firstRegistration.xhtml:0"
+   NAME="item" PATH="/pages/firstReg/firstRegistration.xhtml" model-entity="JSFProcessItem">
+   <PROCESS-ITEM-OUTPUT
+    ID="success::#pages#firstReg#firstRegConfirmation.xhtml"
+    NAME="output" PATH="/pages/firstReg/firstRegConfirmation.xhtml"
+    TARGET="rules:#pages#firstReg#firstRegConfirmation.xhtml"
+    TITLE="success" model-entity="JSFProcessItemOutput"/>
+  </PROCESS-ITEM>
+  <PROCESS-ITEM ID="rules:#pages#firstReg#firstRegistration.xhtml:1"
+   NAME="item1" PATH="/pages/firstReg/firstRegistration.xhtml" model-entity="JSFProcessItem">
+   <PROCESS-ITEM-OUTPUT
+    ID="failure::#pages#firstReg#firstRegistration.xhtml" NAME="output"
+    PATH="/pages/firstReg/firstRegistration.xhtml"
+    TARGET="rules:#pages#firstReg#firstRegistration.xhtml"
+    TITLE="failure" model-entity="JSFProcessItemOutput"/>
+  </PROCESS-ITEM>
+ </PROCESS-ITEM>
+ <PROCESS-ITEM NAME="rules:#pages#firstReg#firstRegConfirmation.xhtml"
+  PATH="/pages/firstReg/firstRegConfirmation.xhtml" SHAPE="512,337,0,0" model-entity="JSFProcessGroup"/>
+ <PROCESS-ITEM NAME="rules:#pages#user#user.xhtml"
+  PATH="/pages/user/user.xhtml" SHAPE="288,33,0,0" model-entity="JSFProcessGroup"/>
+ <PROCESS-ITEM NAME="rules:#pages#admin#admin.xhtml"
+  PATH="/pages/admin/admin.xhtml" SHAPE="288,241,0,0" model-entity="JSFProcessGroup"/>
+ <PROCESS-ITEM NAME="rules:#pages#admin#regConfirmation.xhtml"
+  PATH="/pages/admin/regConfirmation.xhtml" SHAPE="256,497,0,0" model-entity="JSFProcessGroup"/>
+</PROCESS>

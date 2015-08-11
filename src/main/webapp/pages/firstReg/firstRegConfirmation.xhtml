@@ -1,0 +1,96 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:body>
+	<ui:composition template="/pages/templates/common.xhtml">
+		<ui:define name="content">
+
+			<p:fieldset styleClass="fieldset"
+				legend="Confirmation of Registration">
+
+				<h:panelGrid id="regPanelGrid"
+					style="margin: 25px auto auto auto; text-align: left"
+					cellspacing="8" columns="3">
+
+					<h:panelGroup>
+						<h:outputText value="User Name" style="font-weight:bold" />
+					</h:panelGroup>
+					<h:panelGroup>
+						<h:outputText value=":" style="font-weight:bold" />
+					</h:panelGroup>
+					<h:panelGroup>
+						<h:outputText value="#{registrationBean.username}" />
+					</h:panelGroup>
+
+					<h:panelGroup>
+						<h:outputText value="Password" style="font-weight:bold" />
+					</h:panelGroup>
+					<h:panelGroup>
+						<h:outputText value=":" style="font-weight:bold" />
+					</h:panelGroup>
+					<h:panelGroup>
+						<h:outputText value="********" />
+					</h:panelGroup>
+
+					<h:panelGroup>
+						<h:outputText value="First Name" style="font-weight:bold" />
+					</h:panelGroup>
+					<h:panelGroup>
+						<h:outputText value=":" style="font-weight:bold" />
+					</h:panelGroup>
+					<h:panelGroup>
+						<h:outputText value="#{registrationBean.firstname}" />
+					</h:panelGroup>
+
+					<h:panelGroup>
+						<h:outputText value="Last Name" style="font-weight:bold" />
+					</h:panelGroup>
+					<h:panelGroup>
+						<h:outputText value=":" style="font-weight:bold" />
+					</h:panelGroup>
+					<h:panelGroup>
+						<h:outputText value="#{registrationBean.lastname}" />
+					</h:panelGroup>
+
+					<h:panelGroup>
+						<h:outputText value="Date of Birth" style="font-weight:bold" />
+					</h:panelGroup>
+					<h:panelGroup>
+						<h:outputText value=":" style="font-weight:bold" />
+					</h:panelGroup>
+					<h:panelGroup>
+						<h:outputText value="#{registrationBean.birthday}" />
+					</h:panelGroup>
+
+					<h:panelGroup>
+						<h:outputText value="Email" style="font-weight:bold" />
+					</h:panelGroup>
+					<h:panelGroup>
+						<h:outputText value=":" style="font-weight:bold" />
+					</h:panelGroup>
+					<h:panelGroup>
+						<h:outputText value="#{registrationBean.email}" />
+					</h:panelGroup>
+
+					<h:panelGroup>
+						<h:outputText value="User Roles" style="font-weight:bold" />
+					</h:panelGroup>
+					<h:panelGroup>
+						<h:outputText value=":" style="font-weight:bold" />
+					</h:panelGroup>
+					<h:panelGroup>
+						<h:outputText value="#{registrationBean.groupname}" />
+					</h:panelGroup>
+
+				</h:panelGrid>
+			</p:fieldset>
+		</ui:define>
+	</ui:composition>
+</h:body>
+</html>

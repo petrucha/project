@@ -1,0 +1,27 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+<body>
+	<ui:composition>
+			<div class="menuLeft">
+				<p:tabMenu activeIndex="#{param.i}"> 
+
+					<p:menuitem value="Home" outcome="/pages/index.xhtml" >
+						<f:param name="i" value="0" />
+					</p:menuitem>
+
+					<p:menuitem value="Contacts" outcome="/pages/index.xhtml">
+						<f:param name="i" value="1" />
+					</p:menuitem>
+				</p:tabMenu>
+			</div>
+			<div class="menuRight">
+				<p:button value="Login" outcome="/pages/login.xhtml"  />
+			</div>
+	</ui:composition>
+</body>
+</html>
