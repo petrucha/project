@@ -1,13 +1,17 @@
 package jsf;
  
 import java.io.Serializable;
- 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.List;
+
 import org.primefaces.model.chart.Axis;
 import org.primefaces.model.chart.AxisType;
 import org.primefaces.model.chart.CategoryAxis;
 import org.primefaces.model.chart.LineChartModel;
 import org.primefaces.model.chart.LineChartSeries;
 
+import entity.Record;
 import service.RecordService;
  
 public class ChartsViewBean extends AbstractBean implements Serializable {
@@ -29,36 +33,36 @@ public class ChartsViewBean extends AbstractBean implements Serializable {
     private void createAreaModel() {
         areaModel = new LineChartModel();
  
-        LineChartSeries boys = new LineChartSeries();
-        boys.setFill(true);
-        boys.setLabel("Boys");
-        boys.set("2004", 120);
-        boys.set("2005", 100);
-        boys.set("2006", 44);
-        boys.set("2007", 150);
-        boys.set("2008", 25);
+        LineChartSeries quantity = new LineChartSeries();
+        quantity.setFill(true);
+        quantity.setLabel("Quantity");
+      
  
-        LineChartSeries girls = new LineChartSeries();
-        girls.setFill(true);
-        girls.setLabel("Girls");
-        girls.set("2004", 52);
-        girls.set("2005", 60);
-        girls.set("2006", 110);
-        girls.set("2007", 90);
-        girls.set("2008", 120);
+        LineChartSeries value = new LineChartSeries();
+        value.setFill(true);
+        value.setLabel("Value");
+
+        
+        List<Record> records = instance.getRecords();
+        for (Record rec : records) {
+        	String date = new SimpleDateFormat("yyyy-MM-dd HH:mm").format(rec.getTimestamp());
+        	Double quan = Double.parseDouble(rec.getQuantity());
+        	quantity.set(date, quan);
+        	value.set(date, rec.getValue());
+        }
  
-        areaModel.addSeries(boys);
-        areaModel.addSeries(girls);
+        areaModel.addSeries(quantity);
+        areaModel.addSeries(value);
          
         areaModel.setTitle("Area Chart");
         areaModel.setLegendPosition("ne");
         areaModel.setStacked(true);
         areaModel.setShowPointLabels(true);
          
-        Axis xAxis = new CategoryAxis("Years");
+        Axis xAxis = new CategoryAxis("Date");
         areaModel.getAxes().put(AxisType.X, xAxis);
         Axis yAxis = areaModel.getAxis(AxisType.Y);
-        yAxis.setLabel("Births");
+        yAxis.setLabel("");
         yAxis.setMin(0);
         yAxis.setMax(300);
     }
