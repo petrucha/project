@@ -68,4 +68,17 @@ public class RecordService implements Serializable {
 		Record[] array = new Record[recordsList.size()];
 		return recordsList.toArray(array);
 	}
+	
+	public Record getRecordById(int id) {
+		Record record = null;
+		try {
+			HibernateUtil.beginTransaction();
+			record = recordDAO.getRecordById(id);
+			HibernateUtil.commitTransaction();
+		} catch (HibernateException ex) {
+			System.out.println("Error: getRecordById()");
+		}
+		
+		return record;
+	}
 }
