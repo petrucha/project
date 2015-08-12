@@ -120,6 +120,11 @@
 		<display-name>pages/records/table.xhtml</display-name>
 		<from-view-id>/pages/records/table.xhtml</from-view-id>
 	</navigation-rule>
+	
+	<navigation-rule>
+		<display-name>pages/records/graphs.xhtml</display-name>
+		<from-view-id>/pages/records/graphs.xhtml</from-view-id>
+	</navigation-rule>
 
 	<validator>
 		<display-name>Password Validator</display-name>

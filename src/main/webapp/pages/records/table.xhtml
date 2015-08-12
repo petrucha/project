@@ -10,38 +10,33 @@
 <h:body>
 	<ui:composition template="../templates/common.xhtml">
 		<ui:define name="content">
-		
+
 			<h1>JSF 2 dataTable example</h1>
 
-	<h:dataTable value="#{recordsViewBean.records}" var="rec" class="table">
+			<p:dataTable value="#{recordsViewBean.records}" var="rec"
+				class="table">
 
-		<h:column>
-			<!-- column header -->
-			<f:facet name="header">Device</f:facet>
-			<!-- row record -->
-    				#{rec.device}
-    			</h:column>
+				<p:column headerText="Device">
+					<h:outputText value="#{rec.device}" />
+				</p:column>
 
-		<h:column>
-			<f:facet name="header">Quantity</f:facet>
-    				#{rec.quantity}
-    			</h:column>
+				<p:column headerText="Quantity">
+					<h:outputText value="#{rec.quantity}" />
+				</p:column>
 
-		<h:column>
-			<f:facet name="header">Value</f:facet>
-    				#{rec.value}
-    			</h:column>
+				<p:column headerText="Value">
+					<h:outputText value="#{rec.value}" />
+				</p:column>
 
-		<h:column>
-			<f:facet name="header">Timestamp</f:facet>
-    				#{rec.timestamp}
-    			</h:column>
+				<p:column headerText="Timestamp">
+					<h:outputText value="#{rec.timestamp}" />
+				</p:column>
 
-	</h:dataTable>
-	
+			</p:dataTable>
+
 		</ui:define>
 	</ui:composition>
-	
+
 </h:body>
 
 </html>
