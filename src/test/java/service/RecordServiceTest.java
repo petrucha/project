@@ -28,7 +28,6 @@ public class RecordServiceTest {
         
         recordService.deleteRecord(created);
         Assert.assertNull(recordService.getRecordById(created.getId()));
-        
     }
   
 }
