@@ -81,4 +81,14 @@ public class RecordService implements Serializable {
 		
 		return record;
 	}
+	
+	public void deleteRecord(Record record) {
+		try {
+			HibernateUtil.beginTransaction();
+			recordDAO.delete(record);
+			HibernateUtil.commitTransaction();
+		} catch (HibernateException ex) {
+			System.out.println("Error: deleteRecord()");
+		}
+	}
 }

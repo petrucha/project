@@ -25,6 +25,10 @@ public class RecordServiceTest {
         Assert.assertEquals(created.getQuantity(), record.getQuantity());
         Assert.assertEquals(created.getValue(), record.getValue());
         Assert.assertEquals(created.getTimestamp(), record.getTimestamp(), 0.01); //the last argument is epsilon
+        
+        recordService.deleteRecord(created);
+        Assert.assertNull(recordService.getRecordById(created.getId()));
+        
     }
   
 }
