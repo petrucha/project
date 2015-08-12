@@ -31,6 +31,12 @@
 		<managed-bean-class>jsf.RecordsViewBean</managed-bean-class>
 		<managed-bean-scope>view</managed-bean-scope>
 	</managed-bean>
+	
+	<managed-bean>
+		<managed-bean-name>chartsViewBean</managed-bean-name>
+		<managed-bean-class>jsf.ChartsViewBean</managed-bean-class>
+		<managed-bean-scope>view</managed-bean-scope>
+	</managed-bean>
 
 	<managed-bean>
 		<managed-bean-name>profileViewBean</managed-bean-name>
@@ -122,8 +128,8 @@
 	</navigation-rule>
 	
 	<navigation-rule>
-		<display-name>pages/records/graphs.xhtml</display-name>
-		<from-view-id>/pages/records/graphs.xhtml</from-view-id>
+		<display-name>pages/records/charts.xhtml</display-name>
+		<from-view-id>/pages/records/charts.xhtml</from-view-id>
 	</navigation-rule>
 
 	<validator>
