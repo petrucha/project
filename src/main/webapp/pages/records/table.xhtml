@@ -8,8 +8,9 @@
 	xmlns:p="http://primefaces.org/ui">
 
 <h:body>
-	<ui:composition template="/templates/common.xhtml">
+	<ui:composition template="../templates/common.xhtml">
 		<ui:define name="content">
+		
 			<h1>JSF 2 dataTable example</h1>
 
 	<h:dataTable value="#{recordsViewBean.records}" var="rec" class="table">
@@ -37,6 +38,7 @@
     			</h:column>
 
 	</h:dataTable>
+	
 		</ui:define>
 	</ui:composition>
 	
