@@ -1,5 +1,6 @@
 package dao;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.hibernate.Query;
@@ -21,28 +22,6 @@ public class RecordDAO extends AbstractDAO<Record> {
 		return this.findMany(query);
 	}
 	
-	public List<Record> getRecordByDevicesArray(String[] devices) {
-		Session hibernateSession = this.getSession();
-		String hql = "SELECT r FROM Record r WHERE ";
-		
-		//selecting possible devices for search
-		for (int i = 0; i < devices.length; i++) {
-			hql += "r.device = :device" + i;
-			if (i!=devices.length-1) {
-				hql +=" OR ";
-			}
-		}
-		
-		Query query = hibernateSession.createQuery(hql);
-			
-		// setting parameters of query above
-		for (int i = 0; i < devices.length; i++) {
-			query.setParameter("device"+i, devices[i]);
-		}
-		
-		return this.findMany(query);
-	}
-	
 	public Record getRecordById(final int id) {
 		Session hibernateSession = this.getSession();
 		String hql = "SELECT r FROM Record r WHERE r.id = :record_id";
@@ -52,13 +31,28 @@ public class RecordDAO extends AbstractDAO<Record> {
 		return this.findOne(query);
 	}
 	
-	public List<Record> getRecordsByTimestamp(final double startTime, final double endTime) {
+	public List<Record[]> getRecordByDevicesAndTime(final String[] devices,
+												  final double startTime, 
+												  final double endTime) {
+		if (devices.length == 0) {
+			return null;
+		}
+		List<Record[]> sortedRecords = new ArrayList<Record[]>();
+		
 		Session hibernateSession = this.getSession();
-		String hql = "SELECT r FROM Record r WHERE r.timestamp BETWEEN :startTime and :endTime";
+		String hql = "SELECT r FROM Record r WHERE (r.timestamp BETWEEN :startTime and :endTime) AND (r.device = :device)";
 		Query query = hibernateSession.createQuery(hql)
 				.setParameter("startTime", startTime)
 				.setParameter("endTime", endTime);
-		return this.findMany(query);
+		//dividing records by device
+		for (int i = 0; i < devices.length; i++) {
+			query.setParameter("device", devices[i]);
+			List<Record> recordList = this.findMany(query);
+			Record[] deviceRecords = new Record[recordList.size()];
+			sortedRecords.add(recordList.toArray(deviceRecords));
+		}
+		
+		return sortedRecords;
 	}
 	
 	@SuppressWarnings("unchecked")

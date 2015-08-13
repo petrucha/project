@@ -2,8 +2,8 @@ package jsf;
 
 import java.io.Serializable;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 
 import org.primefaces.model.chart.Axis;
@@ -24,14 +24,14 @@ public class ChartsViewBean extends AbstractBean implements Serializable {
 	
 	private LineChartModel valueModel;
 	
-	private String[] selectedDevices;  
+	private String[] selectedDevices = {"AAAA", "Samsung"};  
 	
     private List<String> devices;
     
     // Constructor
 
 	public ChartsViewBean() {
-		createValueModel();
+		createValueModel(instance.getRecordsByDevicesAndTime(selectedDevices, 0, new Date().getTime()));
 
         devices = Arrays.asList(instance.getDevicesArray());
 	}
@@ -45,7 +45,6 @@ public class ChartsViewBean extends AbstractBean implements Serializable {
 	public void setValueModel(LineChartModel valueModel) {
 		this.valueModel = valueModel;
 	}
-	
 	
 	public String[] getSelectedDevices() {
 		return selectedDevices;
@@ -65,36 +64,32 @@ public class ChartsViewBean extends AbstractBean implements Serializable {
 	
 	// Chart methods
 
-	private void createValueModel() {
-		Axis yAxis = null;
+	private void createValueModel(List<Record[]> recordArrays) {
+		LineChartModel model = new LineChartModel();
 
-		valueModel = initCategoryModel();
+		for (Record[] recs : recordArrays) {
+			valueModel = initCategoryModel(recs, model);
+		}
 		valueModel.setTitle("Temperature Chart");
 		valueModel.setLegendPosition("e");
 		valueModel.setShowPointLabels(true);
 		valueModel.getAxes().put(AxisType.X, new CategoryAxis("Date"));
-		yAxis = valueModel.getAxis(AxisType.Y);
+		Axis yAxis = valueModel.getAxis(AxisType.Y);
 		yAxis.setLabel("Temperature C\u00b0");
 		// yAxis.setMin(0);
 		// yAxis.setMax(200);
 	}
 
-	private LineChartModel initCategoryModel() {
-		LineChartModel model = new LineChartModel();
-
+	private LineChartModel initCategoryModel(Record[] records, LineChartModel model) { 
 		ChartSeries values = new ChartSeries();
-		values.setLabel("Values");
-
-		List<Record> records = instance.getRecords(); // do change to
-														// getRecordsByDevice()
+		values.setLabel(records[0].getDevice());
+														
 		// creating value data for chart series
-
 		for (Record rec : records) {
 			String date = new SimpleDateFormat("yyyy-MM-dd HH:mm").format(rec.getTimestamp());
 			// Double quan = Double.parseDouble(rec.getQuantity());
 			values.set(date, rec.getValue());
 		}
-
 		model.addSeries(values);
 
 		return model;

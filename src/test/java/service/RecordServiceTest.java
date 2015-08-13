@@ -64,41 +64,34 @@ public class RecordServiceTest {
     }
     
     @Test
-    public void testGetRecordsByTimestamp() {
+    public void testGetRecordsByDevicesArray() {
+    	//preparations for devices
+    	Record record1 = new Record("BBBB", "111", 222, new Date().getTime());
+    	recordService.addRecord(record1);
+    	String[] devices = {"AAAA", "BBBB"};
+    	//preparations for time
     	SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
     	Date startTime = null;
 		try {
 			startTime = sdf.parse("01/01/2000");
 		} catch (ParseException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
     	Date endTime = new Date();
-    	
-    	Record[] records = recordService.getRecordsByTimestamp(startTime.getTime(), endTime.getTime());
-    	
-    	for (int i = 0; i < records.length; i++) {
-			System.out.println(records[i]);
-		}
-    	
-    	Assert.assertTrue(records.length > 0);
-    }
-    
-    @Test
-    public void testGetRecordsByDevicesArray() {
-    	Record record1 = new Record("BBBB", "111", 222, new Date().getTime());
-    	recordService.addRecord(record1);
-    	
-    	String[] devices = {"AAAA", "BBBB"};
-    	
-    	List<Record> records = recordService.getRecordsByDevicesArray(devices);
-    	for (Record rec : records) {
-			System.out.println(rec);
-		}
+    	//doing the operation
+    	List<Record[]> records = recordService.getRecordsByDevicesAndTime(devices, startTime.getTime(), endTime.getTime());
+    	//assertions
+    	Assert.assertTrue(records.size() > 0);
+    	for (Record[] rec : records) {
+    		Assert.assertTrue(rec.length > 0);
+    		for (int i = 0; i < rec.length; i++) {
+    			System.out.println(rec[i]);
+    		}
+		}	
     	//getting "default record's device" and checks is it right 
-    	String drd = records.get(0).getDevice();
+    	String drd = records.get(0)[0].getDevice();
     	Assert.assertTrue(drd.equals(devices[0]) || drd.equals(devices[1]));
-    	
+    	//deleting created in the testcase record
     	recordService.deleteRecord(record1);
     }
   

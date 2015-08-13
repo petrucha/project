@@ -69,19 +69,6 @@ public class RecordService implements Serializable {
 		Record[] array = new Record[recordsList.size()];
 		return recordsList.toArray(array);
 	}
-	
-	// will be used for filtering records by devices
-	public List<Record> getRecordsByDevicesArray (String[] devices) {
-		List<Record> recordsList = new ArrayList<Record>();
-		try {
-			HibernateUtil.beginTransaction();
-			recordsList = recordDAO.getRecordByDevicesArray(devices);
-			HibernateUtil.commitTransaction();
-		} catch (HibernateException ex) {
-			System.out.println("Error:  getRecordsByDevicesArray("+devices+")");
-		}
-		return recordsList;
-	}
 
 	// will be used for selecting a single record
 	public Record getRecordById(int id) {
@@ -122,17 +109,18 @@ public class RecordService implements Serializable {
 		return devices.toArray(devArray);
 	}
 	
-	// will be used for filtering records by date
-	public Record[] getRecordsByTimestamp(double startTime, double endTime) {
-		List<Record> recordsList = new ArrayList<Record>();
+	// will be used for filtering records by devices and time
+	public List<Record[]> getRecordsByDevicesAndTime(String[] devices,
+													double startTime,
+													double endTime) {
+		List<Record[]> recordsList = new ArrayList<Record[]>();
 		try {
 			HibernateUtil.beginTransaction();
-			recordsList = recordDAO.getRecordsByTimestamp(startTime, endTime);
+			recordsList = recordDAO.getRecordByDevicesAndTime(devices, startTime, endTime);
 			HibernateUtil.commitTransaction();
 		} catch (HibernateException ex) {
-			System.out.println("Error:  getRecordsByTimestamp("+startTime+","+endTime+")");
+			System.out.println("Error:  getRecordsByDevicesAndTime(...)");
 		}
-		Record[] array = new Record[recordsList.size()];
-		return recordsList.toArray(array);
+		return recordsList;
 	}
 }
