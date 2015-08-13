@@ -10,13 +10,31 @@
 <h:body>
 	<ui:composition template="../templates/common.xhtml">
 		<ui:define name="content">
-		
-	
-		
-		<p:chart type="line" model="#{chartViewBean.lineModel1}" style="height:300px;"/>
- 
-		<p:chart type="line" model="#{chartViewBean.lineModel2}" style="height:300px;"/>
-		
+
+			<p:chart type="line" model="#{chartsViewBean.valueModel}"
+				style="height:300px;" />
+
+		<!-- 	<h:form>
+				<h:panelGrid columns="3" cellpadding="5">
+					<h:outputLabel for="menu" value="Location:" />
+					<p:selectCheckboxMenu id="menu"
+							value="#{checkboxView.selectedCities}" label="Cities"
+							filter="true" filterMatchMode="startsWith"
+							panelStyle="width:250px">
+						<f:selectItems value="#{checkboxView.cities}" />
+					</p:selectCheckboxMenu>
+					<p:commandLink value="Submit" update="display" />
+				</h:panelGrid>
+
+				<p:outputPanel id="display"
+						style="width:250px;padding-left:5px;margin-top:10px">
+					<p:dataList value="#{checkboxView.selectedCities}" var="city"
+							emptyMessage="No cities selected">
+            			#{city}
+        			</p:dataList>
+				</p:outputPanel>
+			</h:form> -->
+
 		</ui:define>
 	</ui:composition>
 </h:body>
