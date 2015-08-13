@@ -21,6 +21,28 @@ public class RecordDAO extends AbstractDAO<Record> {
 		return this.findMany(query);
 	}
 	
+	public List<Record> getRecordByDevicesArray(String[] devices) {
+		Session hibernateSession = this.getSession();
+		String hql = "SELECT r FROM Record r WHERE ";
+		
+		//selecting possible devices for search
+		for (int i = 0; i < devices.length; i++) {
+			hql += "r.device = :device" + i;
+			if (i!=devices.length-1) {
+				hql +=" OR ";
+			}
+		}
+		
+		Query query = hibernateSession.createQuery(hql);
+			
+		// setting parameters of query above
+		for (int i = 0; i < devices.length; i++) {
+			query.setParameter("device"+i, devices[i]);
+		}
+		
+		return this.findMany(query);
+	}
+	
 	public Record getRecordById(final int id) {
 		Session hibernateSession = this.getSession();
 		String hql = "SELECT r FROM Record r WHERE r.id = :record_id";

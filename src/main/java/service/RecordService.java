@@ -69,7 +69,21 @@ public class RecordService implements Serializable {
 		Record[] array = new Record[recordsList.size()];
 		return recordsList.toArray(array);
 	}
+	
+	// will be used for filtering records by devices
+	public List<Record> getRecordsByDevicesArray (String[] devices) {
+		List<Record> recordsList = new ArrayList<Record>();
+		try {
+			HibernateUtil.beginTransaction();
+			recordsList = recordDAO.getRecordByDevicesArray(devices);
+			HibernateUtil.commitTransaction();
+		} catch (HibernateException ex) {
+			System.out.println("Error:  getRecordsByDevicesArray("+devices+")");
+		}
+		return recordsList;
+	}
 
+	// will be used for selecting a single record
 	public Record getRecordById(int id) {
 		Record record = null;
 		try {
@@ -83,6 +97,7 @@ public class RecordService implements Serializable {
 		return record;
 	}
 
+	//must have
 	public void deleteRecord(Record record) {
 		try {
 			HibernateUtil.beginTransaction();
@@ -93,6 +108,7 @@ public class RecordService implements Serializable {
 		}
 	}
 
+	// used for filtering records by device 
 	public String[] getDevicesArray() {
 		List<String> devices = new ArrayList<String>();
 		try {
@@ -106,6 +122,7 @@ public class RecordService implements Serializable {
 		return devices.toArray(devArray);
 	}
 	
+	// will be used for filtering records by date
 	public Record[] getRecordsByTimestamp(double startTime, double endTime) {
 		List<Record> recordsList = new ArrayList<Record>();
 		try {
