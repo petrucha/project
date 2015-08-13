@@ -3,6 +3,7 @@ package jsf;
 import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -33,14 +34,29 @@ public class ChartsViewBean extends AbstractBean implements Serializable {
 	
     private List<String> devices;
     
-    private Date startDate;
+    private Date startDate = new Date();
     
-    private Date endDate;
+    private Date endDate = new Date();
     
     // Constructor
 
 	public ChartsViewBean() {
-		createValueModel(instance.getRecordsByDevicesAndTime(selectedDevices, 0, new Date().getTime())); // fix it, e.g. for last month
+		String[] allDevices = instance.getDevicesArray();
+		// choosing first 5 devices
+		if (allDevices.length < 5 ) {
+			selectedDevices = new String[allDevices.length];
+		} else {
+			selectedDevices = new String[5];
+		}
+		for (int i = 0; (i < allDevices.length) && (i < 5); i++) {
+			selectedDevices[i] = allDevices[i];
+		}
+		Calendar cal = Calendar.getInstance();
+		cal.add(Calendar.MONTH, -1);
+		cal.set(Calendar.DATE, 1);
+		Date firstDateOfPreviousMonth = cal.getTime();
+		// initializes chart by period that starts in first day of last month until now
+		createValueModel(instance.getRecordsByDevicesAndTime(selectedDevices, firstDateOfPreviousMonth.getTime(), new Date().getTime()));
 
         devices = Arrays.asList(instance.getDevicesArray());
 	}
@@ -93,8 +109,13 @@ public class ChartsViewBean extends AbstractBean implements Serializable {
 		LineChartModel model = new LineChartModel();
 
 		for (Record[] recs : recordArrays) {
-			valueModel = initCategoryModel(recs, model);
+			if (recs.length == 0) {
+				System.out.println("NO DATA FOR THE PERIOD!");
+			} else {
+				valueModel = initCategoryModel(recs, model);
+			}
 		}
+		
 		valueModel.setTitle("Temperature Chart");
 		valueModel.setLegendPosition("e");
 		valueModel.setShowPointLabels(true);
@@ -123,14 +144,15 @@ public class ChartsViewBean extends AbstractBean implements Serializable {
 	//filter methods
 	
 	public void filtersChange() {
-//		createValueModel(instance.getRecordsByDevicesAndTime(selectedDevices, startDate.getTime(), endDate.getTime()));
-		createValueModel(instance.getRecordsByDevicesAndTime(selectedDevices, 0, new Date().getTime()));
+		System.out.println(startDate);
+		System.out.println(endDate);
+		createValueModel(instance.getRecordsByDevicesAndTime(selectedDevices, startDate.getTime(), endDate.getTime()));
 	}
 	
-	/*public void onDateSelect(SelectEvent event) {
+	public void onDateSelect(SelectEvent event) {
         FacesContext facesContext = FacesContext.getCurrentInstance();
         SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
         facesContext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Date Selected", format.format(event.getObject())));
     }
-*/
+
 }

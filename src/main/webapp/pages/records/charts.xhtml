@@ -16,22 +16,40 @@
 			<h:form>
 				<p:chart type="line" model="#{chartsViewBean.valueModel}" style="height:400px;" id="valueChart" />
 				
-	<!-- 			<p:outputLabel for="inline1" value="Inline:" />
-				<p:calendar id="inline1" value="#{chartsViewBean.startDate}" mode="inline" />
+				<div class="ui-grid ui-grid-responsive">
+					<div class="ui-grid-row">
+						<div class="ui-grid-col-4">
+							<p:outputLabel for="inline1" value="Start Date and Time:" />
+							<p:calendar id="inline1" value="#{chartsViewBean.startDate}"
+								mode="inline" />
+						</div>
+						<div class="ui-grid-col-4">
+							<p:outputLabel for="inline2" value="End Date and Time::" />
+							<p:calendar id="inline2" value="#{chartsViewBean.endDate}"
+								mode="inline" />
+						</div>
+						<div class="ui-grid-col-4">
+							<h:panelGrid columns="3" cellpadding="5">
+								<h:outputLabel for="menu" value="Devices:" />
+								<p:selectCheckboxMenu id="menu"
+									value="#{chartsViewBean.selectedDevices}" label="Devices"
+									filter="true" filterMatchMode="startsWith"
+									panelStyle="width:400px">
+									<f:selectItems value="#{chartsViewBean.devices}" />
+								</p:selectCheckboxMenu>
+							</h:panelGrid>
 
-				<p:outputLabel for="inline2" value="Inline:" />
-				<p:calendar id="inline2" value="#{chartsViewBean.endDate}" mode="inline" /> -->
+								<p:remoteCommand name="refr" update="valueChart"
+									actionListener="#{chartsViewBean.filtersChange}" />
+								<p:commandButton type="button" onclick="refr()" value="Refresh"
+									icon="ui-icon-refresh" />
+						</div>
+					</div>
+				</div>
+
 				
-				<h:panelGrid columns="3" cellpadding="5">
-					<h:outputLabel for="menu" value="Devices:" />
-					<p:selectCheckboxMenu id="menu" value="#{chartsViewBean.selectedDevices}" label="Devices" filter="true" filterMatchMode="startsWith" panelStyle="width:400px">
-						<f:selectItems value="#{chartsViewBean.devices}" />
-					</p:selectCheckboxMenu>
-					
-					<p:remoteCommand name="refr" update="valueChart" actionListener="#{chartsViewBean.filtersChange}" />
-				    <p:commandButton type="button" onclick="refr()" value="Refresh" icon="ui-icon-refresh" />
 
-				</h:panelGrid>
+				
 
 				
 			</h:form>
