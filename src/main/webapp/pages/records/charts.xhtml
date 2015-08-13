@@ -16,21 +16,21 @@
 
 			<h:form>
 				<h:panelGrid columns="3" cellpadding="5">
-					<h:outputLabel for="menu" value="Location:" />
+					<h:outputLabel for="menu" value="Devices:" />
 					<p:selectCheckboxMenu id="menu"
-							value="#{chartsViewBean.selectedCities}" label="Cities"
+							value="#{chartsViewBean.selectedDevices}" label="Devices"
 							filter="true" filterMatchMode="startsWith"
 							panelStyle="width:250px">
-						<f:selectItems value="#{chartsViewBean.cities}" />
+						<f:selectItems value="#{chartsViewBean.devices}" />
 					</p:selectCheckboxMenu>
 					<p:commandLink value="Submit" update="display" />
 				</h:panelGrid>
 
 				<p:outputPanel id="display"
 						style="width:250px;padding-left:5px;margin-top:10px">
-					<p:dataList value="#{chartsViewBean.selectedCities}" var="city"
-							emptyMessage="No cities selected">
-            			#{city}
+					<p:dataList value="#{chartsViewBean.selectedDevices}" var="device"
+							emptyMessage="No devices selected">
+            			#{device}
         			</p:dataList>
 				</p:outputPanel>
 			</h:form>

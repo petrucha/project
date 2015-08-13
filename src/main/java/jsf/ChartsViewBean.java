@@ -3,6 +3,7 @@ package jsf;
 import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import org.primefaces.model.chart.Axis;
@@ -23,25 +24,16 @@ public class ChartsViewBean extends AbstractBean implements Serializable {
 	
 	private LineChartModel valueModel;
 	
-	private String[] selectedCities;  
+	private String[] selectedDevices;  
 	
-    private List<String> cities;
+    private List<String> devices;
     
     // Constructor
 
 	public ChartsViewBean() {
 		createValueModel();
-		
-		cities = new ArrayList<String>();
-        cities.add("San Francisco");
-        cities.add("London");
-        cities.add("Paris");
-        cities.add("Istanbul");
-        cities.add("Berlin");
-        cities.add("Barcelona");
-        cities.add("Rome");
-        cities.add("Sao Paulo");
-        cities.add("Amsterdam");
+
+        devices = Arrays.asList(instance.getDevicesArray());
 	}
 	
 	// Getters and setters
@@ -55,20 +47,20 @@ public class ChartsViewBean extends AbstractBean implements Serializable {
 	}
 	
 	
-	public String[] getSelectedCities() {
-		return selectedCities;
+	public String[] getSelectedDevices() {
+		return selectedDevices;
 	}
 
-	public void setSelectedCities(String[] selectedCities) {
-		this.selectedCities = selectedCities;
+	public void setSelectedDevices(String[] selectedDevices) {
+		this.selectedDevices = selectedDevices;
 	}
 
-	public List<String> getCities() {
-		return cities;
+	public List<String> getDevices() {
+		return devices;
 	}
 
-	public void setCities(List<String> cities) {
-		this.cities = cities;
+	public void setDevices(List<String> devices) {
+		this.devices = devices;
 	}
 	
 	// Chart methods
