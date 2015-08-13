@@ -11,7 +11,11 @@
 	<ui:composition template="../templates/common.xhtml">
 		<ui:define name="content">
 		
-		<p:chart type="line" model="#{chartsViewBean.areaModel}" style="height:300px" />
+	
+		
+		<p:chart type="line" model="#{chartViewBean.lineModel1}" style="height:300px;"/>
+ 
+		<p:chart type="line" model="#{chartViewBean.lineModel2}" style="height:300px;"/>
 		
 		</ui:define>
 	</ui:composition>

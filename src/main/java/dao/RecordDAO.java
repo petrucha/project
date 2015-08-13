@@ -29,4 +29,21 @@ public class RecordDAO extends AbstractDAO<Record> {
 		
 		return this.findOne(query);
 	}
+	
+	public List<Record> getRecordsByTimestamp(final double startTime, final double endTime) {
+		Session hibernateSession = this.getSession();
+		String hql = "SELECT r FROM Record r WHERE r.timestamp BETWEEN :startTime and :endTime";
+		Query query = hibernateSession.createQuery(hql)
+				.setParameter("startTime", startTime)
+				.setParameter("endTime", endTime);
+		return this.findMany(query);
+	}
+	
+	@SuppressWarnings("unchecked")
+	public List<String> getDevicesList() {
+		Session hibernateSession = this.getSession();
+		String hql = "SELECT r.device FROM Record r GROUP BY device";
+		Query query = hibernateSession.createQuery(hql);
+		return query.list();
+	}
 }
