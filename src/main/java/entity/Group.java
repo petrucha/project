@@ -16,7 +16,6 @@ import javax.persistence.JoinTable;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
-
 @Entity
 @Table(name = "groups")
 public class Group implements Serializable {
@@ -34,7 +33,8 @@ public class Group implements Serializable {
 	@Column(name = "groupdesc")
 	private String groupdesc;
 
-	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	/* @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL) */
+	@OneToMany(cascade = { CascadeType.PERSIST, CascadeType.MERGE })
 	@JoinTable(name = "user_group", joinColumns = { @JoinColumn(name = "group_id", referencedColumnName = "g_id") }, inverseJoinColumns = { @JoinColumn(name = "user_id", referencedColumnName = "u_id") })
 	private Set<User> userGroups;
 
@@ -65,16 +65,6 @@ public class Group implements Serializable {
 	public void setGroupdesc(String groupdesc) {
 		this.groupdesc = groupdesc;
 	}
-
-/*	public void addUserInGroup(User user) {
-		if (!getUserRoles().contains(user)) {
-			getUserRoles().add(user);
-			if (user.getGroup() != null) {
-				user.getGroup().getUserRoles().remove(user);
-			}
-			user.setGroup(this);
-		}
-	}*/
 
 	public Set<User> getUserRoles() {
 		return userGroups;

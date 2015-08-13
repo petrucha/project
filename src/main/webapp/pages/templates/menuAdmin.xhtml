@@ -8,30 +8,40 @@
 	xmlns:p="http://primefaces.org/ui">
 <body>
 	<ui:composition>
-		<div class="menuLeft">
-			<p:tabMenu activeIndex="#{param.i}">
+		<h:form>
+			<p:growl id="messages" showDetail="true" />
 
-				<p:menuitem value="Home" outcome="admin.xhtml">
-					<f:param name="i" value="0" />
-				</p:menuitem>
+			<p:toolbar>
+				<f:facet name="left">
+					<p:commandButton value="Statistics" action="admin.xhtml"/>
 
-				<p:menuitem value="Registration" outcome="registration.xhtml">
-					<f:param name="i" value="1" />
-				</p:menuitem>
+					<p:spacer width="5px" />
 
-				<p:menuitem value="Edit" outcome="editProfile.xhtml">
-					<f:param name="i" value="2" />
-				</p:menuitem>
+					<p:commandButton value="Graph" action="#" />
 
-			</p:tabMenu>
-		</div>
+					<p:spacer styleClass="menuSpacer" />
+					<p:menuButton value="Sensor">
+						<p:menuitem value="Show all" action="#" />
+						<p:menuitem value="Add New" action="#" />
+						<p:menuitem value="Edit Sensors" action="#" />
+					</p:menuButton>
 
-		<div class="menuRight">
-			<h:form id="menuForm">
-				<p:commandButton value="Logout" action="#{userBean.logout}"
-					icon="ui-icon-extlink" ajax="false" />
-			</h:form>
-		</div>
+					<p:spacer width="7px" />
+
+					<p:menuButton value="Profile">
+						<p:menuitem value="My Profile" action="#" />
+						<p:menuitem value="Create New" action="createProfile.xhtml" />
+						<p:menuitem value="Edit Profiles" action="editProfile.xhtml" />
+					</p:menuButton>
+				</f:facet>
+
+				<f:facet name="right">
+					<p:commandButton value="Logout" action="#{userBean.logout}"
+						icon="ui-icon-extlink" ajax="false" />
+				</f:facet>
+
+			</p:toolbar>
+		</h:form>
 	</ui:composition>
 </body>
 </html>

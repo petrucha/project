@@ -69,6 +69,7 @@
 		</user-data-constraint>
 	</security-constraint>
 
+
 	<!-- Security -->
 	<!-- <security-role> <role-name>Administrator</role-name> </security-role> 
 		<security-constraint> <web-resource-collection> <web-resource-name>Admin 
@@ -102,7 +103,7 @@
 		<filter-name>LoginCheckFilter</filter-name>
 		<!-- <url-pattern>/*</url-pattern> -->
 		<url-pattern>/pages/admin/*</url-pattern>
-		<url-pattern>/pages/user/*</url-pattern>		
+		<url-pattern>/pages/user/*</url-pattern>
 		<url-pattern>/pages/templates/*</url-pattern>
 	</filter-mapping>
 
@@ -134,5 +135,5 @@
 	<!-- <filter> <filter-name>LogoutFilter</filter-name> <filter-class>filter.LogoutFilter</filter-class> 
 		</filter> <filter-mapping> <filter-name>LogoutFilter</filter-name> <url-pattern>/pages/admin/*</url-pattern> 
 		<url-pattern>/pages/user/*</url-pattern> </filter-mapping> -->
-		
+
 </web-app>

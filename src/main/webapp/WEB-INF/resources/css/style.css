@@ -16,7 +16,7 @@ body {
 	background: #bbbbbb url("#{resource['/images/header.jpg']}");
 	display: inline-block;
 	width: 100%;
-	border-bottom: 1px solid #bbbbbb;
+	/* 	border-bottom: 1px solid #bbbbbb; */
 	height: 80px;
 }
 
@@ -26,38 +26,57 @@ body {
 	color: white;
 }
 
-#menu {
+#menuHome {
 	position: relative;
-	overflow:hidden;
+	overflow: hidden;
 	height: 52px;
 	background: #bbbbbb;
 }
 
-.menuLeft {
- 	position: absolute;
-/* 	top: 0;
-	left: 0;  */
+.menuHomeLeft {
+	position: absolute;
 	float: left;
-	width:100%;
-	/* overflow: hidden; */
+	width: 100%;
 }
 
-.menuRight {
+.menuHomeRight {
 	float: right;
-    padding: 7px;
-/* 	position: absolute; */
-	/* top: 0;
-	right: 0; */
+	padding: 7px;
+}
+
+#menuMembership {
+	background: #bbbbbb;
+}
+
+.menuSpacer{
+width :2px;
+height: 22px;
+position: relative;
+bottom: -5px;
+background-color: #A8A8A8;
+margin-left: 10px;
+margin-right: 10px;	
 	
 }
 
 #content {
-	border-top: 1px solid #bbbbbb;
+	/* border-top: 1px solid #bbbbbb; */
 	border-bottom: 1px solid #bbbbbb;
 	padding: 3.5em 1% 20px 1%;
 	background: white;
 	font-size: 90%;
 	text-align: left;
+}
+
+.createPanelGrid {
+	margin: 25px auto auto 50px;
+	text-align: left;
+	cellspacing: 8;
+}
+
+.outputLabel {
+	font-weight: bold;
+	font-style: italic;
 }
 
 #footer {

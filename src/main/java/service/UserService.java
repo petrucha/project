@@ -37,20 +37,21 @@ public class UserService implements Serializable {
 	}
 
 	public boolean addUser(User user) {
+		boolean result = true;
 		try {
 			HibernateUtil.beginTransaction();
-			/* userDAO.saveOrUpdate(user); */
 			userDAO.save(user);
 			HibernateUtil.commitTransaction();
 		} catch (HibernateException ex) {
 			System.out.println("Error: addUser()");
 			HibernateUtil.rollbackTransaction();
 			ex.printStackTrace();
+			result = false;
 		}
-		return true;
+		return result;
 
 	}
-
+	
 	public boolean isFirstUser() {
 		int numUsers = 0;
 		try {
@@ -95,6 +96,7 @@ public class UserService implements Serializable {
 		if (user != null)
 			try {
 				HibernateUtil.beginTransaction();
+				user.setGroup(null);
 				userDAO.delete(user);
 				HibernateUtil.commitTransaction();
 			} catch (HibernateException ex) {

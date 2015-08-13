@@ -3,9 +3,12 @@ package jsf;
 import java.io.Serializable;
 import java.util.Date;
 
+import javax.faces.application.FacesMessage;
+import javax.faces.context.FacesContext;
 import service.GroupService;
 import service.UserService;
 import util.PasswordHash;
+import util.Role;
 import entity.Group;
 import entity.User;
 
@@ -87,15 +90,7 @@ public class RegistrationBean extends AbstractBean implements Serializable {
 	}
 
 	public String registerUser() {
-		if(groupname == null)
-			groupname = "Administrator";
-		GroupService groupService = GroupService.getInstance();
-		Group group = groupService.getGroupByName(groupname);
-		if (group == null) {
-			group = new Group();
-			group.setGroupname(groupname);
-		}
-
+			
 		UserService userService = UserService.getInstance();
 		User user = new User();
 		user.setUsername(username);
@@ -104,11 +99,23 @@ public class RegistrationBean extends AbstractBean implements Serializable {
         user.setLastname(lastname);
         user.setBirthday(birthday);
         user.setEmail(email);
+		
+		GroupService groupService = GroupService.getInstance();
+		Group group = groupService.getGroupByName(groupname);
+		if (group == null) {
+			group = new Group();
+			group.setGroupname(groupname);
+		}
+
 		user.setGroup(group);
 		if(userService.addUser(user)){
+	        FacesMessage msg = new FacesMessage("Successful", "Welcome :" + user.getFirstname());
+	        FacesContext.getCurrentInstance().addMessage(null, msg);
 			return "success";}
-		else
-			return "failure";
+		else{
+	        FacesMessage msg = new FacesMessage("Failure", "Please, try again");
+	        FacesContext.getCurrentInstance().addMessage(null, msg);
+			return "failure";}
 	}
 
 }

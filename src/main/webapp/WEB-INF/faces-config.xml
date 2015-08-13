@@ -58,20 +58,11 @@
   </navigation-case>
  </navigation-rule>
  <navigation-rule>
-  <display-name>pages/admin/registration.xhtml</display-name>
-  <from-view-id>/pages/admin/registration.xhtml</from-view-id>
+  <display-name>pages/admin/createProfile.xhtml</display-name>
+  <from-view-id>/pages/admin/createProfile.xhtml</from-view-id>
   <navigation-case>
    <from-outcome>failure</from-outcome>
-   <to-view-id>/pages/admin/registration.xhtml</to-view-id>
-  </navigation-case>
- </navigation-rule>
- <navigation-rule>
-  <display-name>pages/admin/registration.xhtml</display-name>
-  <from-view-id>/pages/admin/registration.xhtml</from-view-id>
-  <navigation-case>
-   <from-outcome>success</from-outcome>
-   <to-view-id>/pages/admin/regConfirmation.xhtml</to-view-id>
-   <redirect/>
+   <to-view-id>/pages/admin/createProfile.xhtml</to-view-id>
   </navigation-case>
  </navigation-rule>
  <navigation-rule>
@@ -87,17 +78,12 @@
   <display-name>pages/firstReg/firstRegistration.xhtml</display-name>
   <from-view-id>/pages/firstReg/firstRegistration.xhtml</from-view-id>
   <navigation-case>
-   <from-outcome>success</from-outcome>
-   <to-view-id>/pages/firstReg/firstRegConfirmation.xhtml</to-view-id>
-   <redirect/>
-  </navigation-case>
- </navigation-rule>
- <navigation-rule>
-  <display-name>pages/firstReg/firstRegistration.xhtml</display-name>
-  <from-view-id>/pages/firstReg/firstRegistration.xhtml</from-view-id>
-  <navigation-case>
    <from-outcome>failure</from-outcome>
    <to-view-id>/pages/firstReg/firstRegistration.xhtml</to-view-id>
+  </navigation-case>
+  <navigation-case>
+   <from-outcome>success</from-outcome>
+   <to-view-id>/pages/login.xhtml</to-view-id>
   </navigation-case>
  </navigation-rule>
  <validator>

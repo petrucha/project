@@ -24,13 +24,13 @@ public class GroupService implements Serializable {
 
 	public Group getGroupByName(final String groupname) {
 		Group group = null;
-		try{
-		HibernateUtil.beginTransaction();
-		group = groupDAO.getGroupByName(groupname);
-		HibernateUtil.commitTransaction();
+		try {
+			HibernateUtil.beginTransaction();
+			group = groupDAO.getGroupByName(groupname);
+			HibernateUtil.commitTransaction();
 		} catch (HibernateException ex) {
-        System.out.println("Error: getGroupByName()");
-    }
+			System.out.println("Error: getGroupByName()");
+		}
 		return group;
 	}
 

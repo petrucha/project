@@ -8,21 +8,33 @@
 	xmlns:p="http://primefaces.org/ui">
 <body>
 	<ui:composition>
-		<div class="menuLeft">
-			<p:tabMenu activeIndex="#{param.i}">
+		<h:form>
+			<p:growl id="messages" showDetail="true" />
 
-				<p:menuitem value="Home" outcome="user.xhtml">
-					<f:param name="i" value="0" />
-				</p:menuitem>
-			</p:tabMenu>
-		</div>
+			<p:toolbar>
+				<f:facet name="left">
+					<p:commandButton value="Statistics" action="user.xhtml"/>
+					<p:spacer width="5px" />
+					<p:commandButton value="Graph" action="#" />
+					<p:spacer width="5px" />
+					<p:commandButton value="Sensors" action="#" />
 
-		<div class="menuRight">
-			<h:form id="menuForm">
-				<p:commandButton value="Logout" action="#{userBean.logout}"
-					icon="ui-icon-extlink" ajax="false" />
-			</h:form>
-		</div>
+
+					<p:spacer styleClass="menuSpacer" />
+
+					<p:menuButton value="Profile">
+						<p:menuitem value="View Profile" action="#" />
+						<p:menuitem value="Edit Profile" action="#" />
+					</p:menuButton>
+				</f:facet>
+
+				<f:facet name="right">
+					<p:commandButton value="Logout" action="#{userBean.logout}"
+						icon="ui-icon-extlink" ajax="false" />
+				</f:facet>
+
+			</p:toolbar>
+		</h:form>
 	</ui:composition>
 </body>
 </html>

@@ -3,21 +3,10 @@ package entity;
 import java.io.Serializable;
 import java.util.Date;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
+import javax.persistence.*;
 
 @Entity
-@Table(name = "users")	
+@Table(name = "users")
 public class User implements Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -46,7 +35,6 @@ public class User implements Serializable {
 	@Column(name = "email")
 	private String email;
 
-	/*@ManyToOne(cascade = CascadeType.PERSIST)*/
 	@ManyToOne(cascade = CascadeType.ALL)
 	@JoinTable(name = "user_group", joinColumns = { @JoinColumn(name = "user_id", referencedColumnName = "u_id") }, inverseJoinColumns = { @JoinColumn(name = "group_id", referencedColumnName = "g_id") })
 	private Group group;

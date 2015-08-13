@@ -10,139 +10,203 @@
 <h:body>
 	<ui:composition template="/pages/templates/common.xhtml">
 		<ui:define name="menu">
-				<div class="menuLeft">
-				<p:tabMenu activeIndex="#{param.i}"> 
+			<p:tabMenu activeIndex="#{param.i}">
 
-					<p:menuitem value="Registration" outcome="firstRegistration.xhtml" >
-						<f:param name="i" value="0" />
-					</p:menuitem>
+				<p:menuitem value="Registration" outcome="firstRegistration.xhtml">
+					<f:param name="i" value="0" />
+				</p:menuitem>
 
-				</p:tabMenu>
-			</div>
-			<div class="menuRight">
-				<p:button value="Back" outcome="/pages/index.xhtml"  />
-			</div>
-	</ui:define>
-
+			</p:tabMenu>
+		</ui:define>
 		<ui:define name="content">
-			<h:form id="firstRegistrationForm">
-				<p:fieldset styleClass="fieldset"
-					legend="Registration Form: First Administrator">
-					<p:focus />
-					<p:messages id="messages" globalOnly="true" />
+			<h:form id="registrationForm">
 
-					<h:panelGrid id="regPanelGrid"
-						style="margin: 25px auto auto 50px; text-align: left"
-						cellspacing="8" columns="3">
+				<p:growl id="growl" sticky="true" showDetail="true" />
+				<p:wizard>
+					<p:tab id="account" title="Account">
+						<p:panel header="Account">
+							<p:messages />
 
-						<h:panelGroup>
-							<h:outputText value="User Name:" />
-							<h:outputText style="color:red" value="*  " />
-						</h:panelGroup>
-						<p:inputText id="userName" value="#{registrationBean.username}"
-							required="true" label="User Name" title="Enter your User Name!">
-							<f:validateLength minimum="2" />
-							<!-- 	<p:ajax event="keyup" update="userNameMsg" global="false"
-								listener="#{userService.checkAvailable}" /> -->
-						</p:inputText>
-						<h:panelGroup>
-							<p:message id="userNameMsg" for="userName" />
-							<p:tooltip for="userName" styleClass="tooltip" showEvent="focus"
-								hideEvent="blur" />
-						</h:panelGroup>
+							<h:panelGrid class="createPanelGrid" columns="3">
+								<h:panelGroup>
+									<h:outputText value="Username:" />
+									<h:outputText style="color:red" value="*  " />
+								</h:panelGroup>
+								<p:inputText id="userName" value="#{registrationBean.username}"
+									required="true" label="User Name" title="Enter your User Name!">
+									<f:validateLength minimum="2" />
+								</p:inputText>
+								<h:panelGroup>
+									<p:message id="userNameMsg" for="userName" />
+									<p:tooltip for="userName" styleClass="tooltip"
+										showEvent="focus" hideEvent="blur" />
+								</h:panelGroup>
 
-						<h:panelGroup>
-							<h:outputText value="Enter Password:" />
-							<h:outputText style="color:red" value="*  " />
-						</h:panelGroup>
-						<p:password id="pass1" value="#{registrationBean.password}"
-							required="true" label="Password" title="Please enter a password!"
-							feedback="true" match="pass2">
-							<f:validateLength minimum="2" />
-						</p:password>
-						<p:message id="pass1Msg" for="pass1" />
+								<h:panelGroup>
+									<h:outputText value="Enter Password:" />
+									<h:outputText style="color:red" value="*  " />
+								</h:panelGroup>
+								<p:password id="pass1" value="#{registrationBean.password}"
+									required="true" label="Password"
+									title="Please enter a password!" feedback="true" match="pass2">
+									<f:validateLength minimum="2" />
+								</p:password>
+								<!-- 	<p:message id="pass1Msg" for="pass1" /> -->
 
-						<h:panelGroup>
-							<h:outputText value="Repeat Password:" />
-							<h:outputText style="color:red" value="*  " />
-						</h:panelGroup>
-						<p:password id="pass2" required="true" label="Password"
-							title="Please Confirm Password!">
-						</p:password>
-						<p:message id="pass2Msg" for="pass2" />
+								<h:panelGroup>
+									<h:outputText value="Repeat Password:" />
+									<h:outputText style="color:red" value="*  " />
+								</h:panelGroup>
+								<p:password id="pass2" required="true" label="Password"
+									title="Please Confirm Password!">
+								</p:password>
+								<!-- <p:message id="pass2Msg" for="pass2" /> -->
 
-						<h:panelGroup>
-							<h:outputText value="First Name:" />
-							<h:outputText style="color:red" value="*  " />
-						</h:panelGroup>
-						<p:inputText id="firstName" label="First Name"
-							value="#{registrationBean.firstname}" required="true"
-							title="Enter your First Name!">
-							<f:validateLength minimum="2" />
-							<!-- <p:ajax event="keyup" update="firstNameMsg" global="false" /> -->
-						</p:inputText>
-						<h:panelGroup>
-							<p:message id="firstNameMsg" for="firstName" />
-							<p:tooltip for="firstName" styleClass="tooltip" showEvent="focus"
-								hideEvent="blur" />
-						</h:panelGroup>
+								<h:panelGroup>
+									<h:outputText value="Role:" />
+									<h:outputText style="color:red" value="*  " />
+								</h:panelGroup>
+								<p:selectOneMenu id="groups"
+									value="#{registrationBean.groupname}" required="true"
+									requiredMessage="Select at least one user Role">
+									<f:selectItem itemLabel="Administrator"
+										itemValue="Administrator" />
+								</p:selectOneMenu>
+								<h:panelGroup>
+									<p:message id="groupsMsg" for="groups" />
+									<p:tooltip for="groups" styleClass="tooltip" showEvent="focus"
+										hideEvent="blur" />
+								</h:panelGroup>
 
-						<h:panelGroup>
-							<h:outputText value="Last Name:" />
-							<h:outputText style="color:red" value="*  " />
-						</h:panelGroup>
-						<p:inputText id="lastName" label="Last Name"
-							value="#{registrationBean.lastname}" required="true"
-							title="Enter your Last Name!">
-							<f:validateLength minimum="2" />
-							<!-- <p:ajax event="keyup" update="lastNameMsg" global="false" /> -->
-						</p:inputText>
-						<h:panelGroup>
-							<p:message id="lastNameMsg" for="lastName" />
-							<p:tooltip for="lastName" styleClass="tooltip" showEvent="focus"
-								hideEvent="blur" />
-						</h:panelGroup>
+							</h:panelGrid>
+						</p:panel>
+					</p:tab>
 
-						<h:panelGroup>
-							<h:outputText value="Birthday:" />
-							<h:outputText style="color:red" value="*  " />
-						</h:panelGroup>
-						<p:inputMask id="date" label="Birthday"
-							value="#{registrationBean.birthday}" mask="99/99/9999" required="true"
-							title="Enter your date of birth!">
-							<f:convertDateTime pattern="dd/MM/yyyy"></f:convertDateTime>
-						</p:inputMask>
-						<h:panelGroup>
-							<p:message id="dateMsg" for="date" />
-							<p:tooltip for="date" styleClass="tooltip" showEvent="focus"
-								hideEvent="blur" />
-						</h:panelGroup>
+					<p:tab id="personal" title="Personal">
+						<p:panel header="Personal Details">
+							<p:messages />
+							<h:panelGrid class="createPanelGrid" columns="3">
+								<h:panelGroup>
+									<h:outputText value="First Name:" />
+									<h:outputText style="color:red" value="*  " />
+								</h:panelGroup>
+								<p:inputText id="firstName" label="First Name"
+									value="#{registrationBean.firstname}" required="true"
+									title="Enter your First Name!">
+									<f:validateLength minimum="2" />
+								</p:inputText>
+								<h:panelGroup>
+									<p:message id="firstNameMsg" for="firstName" />
+									<p:tooltip for="firstName" styleClass="tooltip"
+										showEvent="focus" hideEvent="blur" />
+								</h:panelGroup>
 
-						<h:panelGroup>
-							<h:outputText value="Email:" />
-							<h:outputText style="color:red" value="*  " />
-						</h:panelGroup>
-						<p:inputText id="email" label="Email"
-							value="#{registrationBean.email}" required="true"
-							title="Enter your email!">
-							<f:validateRegex
-								pattern="^[_A-Za-z0-9-\+]+(\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\.[A-Za-z0-9]+)*(\.[A-Za-z]{2,})$" />
-							<!-- <p:ajax event="keyup" update="firstNameMsg" global="false" /> -->
-						</p:inputText>
-						<h:panelGroup>
-							<p:message id="emailMsg" for="email" />
-							<p:tooltip for="email" styleClass="tooltip" showEvent="focus"
-								hideEvent="blur" />
-						</h:panelGroup>
+								<h:panelGroup>
+									<h:outputText value="Last Name:" />
+									<h:outputText style="color:red" value="*  " />
+								</h:panelGroup>
+								<p:inputText id="lastName" label="Last Name"
+									value="#{registrationBean.lastname}" required="true"
+									title="Enter your Last Name!">
+								</p:inputText>
+								<h:panelGroup>
+									<p:message id="lastNameMsg" for="lastName" />
+									<p:tooltip for="lastName" styleClass="tooltip"
+										showEvent="focus" hideEvent="blur" />
+								</h:panelGroup>
 
-						<p:commandButton id="submitButton"
-							action="#{registrationBean.registerUser}"
-							update="regPanelGrid,messages" icon="ui-icon-check"
-							value="Registration" />
+								<h:panelGroup>
+									<h:outputText value="Birthday:" />
+									<h:outputText style="color:red" value="*  " />
+								</h:panelGroup>
+								<p:inputMask id="date" label="Birthday"
+									value="#{registrationBean.birthday}" mask="99/99/9999"
+									required="true" title="Enter your birthday!">
+									<f:convertDateTime pattern="dd/MM/yyyy"></f:convertDateTime>
+								</p:inputMask>
+								<h:panelGroup>
+									<p:message id="dateMsg" for="date" />
+									<p:tooltip for="date" styleClass="tooltip" showEvent="focus"
+										hideEvent="blur" />
+								</h:panelGroup>
 
-					</h:panelGrid>
-				</p:fieldset>
+							</h:panelGrid>
+						</p:panel>
+					</p:tab>
+
+					<p:tab id="contact" title="Contact">
+						<p:panel header="Contact Information">
+							<p:messages />
+							<h:panelGrid class="createPanelGrid" columns="3">
+								<h:outputText value="Email:" />
+								<h:outputText style="color:red" value="*  " />
+								<p:inputText value="#{registrationBean.email}" required="true"
+									label="Email" size="40">
+									<f:validateRegex
+										pattern="^[_A-Za-z0-9-\+]+(\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\.[A-Za-z0-9]+)*(\.[A-Za-z]{2,})$" />
+								</p:inputText>
+							</h:panelGrid>
+						</p:panel>
+					</p:tab>
+
+					<p:tab id="confirm" title="Confirmation">
+						<p:panel header="Confirmation">
+							<h:panelGrid id="confirmation" columns="3"
+								columnClasses="grid,grid,grid">
+
+								<h:panelGrid class="createPanelGrid" columns="2"
+									columnClasses="label, value">
+
+
+									<h:outputText value=" Username: " />
+									<h:outputText value="#{registrationBean.username}"
+										styleClass="outputLabel" />
+
+									<h:outputText value="Password: " />
+									<h:outputText value="#{registrationBean.password}"
+										styleClass="outputLabel" />
+
+									<h:outputText value="Role: " />
+									<h:outputText value="#{registrationBean.groupname}"
+										styleClass="outputLabel" />
+
+								</h:panelGrid>
+
+								<h:panelGrid class="createPanelGrid" columns="2">
+
+
+									<h:outputText value="First Name: " />
+									<h:outputText value="#{registrationBean.firstname}"
+										styleClass="outputLabel" />
+
+									<h:outputText value="Last Name: " />
+									<h:outputText value="#{registrationBean.lastname}"
+										styleClass="outputLabel" />
+
+									<h:outputText value="Birthday: " />
+									<h:outputText value="#{registrationBean.birthday}"
+										styleClass="outputLabel">
+										<f:convertDateTime pattern="dd/MM/yyyy"></f:convertDateTime>
+									</h:outputText>
+								</h:panelGrid>
+
+								<h:panelGrid class="createPanelGrid" columns="2">
+									<h:outputText value="Email: " />
+									<h:outputText value="#{registrationBean.email}"
+										styleClass="outputLabel" />
+
+									<h:outputText />
+									<h:outputText />
+								</h:panelGrid>
+							</h:panelGrid>
+							<p:commandButton value="Create"
+								action="#{registrationBean.registerUser}" update="growl"
+								process="@this" />
+						</p:panel>
+					</p:tab>
+				</p:wizard>
 			</h:form>
+
 		</ui:define>
 	</ui:composition>
 </h:body>
