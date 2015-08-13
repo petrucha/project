@@ -6,6 +6,11 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
+import javax.faces.application.FacesMessage;
+import javax.faces.context.FacesContext;
+
+import org.primefaces.context.RequestContext;
+import org.primefaces.event.SelectEvent;
 import org.primefaces.model.chart.Axis;
 import org.primefaces.model.chart.AxisType;
 import org.primefaces.model.chart.CategoryAxis;
@@ -24,14 +29,18 @@ public class ChartsViewBean extends AbstractBean implements Serializable {
 	
 	private LineChartModel valueModel;
 	
-	private String[] selectedDevices = {"AAAA"};  
+	private String[] selectedDevices = {"AAAA"};  // make it in the constructor  
 	
     private List<String> devices;
+    
+    private Date startDate;
+    
+    private Date endDate;
     
     // Constructor
 
 	public ChartsViewBean() {
-		createValueModel(instance.getRecordsByDevicesAndTime(selectedDevices, 0, new Date().getTime()));
+		createValueModel(instance.getRecordsByDevicesAndTime(selectedDevices, 0, new Date().getTime())); // fix it, e.g. for last month
 
         devices = Arrays.asList(instance.getDevicesArray());
 	}
@@ -61,7 +70,23 @@ public class ChartsViewBean extends AbstractBean implements Serializable {
 	public void setDevices(List<String> devices) {
 		this.devices = devices;
 	}
-	
+
+	public Date getStartDate() {
+		return startDate;
+	}
+
+	public void setStartDate(Date startDate) {
+		this.startDate = startDate;
+	}
+
+	public Date getEndDate() {
+		return endDate;
+	}
+
+	public void setEndDate(Date endDate) {
+		this.endDate = endDate;
+	}
+
 	// Chart methods
 
 	private void createValueModel(List<Record[]> recordArrays) {
@@ -97,8 +122,21 @@ public class ChartsViewBean extends AbstractBean implements Serializable {
 	
 	//filter methods
 	
-	public void checkboxesChange() {
-		createValueModel(instance.getRecordsByDevicesAndTime(selectedDevices, 0, new Date().getTime()));
+	public void filtersChange() {
+		createValueModel(instance.getRecordsByDevicesAndTime(selectedDevices, startDate.getTime(), endDate.getTime()));
 	}
+	
+	public void onDateSelect(SelectEvent event) {
+        FacesContext facesContext = FacesContext.getCurrentInstance();
+        SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
+        facesContext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Date Selected", format.format(event.getObject())));
+    }
+     
+    public void click() {
+        RequestContext requestContext = RequestContext.getCurrentInstance();
+         
+        requestContext.update("form:display");
+        requestContext.execute("PF('dlg').show()");
+    }
 
 }
