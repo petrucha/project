@@ -123,20 +123,14 @@ public class ChartsViewBean extends AbstractBean implements Serializable {
 	//filter methods
 	
 	public void filtersChange() {
-		createValueModel(instance.getRecordsByDevicesAndTime(selectedDevices, startDate.getTime(), endDate.getTime()));
+//		createValueModel(instance.getRecordsByDevicesAndTime(selectedDevices, startDate.getTime(), endDate.getTime()));
+		createValueModel(instance.getRecordsByDevicesAndTime(selectedDevices, 0, new Date().getTime()));
 	}
 	
-	public void onDateSelect(SelectEvent event) {
+	/*public void onDateSelect(SelectEvent event) {
         FacesContext facesContext = FacesContext.getCurrentInstance();
         SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
         facesContext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Date Selected", format.format(event.getObject())));
     }
-     
-    public void click() {
-        RequestContext requestContext = RequestContext.getCurrentInstance();
-         
-        requestContext.update("form:display");
-        requestContext.execute("PF('dlg').show()");
-    }
-
+*/
 }
