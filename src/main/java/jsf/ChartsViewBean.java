@@ -2,6 +2,7 @@ package jsf;
 
 import java.io.Serializable;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.primefaces.model.chart.Axis;
@@ -17,12 +18,33 @@ public class ChartsViewBean extends AbstractBean implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	private static RecordService instance = RecordService.getInstance();
-
+	
+	//Bean variables
+	
 	private LineChartModel valueModel;
+	
+	private String[] selectedCities;  
+	
+    private List<String> cities;
+    
+    // Constructor
 
 	public ChartsViewBean() {
 		createValueModel();
+		
+		cities = new ArrayList<String>();
+        cities.add("San Francisco");
+        cities.add("London");
+        cities.add("Paris");
+        cities.add("Istanbul");
+        cities.add("Berlin");
+        cities.add("Barcelona");
+        cities.add("Rome");
+        cities.add("Sao Paulo");
+        cities.add("Amsterdam");
 	}
+	
+	// Getters and setters
 
 	public LineChartModel getValueModel() {
 		return valueModel;
@@ -31,6 +53,25 @@ public class ChartsViewBean extends AbstractBean implements Serializable {
 	public void setValueModel(LineChartModel valueModel) {
 		this.valueModel = valueModel;
 	}
+	
+	
+	public String[] getSelectedCities() {
+		return selectedCities;
+	}
+
+	public void setSelectedCities(String[] selectedCities) {
+		this.selectedCities = selectedCities;
+	}
+
+	public List<String> getCities() {
+		return cities;
+	}
+
+	public void setCities(List<String> cities) {
+		this.cities = cities;
+	}
+	
+	// Chart methods
 
 	private void createValueModel() {
 		Axis yAxis = null;
