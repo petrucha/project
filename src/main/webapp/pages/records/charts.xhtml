@@ -11,25 +11,27 @@
 	<ui:composition template="../templates/common.xhtml">
 		<ui:define name="content">
 
-			<p:chart type="line" model="#{chartsViewBean.valueModel}"
-				style="height:300px;" />
+			
 
 			<h:form>
+				<p:chart type="line" model="#{chartsViewBean.valueModel}" style="height:400px;" id="valueChart" />
+				
 				<h:panelGrid columns="3" cellpadding="5">
 					<h:outputLabel for="menu" value="Devices:" />
-					<p:selectCheckboxMenu id="menu"
-							value="#{chartsViewBean.selectedDevices}" label="Devices"
-							filter="true" filterMatchMode="startsWith"
-							panelStyle="width:250px">
+					<p:selectCheckboxMenu id="menu" value="#{chartsViewBean.selectedDevices}" label="Devices" filter="true" filterMatchMode="startsWith" panelStyle="width:400px">
 						<f:selectItems value="#{chartsViewBean.devices}" />
 					</p:selectCheckboxMenu>
-					<p:commandLink value="Submit" update="display" />
+					<!-- 	<p:commandLink value="Submit" update="valueChart">
+					
+					</p:commandLink> -->
+					
+					<p:remoteCommand name="refr" update="valueChart" actionListener="#{chartsViewBean.checkboxesChange}" />
+				    <p:commandButton type="button" onclick="refr()" value="Refresh" icon="ui-icon-refresh" />
+
 				</h:panelGrid>
 
-				<p:outputPanel id="display"
-						style="width:250px;padding-left:5px;margin-top:10px">
-					<p:dataList value="#{chartsViewBean.selectedDevices}" var="device"
-							emptyMessage="No devices selected">
+				<p:outputPanel id="display" style="width:250px;padding-left:5px;margin-top:10px">
+					<p:dataList value="#{chartsViewBean.selectedDevices}" var="device" emptyMessage="No devices selected">
             			#{device}
         			</p:dataList>
 				</p:outputPanel>

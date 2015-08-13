@@ -24,7 +24,7 @@ public class ChartsViewBean extends AbstractBean implements Serializable {
 	
 	private LineChartModel valueModel;
 	
-	private String[] selectedDevices = {"AAAA", "Samsung"};  
+	private String[] selectedDevices = {"AAAA"};  
 	
     private List<String> devices;
     
@@ -93,6 +93,12 @@ public class ChartsViewBean extends AbstractBean implements Serializable {
 		model.addSeries(values);
 
 		return model;
+	}
+	
+	//filter methods
+	
+	public void checkboxesChange() {
+		createValueModel(instance.getRecordsByDevicesAndTime(selectedDevices, 0, new Date().getTime()));
 	}
 
 }
