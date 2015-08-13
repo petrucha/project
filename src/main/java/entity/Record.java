@@ -87,4 +87,17 @@ public class Record  implements Serializable {
 		return "Record: [" + "device = " + device + ", quantity = "
 				+ quantity + ", value = " + value + ", timestamp = " + timestamp + "]";
 	}
+
+	public Record() {
+		super();
+	}
+
+	public Record(String device, String quantity, int value, double timestamp) {
+		super();
+		this.device = device;
+		this.quantity = quantity;
+		this.value = value;
+		this.timestamp = timestamp;
+	}
+	
 }
