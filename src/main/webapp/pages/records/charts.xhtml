@@ -36,27 +36,26 @@
 							<h:panelGrid columns="2" cellpadding="5">
 							
 								<p:outputLabel for="startDate" value="Start Date and Time: "
-									class="datepicker" />
+									class="filters" />
 								<p:calendar id="startDate" value="#{chartsViewBean.startDate}"
-									pattern="MM/dd/yyyy HH:mm" mask="true" class="datepicker" />
+									pattern="MM/dd/yyyy HH:mm" mask="true"/>
 
 								<p:outputLabel for="endDate" value="End Date and Time: "
-									class="datepicker" />
+									class="filters" />
 								<p:calendar id="endDate" value="#{chartsViewBean.endDate}"
-									pattern="MM/dd/yyyy HH:mm" mask="true" class="datepicker" />
+									pattern="MM/dd/yyyy HH:mm" mask="true" />
 
-								<h:outputLabel for="menu" value="Devices:" />
-								<p:selectCheckboxMenu id="menu"
-									value="#{chartsViewBean.selectedDevices}"
-									label="--Select devices--" filter="true"
+								<p:outputLabel for="menu" value="Devices:" class="filters" />
+								<p:selectCheckboxMenu id="menu" class="filters"
+									value="#{chartsViewBean.selectedDevices}" filter="true"
 									filterMatchMode="startsWith" panelStyle="width:400px">
 									<f:selectItems value="#{chartsViewBean.devices}" />
 								</p:selectCheckboxMenu>
 
-								<p:remoteCommand name="refr" update="valueChart pieChart"
+								<p:remoteCommand name="refr" update="valueChart pieChart barChart"
 									actionListener="#{chartsViewBean.filtersChange}" />
 								<p:commandButton type="button" onclick="refr()" value="Refresh"
-									icon="ui-icon-refresh" />
+									icon="ui-icon-refresh" class="filters"/>
 									
 							</h:panelGrid>
 
@@ -65,6 +64,8 @@
 					</div>
 					
 				</div>
+				
+				<p:chart type="bar" model="#{chartsViewBean.barModel}" style="height:400px;width:98%;" id="barChart" responsive="true"/>
 
 			</h:form>
 
