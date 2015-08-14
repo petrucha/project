@@ -16,6 +16,7 @@ import org.primefaces.model.chart.Axis;
 import org.primefaces.model.chart.AxisType;
 import org.primefaces.model.chart.CategoryAxis;
 import org.primefaces.model.chart.ChartSeries;
+import org.primefaces.model.chart.DateAxis;
 import org.primefaces.model.chart.LineChartModel;
 import org.primefaces.model.chart.PieChartModel;
 
@@ -128,16 +129,20 @@ public class ChartsViewBean extends AbstractBean implements Serializable {
 				valueModel = initCategoryModel(recs, model);
 			}
 		}
-		
+
 		valueModel.setTitle("Temperature Chart");
 		valueModel.setAnimate(true);
 		valueModel.setLegendPosition("e");
-		valueModel.setShowPointLabels(true);
-		valueModel.getAxes().put(AxisType.X, new CategoryAxis("Date"));
-		Axis yAxis = valueModel.getAxis(AxisType.Y);
-		yAxis.setLabel("Temperature C\u00b0");
-		// yAxis.setMin(0);
-		// yAxis.setMax(200);
+		valueModel.getAxis(AxisType.Y).setLabel("Temperature C\u00b0");
+		
+        DateAxis axisX = new DateAxis("Dates");
+        String tomorrow = printTomorrow();
+        //set tomorrow as max day
+        axisX.setTickAngle(-50);
+        axisX.setMax(tomorrow);
+        axisX.setTickFormat("%b %#d | %H:%M");
+         
+        valueModel.getAxes().put(AxisType.X, axisX);
 	}
 
 	private LineChartModel initCategoryModel(Record[] records, LineChartModel model) { 
@@ -146,7 +151,7 @@ public class ChartsViewBean extends AbstractBean implements Serializable {
 														
 		// creating value data for chart series
 		for (Record rec : records) {
-			String date = new SimpleDateFormat("dd/MM HH:mm").format(rec.getTimestamp());
+			String date = new SimpleDateFormat("yyyy-MM-dd hh:mm").format(rec.getTimestamp());
 			// Double quan = Double.parseDouble(rec.getQuantity());
 			values.set(date, rec.getValue());
 		}
@@ -165,6 +170,7 @@ public class ChartsViewBean extends AbstractBean implements Serializable {
          
         averageModel.setTitle("Average per device");
         averageModel.setLegendPosition("w");
+        averageModel.setShowDataLabels(true);
     }
 	
 	//filter methods
@@ -181,5 +187,17 @@ public class ChartsViewBean extends AbstractBean implements Serializable {
         SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
         facesContext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Date Selected", format.format(event.getObject())));
     }
+	
+	//utility methods
+
+	private String printTomorrow() {
+		Date dt = new Date();
+        Calendar c = Calendar.getInstance(); 
+        c.setTime(dt); 
+        c.add(Calendar.DATE, 1);
+        dt = c.getTime();
+        String tomorrow = new SimpleDateFormat("yyyy-MM-dd").format(dt);
+		return tomorrow;
+	}
 
 }
