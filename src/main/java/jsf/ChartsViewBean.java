@@ -10,7 +10,6 @@ import java.util.List;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 
-import org.primefaces.context.RequestContext;
 import org.primefaces.event.SelectEvent;
 import org.primefaces.model.chart.Axis;
 import org.primefaces.model.chart.AxisType;
@@ -41,24 +40,24 @@ public class ChartsViewBean extends AbstractBean implements Serializable {
     // Constructor
 
 	public ChartsViewBean() {
-		String[] allDevices = instance.getDevicesArray();
+		devices = Arrays.asList(instance.getDevicesArray());
 		// choosing first 5 devices
-		if (allDevices.length < 5 ) {
-			selectedDevices = new String[allDevices.length];
+		if (devices.size() < 5 ) {
+			selectedDevices = new String[devices.size()];
 		} else {
 			selectedDevices = new String[5];
 		}
-		for (int i = 0; (i < allDevices.length) && (i < 5); i++) {
-			selectedDevices[i] = allDevices[i];
+		for (int i = 0; (i < devices.size()) && (i < 5); i++) {
+			selectedDevices[i] = devices.get(i);
 		}
+		// setting a period that starts in first day of last month until now
 		Calendar cal = Calendar.getInstance();
 		cal.add(Calendar.MONTH, -1);
 		cal.set(Calendar.DATE, 1);
-		Date firstDateOfPreviousMonth = cal.getTime();
-		// initializes chart by period that starts in first day of last month until now
-		createValueModel(instance.getRecordsByDevicesAndTime(selectedDevices, firstDateOfPreviousMonth.getTime(), new Date().getTime()));
-
-        devices = Arrays.asList(instance.getDevicesArray());
+		startDate = cal.getTime();
+		endDate = new Date();
+		//initializing of filtered data
+		filtersChange();
 	}
 	
 	// Getters and setters
@@ -117,6 +116,7 @@ public class ChartsViewBean extends AbstractBean implements Serializable {
 		}
 		
 		valueModel.setTitle("Temperature Chart");
+		valueModel.setAnimate(true);
 		valueModel.setLegendPosition("e");
 		valueModel.setShowPointLabels(true);
 		valueModel.getAxes().put(AxisType.X, new CategoryAxis("Date"));
@@ -132,7 +132,7 @@ public class ChartsViewBean extends AbstractBean implements Serializable {
 														
 		// creating value data for chart series
 		for (Record rec : records) {
-			String date = new SimpleDateFormat("yyyy-MM-dd HH:mm").format(rec.getTimestamp());
+			String date = new SimpleDateFormat("dd/MM HH:mm").format(rec.getTimestamp());
 			// Double quan = Double.parseDouble(rec.getQuantity());
 			values.set(date, rec.getValue());
 		}
