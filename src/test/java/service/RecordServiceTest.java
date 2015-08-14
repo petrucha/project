@@ -121,7 +121,7 @@ public class RecordServiceTest {
     		System.out.println("<\""+key+"\", "+averages.get(key)+">");
     	}
     	//deleting created in the testcase record
-//    	recordService.deleteRecord(record1);
+    	recordService.deleteRecord(record1);
     }
   
 }
