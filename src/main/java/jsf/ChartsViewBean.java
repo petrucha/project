@@ -12,9 +12,7 @@ import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 
 import org.primefaces.event.SelectEvent;
-import org.primefaces.model.chart.Axis;
 import org.primefaces.model.chart.AxisType;
-import org.primefaces.model.chart.CategoryAxis;
 import org.primefaces.model.chart.ChartSeries;
 import org.primefaces.model.chart.DateAxis;
 import org.primefaces.model.chart.LineChartModel;
@@ -59,7 +57,7 @@ public class ChartsViewBean extends AbstractBean implements Serializable {
 		// setting a period that starts in first day of last month until now
 		Calendar cal = Calendar.getInstance();
 		cal.add(Calendar.MONTH, -1);
-		cal.set(Calendar.DATE, 1);
+//		cal.set(Calendar.DATE, 1);
 		startDate = cal.getTime();
 		endDate = new Date();
 		//initializing of filtered data
