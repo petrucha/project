@@ -9,3 +9,6 @@
 /* 	background: #DCDCDC; */
 	min-width: 12.8em;
 }
+.noDataWarning {
+	padding: 10em;
+}

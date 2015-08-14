@@ -31,11 +31,13 @@ public class ChartsViewBean extends AbstractBean implements Serializable {
 
 	// Bean variables
 
-	private LineChartModel valueModel;
+	private LineChartModel lineModel;
 
 	private PieChartModel averageModel;
 
 	private BarChartModel barModel;
+	
+	private boolean modelNotEmpty;
 
 	private String[] selectedDevices;
 
@@ -70,20 +72,28 @@ public class ChartsViewBean extends AbstractBean implements Serializable {
 
 	// Getters and setters
 
+	public boolean isModelNotEmpty() {
+		return modelNotEmpty;
+	}
+
+	public void setModelNotEmpty(boolean modelNotEmpty) {
+		this.modelNotEmpty = modelNotEmpty;
+	}
+
 	public BarChartModel getBarModel() {
 		return barModel;
 	}
 
+	public LineChartModel getLineModel() {
+		return lineModel;
+	}
+
+	public void setLineModel(LineChartModel lineModel) {
+		this.lineModel = lineModel;
+	}
+
 	public void setBarModel(BarChartModel barModel) {
 		this.barModel = barModel;
-	}
-
-	public LineChartModel getValueModel() {
-		return valueModel;
-	}
-
-	public void setValueModel(LineChartModel valueModel) {
-		this.valueModel = valueModel;
 	}
 
 	public String[] getSelectedDevices() {
@@ -127,8 +137,8 @@ public class ChartsViewBean extends AbstractBean implements Serializable {
 	}
 
 	// Chart methods
-	
-	private void createValueModels(){
+
+	private void createValueModels() {
 		List<Record[]> recordArrays = instance.getRecordsByDevicesAndTime(selectedDevices, startDate.getTime(),
 				endDate.getTime());
 		createLineModel(recordArrays);
@@ -137,13 +147,19 @@ public class ChartsViewBean extends AbstractBean implements Serializable {
 
 	private void createBarModel(List<Record[]> recordArrays) {
 		BarChartModel model = new BarChartModel();
-		
+
 		for (Record[] recs : recordArrays) {
 			if (recs.length == 0) {
 				System.out.println("NO DATA FOR THE PERIOD!");
 			} else {
 				barModel = initBarModel(recs, model);
 			}
+		}
+		if (!modelNotEmpty) {
+			ChartSeries emptySeries = new ChartSeries();
+			emptySeries.set("No records found.", 0);
+			model.addSeries(emptySeries);
+			barModel = model;
 		}
 
 		barModel.setTitle("Bar chart of last records");
@@ -163,22 +179,29 @@ public class ChartsViewBean extends AbstractBean implements Serializable {
 			if (recs.length == 0) {
 				System.out.println("NO DATA FOR THE PERIOD!");
 			} else {
-				valueModel = initCategoryModel(recs, model);
+				lineModel = initCategoryModel(recs, model);
+				modelNotEmpty = true;
 			}
 		}
+		if (!modelNotEmpty) {
+			ChartSeries emptySeries = new ChartSeries();
+			emptySeries.set("No records found.", 0);
+			model.addSeries(emptySeries);
+			lineModel = model;
+		}
 
-		valueModel.setTitle("Temperature Chart");
-		valueModel.setAnimate(true);
-		valueModel.setLegendPosition("e");
-		
-		valueModel.getAxis(AxisType.Y).setLabel("Temperature C\u00b0");
+		lineModel.setTitle("Temperature Chart");
+		lineModel.setAnimate(true);
+		lineModel.setLegendPosition("e");
+
+		lineModel.getAxis(AxisType.Y).setLabel("Temperature C\u00b0");
 		DateAxis axisX = new DateAxis("Dates");
 		String tomorrow = printTomorrow();
 		// set tomorrow as max day
 		axisX.setTickAngle(-50);
 		axisX.setMax(tomorrow);
 		axisX.setTickFormat("%b %#d | %H:%M");
-		valueModel.getAxes().put(AxisType.X, axisX);
+		lineModel.getAxes().put(AxisType.X, axisX);
 	}
 
 	private void createAverageModel() {
@@ -209,7 +232,7 @@ public class ChartsViewBean extends AbstractBean implements Serializable {
 
 		return model;
 	}
-	
+
 	private BarChartModel initBarModel(Record[] records, BarChartModel model) {
 		ChartSeries values = new ChartSeries();
 		values.setLabel(records[0].getDevice());
