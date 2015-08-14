@@ -13,12 +13,16 @@
 
 			<h:form>
 				<div class="charts">
-					<p:chart type="line" model="#{chartsViewBean.valueModel}" id="valueChart" responsive="true" 
-					style="height:400px;width:98%;"/>
+					<p:chart type="line" model="#{chartsViewBean.valueModel}"
+						id="valueChart" responsive="true" style="height:400px;width:98%;" />
 				</div>
-				
+
 				<div class="ui-grid ui-grid-responsive">
 					<div class="ui-grid-row chartsFilters">
+						<div class="ui-grid-col-4">
+							<p:chart type="pie" model="#{chartsViewBean.averageModel}"
+								style="width:400px;height:300px" id="pieChart" />
+						</div>
 						<div class="ui-grid-col-3">
 							<p:outputLabel for="startDate" value="Start Date and Time: "
 								class="datepicker" />
@@ -31,17 +35,15 @@
 							<p:calendar id="endDate" value="#{chartsViewBean.endDate}"
 								pattern="dd-MM-yyyy" mask="true" class="datepicker" />
 						</div>
-						<div class="ui-grid-col-3">
+						<div class="ui-grid-col-2">
 							<h:outputLabel for="menu" value="Devices:" />
 							<p:selectCheckboxMenu id="menu"
-								value="#{chartsViewBean.selectedDevices}" label="--Select devices--"
-								filter="true" filterMatchMode="startsWith"
-								panelStyle="width:400px">
+								value="#{chartsViewBean.selectedDevices}"
+								label="--Select devices--" filter="true"
+								filterMatchMode="startsWith" panelStyle="width:400px">
 								<f:selectItems value="#{chartsViewBean.devices}" />
 							</p:selectCheckboxMenu>
-						</div>
-						<div class="ui-grid-col-3">
-							<p:remoteCommand name="refr" update="valueChart"
+							<p:remoteCommand name="refr" update="valueChart pieChart"
 								actionListener="#{chartsViewBean.filtersChange}" />
 							<p:commandButton type="button" onclick="refr()" value="Refresh"
 								icon="ui-icon-refresh" />

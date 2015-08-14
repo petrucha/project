@@ -5,6 +5,7 @@ import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 
 import javax.faces.application.FacesMessage;
@@ -16,6 +17,8 @@ import org.primefaces.model.chart.AxisType;
 import org.primefaces.model.chart.CategoryAxis;
 import org.primefaces.model.chart.ChartSeries;
 import org.primefaces.model.chart.LineChartModel;
+import org.primefaces.model.chart.PieChartModel;
+
 import entity.Record;
 import service.RecordService;
 
@@ -29,7 +32,9 @@ public class ChartsViewBean extends AbstractBean implements Serializable {
 	
 	private LineChartModel valueModel;
 	
-	private String[] selectedDevices = {"AAAA"};  // make it in the constructor  
+	private PieChartModel averageModel;
+	
+	private String[] selectedDevices;
 	
     private List<String> devices;
     
@@ -101,10 +106,19 @@ public class ChartsViewBean extends AbstractBean implements Serializable {
 	public void setEndDate(Date endDate) {
 		this.endDate = endDate;
 	}
+	
+	public PieChartModel getAverageModel() {
+		return averageModel;
+	}
+
+	public void setAverageModel(PieChartModel averageModel) {
+		this.averageModel = averageModel;
+	}
 
 	// Chart methods
 
-	private void createValueModel(List<Record[]> recordArrays) {
+	private void createValueModel() {
+		List<Record[]> recordArrays = instance.getRecordsByDevicesAndTime(selectedDevices, startDate.getTime(), endDate.getTime());
 		LineChartModel model = new LineChartModel();
 
 		for (Record[] recs : recordArrays) {
@@ -141,12 +155,25 @@ public class ChartsViewBean extends AbstractBean implements Serializable {
 		return model;
 	}
 	
+	private void createAverageModel() {
+		HashMap<String, Double> averages = instance.getFilteredAverages(selectedDevices, startDate.getTime(), endDate.getTime());
+        averageModel = new PieChartModel();
+        
+        for (String key : averages.keySet()) {
+        	averageModel.set(key, averages.get(key));
+    	}
+         
+        averageModel.setTitle("Average per device");
+        averageModel.setLegendPosition("w");
+    }
+	
 	//filter methods
 	
 	public void filtersChange() {
 		System.out.println(startDate);
 		System.out.println(endDate);
-		createValueModel(instance.getRecordsByDevicesAndTime(selectedDevices, startDate.getTime(), endDate.getTime()));
+		createValueModel();
+		createAverageModel();
 	}
 	
 	public void onDateSelect(SelectEvent event) {
