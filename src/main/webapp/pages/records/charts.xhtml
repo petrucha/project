@@ -47,8 +47,7 @@
 				</h:panelGrid>
 
 				<p:chart type="bar" model="#{chartsViewBean.barModel}"
-					style="height:400px;width:98%;" id="barChart" responsive="true"
-					rendered="#{chartsViewBean.modelNotEmpty}" />
+					style="height:400px;width:98%;" id="barChart" responsive="true" />
 					
 			</h:form>
 
@@ -58,8 +57,7 @@
 
 				<div class="pieAndLineCharts">
 
-					<p:chart type="line" model="#{chartsViewBean.lineModel}"
-						rendered="#{chartsViewBean.modelNotEmpty}" id="lineChart"
+					<p:chart type="line" model="#{chartsViewBean.lineModel}" id="lineChart"
 						responsive="true" style="height:400px;width:98%;" />
 
 					<div class="ui-grid ui-grid-responsive">
@@ -68,13 +66,10 @@
 							<div class="ui-grid-col-6 chartsPageBottom">
 							
 								<p:chart type="pie" model="#{chartsViewBean.pieModel}"
-									rendered="#{chartsViewBean.modelNotEmpty}"
 									style="height:300px;widht:400px" id="pieChart"
 									responsive="true" />
 
-								<h1><h:form class="noDataWarning" rendered="#{not chartsViewBean.modelNotEmpty}">
-										No data for current time period
-								</h:form></h1>
+					
 								
 							</div>
 							
@@ -86,11 +81,11 @@
 
 									<h3>Start Date and Time:</h3>
 									<p:calendar id="startDate" value="#{chartsViewBean.startDate}"
-										pattern="MM/dd/yyyy HH:mm" mask="true" />
+										pattern="dd/MM/yyyy HH:mm" mask="true" />
 
 									<h3>End Date and Time:</h3>
 									<p:calendar id="endDate" value="#{chartsViewBean.endDate}"
-										pattern="MM/dd/yyyy HH:mm" mask="true" />
+										pattern="dd/MM/yyyy HH:mm" mask="true" />
 
 									<h3>Devices:</h3>
 									<p:selectCheckboxMenu id="menu" class="filters"

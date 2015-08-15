@@ -36,8 +36,6 @@ public class ChartsViewBean extends AbstractBean implements Serializable {
 	private PieChartModel pieModel;
 
 	private BarChartModel barModel;
-	
-	private boolean modelNotEmpty;
 
 	private String[] selectedDevices;
 
@@ -79,14 +77,6 @@ public class ChartsViewBean extends AbstractBean implements Serializable {
 
 	public void setRecordsCount(int recordsCount) {
 		this.recordsCount = recordsCount;
-	}
-
-	public boolean isModelNotEmpty() {
-		return modelNotEmpty;
-	}
-
-	public void setModelNotEmpty(boolean modelNotEmpty) {
-		this.modelNotEmpty = modelNotEmpty;
 	}
 
 	public BarChartModel getBarModel() {
@@ -144,18 +134,10 @@ public class ChartsViewBean extends AbstractBean implements Serializable {
 		BarChartModel model = new BarChartModel();
 
 		for (Record[] recs : recordArrays) {
-			if (recs.length == 0) {
-				System.out.println("NO DATA FOR THE PERIOD!");
-			} else {
-				barModel = initBarModel(recs, model);
-			}
+			ChartSeries series = initModel(recs);
+			model.addSeries(series);
 		}
-		if (!modelNotEmpty) {
-			ChartSeries emptySeries = new ChartSeries();
-			emptySeries.set("No records found.", 0);
-			model.addSeries(emptySeries);
-			barModel = model;
-		}
+		barModel = model;
 
 		barModel.setTitle("Bar chart of last records");
 		barModel.setAnimate(true);
@@ -173,19 +155,10 @@ public class ChartsViewBean extends AbstractBean implements Serializable {
 		LineChartModel model = new LineChartModel();
 
 		for (Record[] recs : recordArrays) {
-			if (recs.length == 0) {
-				System.out.println("NO DATA FOR THE PERIOD!");
-			} else {
-				lineModel = initCategoryModel(recs, model);
-				modelNotEmpty = true;
-			}
+			ChartSeries series = initModel(recs);
+			model.addSeries(series);
 		}
-		if (!modelNotEmpty) {
-			ChartSeries emptySeries = new ChartSeries();
-			emptySeries.set("No records found.", 0);
-			model.addSeries(emptySeries);
-			lineModel = model;
-		}
+		lineModel = model;
 
 		lineModel.setTitle("Temperature Chart");
 		lineModel.setAnimate(true);
@@ -202,12 +175,17 @@ public class ChartsViewBean extends AbstractBean implements Serializable {
 	}
 
 	private void createPieModel() {
-		HashMap<String, Double> averages = instance.getFilteredAverages(selectedDevices, startDate.getTime(),
-				endDate.getTime());
+		HashMap<String, Double> averages = instance.getFilteredAverages(selectedDevices,
+																		startDate.getTime(),
+																		endDate.getTime());
 		pieModel = new PieChartModel();
-
-		for (String key : averages.keySet()) {
-			pieModel.set(key, averages.get(key));
+		System.out.println(averages.size());
+		if (averages.size()==0) {
+			pieModel.set("No records found.", 0);
+		} else {
+			for (String key : averages.keySet()) {
+				pieModel.set(key, averages.get(key));
+			}
 		}
 
 		pieModel.setTitle("Average per device");
@@ -215,34 +193,23 @@ public class ChartsViewBean extends AbstractBean implements Serializable {
 		pieModel.setShowDataLabels(true);
 	}
 
-	private LineChartModel initCategoryModel(Record[] records, LineChartModel model) {
-		ChartSeries values = new ChartSeries();
-		values.setLabel(records[0].getDevice());
-
-		// creating value data for chart series
-		for (Record rec : records) {
-			String date = new SimpleDateFormat("yyyy-MM-dd hh:mm").format(rec.getTimestamp());
-			// Double quan = Double.parseDouble(rec.getQuantity());
-			values.set(date, rec.getValue());
+	private ChartSeries initModel(Record[] records) {
+		ChartSeries series = new ChartSeries();
+		SimpleDateFormat fmt = new SimpleDateFormat("yyyy-MM-dd hh:mm");
+		
+		if (records.length == 0) {
+			series.setLabel("No records found.");
+			series.set(fmt.format(new Date()), 0);
+		} else {
+			series.setLabel(records[0].getDevice());
+			// creating value data for chart series
+			for (Record rec : records) {
+				String date = fmt.format(rec.getTimestamp());
+				series.set(date, rec.getValue());
+			}
 		}
-		model.addSeries(values);
-
-		return model;
-	}
-
-	private BarChartModel initBarModel(Record[] records, BarChartModel model) {
-		ChartSeries values = new ChartSeries();
-		values.setLabel(records[0].getDevice());
-
-		// creating value data for chart series
-		for (Record rec : records) {
-			String date = new SimpleDateFormat("yyyy-MM-dd hh:mm").format(rec.getTimestamp());
-			// Double quan = Double.parseDouble(rec.getQuantity());
-			values.set(date, rec.getValue());
-		}
-		model.addSeries(values);
-
-		return model;
+	
+		return series;
 	}
 
 	// filter methods
