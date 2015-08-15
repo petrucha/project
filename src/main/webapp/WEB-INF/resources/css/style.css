@@ -1,7 +1,7 @@
 @CHARSET "UTF-8";
 
 body {
-	background: #eee url("#{resource['/images/shattered.png']}");
+	background: #eee url("#{resource['/images/background.jpg']}");
 	margin: 10px 20px 10px 20px;
 	line-height: 130%;
 	font-family: arial, helvetica, verdana, tahoma, sans-serif;
