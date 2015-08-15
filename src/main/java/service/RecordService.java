@@ -110,7 +110,7 @@ public class RecordService implements Serializable {
 		return devices.toArray(devArray);
 	}
 
-	// will be used for filtering records by devices and time
+	// used for filtering records by devices and time
 	public List<Record[]> getRecordsByDevicesAndTime(String[] devices, double startTime, double endTime) {
 		List<Record[]> recordsList = new ArrayList<Record[]>();
 		try {
@@ -123,7 +123,7 @@ public class RecordService implements Serializable {
 		return recordsList;
 	}
 
-	// will be used for filtering records by devices and time
+	// obtaining record's averages (filter by records)
 	public HashMap<String, Double> getFilteredAverages(String[] devices, double startTime, double endTime) {
 		HashMap<String, Double> averages = new HashMap<String, Double>();
 		try {
@@ -134,5 +134,18 @@ public class RecordService implements Serializable {
 			System.out.println("Error:  getFilteredAverages(...)");
 		}
 		return averages;
+	}
+	
+	// last (1/2/5/10) records by devices
+	public List<Record[]> getLastRecords(String[] devices, int recordsCount) {
+		List<Record[]> recordsList = new ArrayList<Record[]>();
+		try {
+			HibernateUtil.beginTransaction();
+			recordsList = recordDAO.getLastRecords(devices, recordsCount);
+			HibernateUtil.commitTransaction();
+		} catch (HibernateException ex) {
+			System.out.println("Error:  getLastRecords(...)");
+		}
+		return recordsList;
 	}
 }

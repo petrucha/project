@@ -123,5 +123,24 @@ public class RecordServiceTest {
     	//deleting created in the testcase record
     	recordService.deleteRecord(record1);
     }
+    
+    @Test
+    public void testGetLastRecords() {
+    	String[] devices = {"AAAA"};
+    	//e.g. lets get last 5 records
+    	int recordsCount = 5;
+    	List<Record[]> records = recordService.getLastRecords(devices, recordsCount);
+    	//assertions
+    	Assert.assertTrue(records.size() > 0);
+    	for (Record[] rec : records) {
+    		Assert.assertTrue(rec.length > 0);
+    		for (int i = 0; i < rec.length; i++) {
+    			System.out.println(rec[i]);
+    		}
+		}	
+    	//getting "default record's device" and checks is it right 
+    	String drd = records.get(0)[0].getDevice();
+    	Assert.assertTrue(drd.equals(devices[0]) || drd.equals(devices[1]));
+    }
   
 }
