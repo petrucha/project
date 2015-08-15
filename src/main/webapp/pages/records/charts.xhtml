@@ -12,109 +12,110 @@
 		<ui:define name="content">
 
 			<h:form>
+			
+				<h:panelGrid columns="5" cellpadding="2" class="panelGridCenter">
+				
+					<p:column>
+						<h3>Devices:</h3>
+					</p:column>
+					<p:column>
+						<p:selectCheckboxMenu id="menu" class="filters"
+							label="Select devices" value="#{chartsViewBean.selectedDevices}"
+							filter="true" filterMatchMode="startsWith"
+							panelStyle="width:400px">
+							<f:selectItems value="#{chartsViewBean.devices}" />
+						</p:selectCheckboxMenu>
+					</p:column>
+					<p:column>
+						<h3>Limit:</h3>
+					</p:column>
+					<p:column>
+						<h:outputText id="output"
+							value="Show last #{chartsViewBean.recordsCount} records per device" />
+						<h:inputHidden id="txt2" value="#{chartsViewBean.recordsCount}" />
+						<p:slider for="txt2" display="output" style="width: 200px"
+							displayTemplate="Show last {value} records per device" step="1"
+							minValue="1" maxValue="10" />
+					</p:column>
+					<p:column>
+						<p:remoteCommand name="refrBar" update="barChart"
+							actionListener="#{chartsViewBean.refreshBar}" />
+						<p:commandButton type="button" onclick="refrBar()" value="Refresh"
+							icon="ui-icon-refresh" class="filters" />
+					</p:column>
 
-				<div class="charts">
+				</h:panelGrid>
+
+				<p:chart type="bar" model="#{chartsViewBean.barModel}"
+					style="height:400px;width:98%;" id="barChart" responsive="true"
+					rendered="#{chartsViewBean.modelNotEmpty}" />
+					
+			</h:form>
+
+			<br />
+
+			<h:form>
+
+				<div class="pieAndLineCharts">
 
 					<p:chart type="line" model="#{chartsViewBean.lineModel}"
 						rendered="#{chartsViewBean.modelNotEmpty}" id="lineChart"
 						responsive="true" style="height:400px;width:98%;" />
 
-				</div>
+					<div class="ui-grid ui-grid-responsive">
+						<div class="ui-grid-row ">
+						
+							<div class="ui-grid-col-6 chartsPageBottom">
+							
+								<p:chart type="pie" model="#{chartsViewBean.pieModel}"
+									rendered="#{chartsViewBean.modelNotEmpty}"
+									style="height:300px;widht:400px" id="pieChart"
+									responsive="true" />
 
-				<div class="ui-grid ui-grid-responsive">
+								<h1><h:form class="noDataWarning" rendered="#{not chartsViewBean.modelNotEmpty}">
+										No data for current time period
+								</h:form></h1>
+								
+							</div>
+							
+							<div class="ui-grid-col-2 chartsFilters"></div>
+							
+							<div class="ui-grid-col-4 chartsFilters">
 
-					<div class="ui-grid-row chartsPageBottom">
+								<h:panelGrid columns="1" cellpadding="2">
 
-						<div class="ui-grid-col-6">
+									<h3>Start Date and Time:</h3>
+									<p:calendar id="startDate" value="#{chartsViewBean.startDate}"
+										pattern="MM/dd/yyyy HH:mm" mask="true" />
 
-							<p:chart type="pie" model="#{chartsViewBean.pieModel}"
-								rendered="#{chartsViewBean.modelNotEmpty}" style="height:300px;widht:400px"
-								id="pieChart" responsive="true" />
+									<h3>End Date and Time:</h3>
+									<p:calendar id="endDate" value="#{chartsViewBean.endDate}"
+										pattern="MM/dd/yyyy HH:mm" mask="true" />
 
-							<h1>
-								<h:form class="noDataWarning"
-									rendered="#{not chartsViewBean.modelNotEmpty}">
-									No data for current time period
-								</h:form>
-							</h1>
-						</div>
-						<div class="ui-grid-col-2 chartsFilters"></div>
-						<div class="ui-grid-col-4 chartsFilters">
+									<h3>Devices:</h3>
+									<p:selectCheckboxMenu id="menu" class="filters"
+										label="Select devices"
+										value="#{chartsViewBean.selectedDevices}" filter="true"
+										filterMatchMode="startsWith" panelStyle="width:400px">
+										<f:selectItems value="#{chartsViewBean.devices}" />
+									</p:selectCheckboxMenu>
 
-							<h:panelGrid columns="1" cellpadding="2">
+									<p:remoteCommand name="refrLineAndPie"
+										update="lineChart pieChart"
+										actionListener="#{chartsViewBean.filtersChange}" />
+									<p:commandButton type="button" onclick="refrLineAndPie()"
+										value="Refresh" icon="ui-icon-refresh" class="filters" />
 
-								<h3>Start Date and Time:</h3>
-								<p:calendar id="startDate" value="#{chartsViewBean.startDate}"
-									pattern="MM/dd/yyyy HH:mm" mask="true" />
+								</h:panelGrid>
 
-								<h3>End Date and Time:</h3>
-								<p:calendar id="endDate" value="#{chartsViewBean.endDate}"
-									pattern="MM/dd/yyyy HH:mm" mask="true" />
-
-								<h3>Devices:</h3>
-								<p:selectCheckboxMenu id="menu" class="filters"
-									label="Select devices"
-									value="#{chartsViewBean.selectedDevices}" filter="true"
-									filterMatchMode="startsWith" panelStyle="width:400px">
-									<f:selectItems value="#{chartsViewBean.devices}" />
-								</p:selectCheckboxMenu>
-
-								<p:remoteCommand name="refrLineAndPie" update="lineChart pieChart"
-									actionListener="#{chartsViewBean.filtersChange}" />
-								<p:commandButton type="button" onclick="refrLineAndPie()" value="Refresh"
-									icon="ui-icon-refresh" class="filters" />
-
-							</h:panelGrid>
+							</div>
 
 						</div>
 
 					</div>
 
 				</div>
-			</h:form>
 
-			<h:form>
-				<h:panelGrid columns="5" cellpadding="2" class="panelGridCenter">
-				<p:column>
-				<h3>Devices:</h3>
-				</p:column>
-				
-				<p:column>
-				<p:selectCheckboxMenu id="menu" class="filters"
-						label="Select devices" value="#{chartsViewBean.selectedDevices}"
-						filter="true" filterMatchMode="startsWith"
-						panelStyle="width:400px">
-						<f:selectItems value="#{chartsViewBean.devices}" />
-					</p:selectCheckboxMenu>
-				</p:column>
-				
-				<p:column>
-				<h3>Limit:</h3>
-				</p:column>
-				
-				<p:column>
-				
-					<h:outputText id="output"
-						value="Show last #{chartsViewBean.recordsCount} records per device" />
-					<h:inputHidden id="txt2" value="#{chartsViewBean.recordsCount}" />
-					<p:slider for="txt2" display="output" style="width: 200px"
-						displayTemplate="Show last {value} records per device" step="1" minValue="1"
-						maxValue="10" />
-				
-				</p:column>
-				
-				<p:column>
-							<p:remoteCommand name="refrBar" update="barChart"
-						actionListener="#{chartsViewBean.refreshBar}" />
-					<p:commandButton type="button" onclick="refrBar()" value="Refresh"
-						icon="ui-icon-refresh" class="filters" />
-				</p:column>
-			
-				</h:panelGrid>
-
-				<p:chart type="bar" model="#{chartsViewBean.barModel}"
-					style="height:400px;width:98%;" id="barChart" responsive="true"
-					rendered="#{chartsViewBean.modelNotEmpty}" />
 			</h:form>
 
 		</ui:define>
