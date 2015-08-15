@@ -74,25 +74,42 @@
 			</h:form>
 
 			<h:form>
-				<h:panelGrid columns="1" cellpadding="2">
-					<h3>Devices:</h3>
-					<p:selectCheckboxMenu id="menu" class="filters"
+				<h:panelGrid columns="5" cellpadding="2" class="panelGridCenter">
+				<p:column>
+				<h3>Devices:</h3>
+				</p:column>
+				
+				<p:column>
+				<p:selectCheckboxMenu id="menu" class="filters"
 						label="Select devices" value="#{chartsViewBean.selectedDevices}"
 						filter="true" filterMatchMode="startsWith"
 						panelStyle="width:400px">
 						<f:selectItems value="#{chartsViewBean.devices}" />
 					</p:selectCheckboxMenu>
-					<h3>Limit:</h3>
+				</p:column>
+				
+				<p:column>
+				<h3>Limit:</h3>
+				</p:column>
+				
+				<p:column>
+				
 					<h:outputText id="output"
 						value="Show last #{chartsViewBean.recordsCount} records per device" />
 					<h:inputHidden id="txt2" value="#{chartsViewBean.recordsCount}" />
 					<p:slider for="txt2" display="output" style="width: 200px"
 						displayTemplate="Show last {value} records per device" step="1" minValue="1"
 						maxValue="10" />
-					<p:remoteCommand name="refrBar" update="barChart"
+				
+				</p:column>
+				
+				<p:column>
+							<p:remoteCommand name="refrBar" update="barChart"
 						actionListener="#{chartsViewBean.refreshBar}" />
 					<p:commandButton type="button" onclick="refrBar()" value="Refresh"
 						icon="ui-icon-refresh" class="filters" />
+				</p:column>
+			
 				</h:panelGrid>
 
 				<p:chart type="bar" model="#{chartsViewBean.barModel}"

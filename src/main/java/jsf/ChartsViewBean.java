@@ -164,7 +164,7 @@ public class ChartsViewBean extends AbstractBean implements Serializable {
 		barModel.getAxis(AxisType.Y).setLabel("Temperature C\u00b0");
 
 		Axis xAxis = barModel.getAxis(AxisType.X);
-		xAxis.setLabel("Days");
+		xAxis.setLabel("Time");
 	}
 
 	private void createLineModel() {

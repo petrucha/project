@@ -12,3 +12,7 @@
 .noDataWarning {
 	padding: 10em;
 }
+.panelGridCenter {
+    margin: 0 auto;
+    padding-top: 2em;
+}
