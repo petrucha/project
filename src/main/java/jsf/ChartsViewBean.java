@@ -33,7 +33,7 @@ public class ChartsViewBean extends AbstractBean implements Serializable {
 
 	private LineChartModel lineModel;
 
-	private PieChartModel averageModel;
+	private PieChartModel pieModel;
 
 	private BarChartModel barModel;
 	
@@ -46,31 +46,40 @@ public class ChartsViewBean extends AbstractBean implements Serializable {
 	private Date startDate = new Date();
 
 	private Date endDate = new Date();
+	
+	private int recordsCount;
 
 	// Constructor
 
 	public ChartsViewBean() {
-		devices = Arrays.asList(instance.getDevicesArray());
-		// choosing first 5 devices
-		if (devices.size() < 5) {
-			selectedDevices = new String[devices.size()];
-		} else {
-			selectedDevices = new String[5];
-		}
-		for (int i = 0; (i < devices.size()) && (i < 5); i++) {
-			selectedDevices[i] = devices.get(i);
-		}
+		initSelectedDevices();
 		// setting a period that starts in first day of last month until now
-		Calendar cal = Calendar.getInstance();
-		cal.add(Calendar.MONTH, -1);
-		// cal.set(Calendar.DATE, 1);
-		startDate = cal.getTime();
-		endDate = new Date();
-		// initializing of filtered data
-		filtersChange();
+		initTimeSpan();
+		// last 3 records
+		recordsCount = 3;
+		// initializing models
+		createLineModel();
+		createPieModel();
+		createBarModel();
 	}
 
 	// Getters and setters
+
+	public PieChartModel getPieModel() {
+		return pieModel;
+	}
+
+	public void setPieModel(PieChartModel pieModel) {
+		this.pieModel = pieModel;
+	}
+
+	public int getRecordsCount() {
+		return recordsCount;
+	}
+
+	public void setRecordsCount(int recordsCount) {
+		this.recordsCount = recordsCount;
+	}
 
 	public boolean isModelNotEmpty() {
 		return modelNotEmpty;
@@ -128,24 +137,10 @@ public class ChartsViewBean extends AbstractBean implements Serializable {
 		this.endDate = endDate;
 	}
 
-	public PieChartModel getAverageModel() {
-		return averageModel;
-	}
-
-	public void setAverageModel(PieChartModel averageModel) {
-		this.averageModel = averageModel;
-	}
-
 	// Chart methods
 
-	private void createValueModels() {
-		List<Record[]> recordArrays = instance.getRecordsByDevicesAndTime(selectedDevices, startDate.getTime(),
-				endDate.getTime());
-		createLineModel(recordArrays);
-		createBarModel(recordArrays);
-	}
-
-	private void createBarModel(List<Record[]> recordArrays) {
+	private void createBarModel() {
+		List<Record[]> recordArrays = instance.getLastRecords(selectedDevices, recordsCount);
 		BarChartModel model = new BarChartModel();
 
 		for (Record[] recs : recordArrays) {
@@ -172,7 +167,9 @@ public class ChartsViewBean extends AbstractBean implements Serializable {
 		xAxis.setLabel("Days");
 	}
 
-	private void createLineModel(List<Record[]> recordArrays) {
+	private void createLineModel() {
+		List<Record[]> recordArrays = instance.getRecordsByDevicesAndTime(selectedDevices, startDate.getTime(),
+				endDate.getTime());
 		LineChartModel model = new LineChartModel();
 
 		for (Record[] recs : recordArrays) {
@@ -204,18 +201,18 @@ public class ChartsViewBean extends AbstractBean implements Serializable {
 		lineModel.getAxes().put(AxisType.X, axisX);
 	}
 
-	private void createAverageModel() {
+	private void createPieModel() {
 		HashMap<String, Double> averages = instance.getFilteredAverages(selectedDevices, startDate.getTime(),
 				endDate.getTime());
-		averageModel = new PieChartModel();
+		pieModel = new PieChartModel();
 
 		for (String key : averages.keySet()) {
-			averageModel.set(key, averages.get(key));
+			pieModel.set(key, averages.get(key));
 		}
 
-		averageModel.setTitle("Average per device");
-		averageModel.setLegendPosition("w");
-		averageModel.setShowDataLabels(true);
+		pieModel.setTitle("Average per device");
+		pieModel.setLegendPosition("w");
+		pieModel.setShowDataLabels(true);
 	}
 
 	private LineChartModel initCategoryModel(Record[] records, LineChartModel model) {
@@ -251,10 +248,8 @@ public class ChartsViewBean extends AbstractBean implements Serializable {
 	// filter methods
 
 	public void filtersChange() {
-		System.out.println(startDate);
-		System.out.println(endDate);
-		createValueModels();
-		createAverageModel();
+		createLineModel();
+		createPieModel();
 	}
 
 	public void onDateSelect(SelectEvent event) {
@@ -262,6 +257,10 @@ public class ChartsViewBean extends AbstractBean implements Serializable {
 		SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
 		facesContext.addMessage(null,
 				new FacesMessage(FacesMessage.SEVERITY_INFO, "Date Selected", format.format(event.getObject())));
+	}
+	
+	public void refreshBar() {
+		createBarModel();
 	}
 
 	// utility methods
@@ -274,6 +273,27 @@ public class ChartsViewBean extends AbstractBean implements Serializable {
 		dt = c.getTime();
 		String tomorrow = new SimpleDateFormat("yyyy-MM-dd").format(dt);
 		return tomorrow;
+	}
+	
+	private void initSelectedDevices() {
+		devices = Arrays.asList(instance.getDevicesArray());
+		// choosing first 5 devices
+		if (devices.size() < 5) {
+			selectedDevices = new String[devices.size()];
+		} else {
+			selectedDevices = new String[5];
+		}
+		for (int i = 0; (i < devices.size()) && (i < 5); i++) {
+			selectedDevices[i] = devices.get(i);
+		}
+	}
+	
+	private void initTimeSpan() {
+		Calendar cal = Calendar.getInstance();
+		cal.add(Calendar.MONTH, -1);
+		// cal.set(Calendar.DATE, 1);
+		startDate = cal.getTime();
+		endDate = new Date();
 	}
 
 }

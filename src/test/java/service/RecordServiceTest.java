@@ -133,7 +133,7 @@ public class RecordServiceTest {
     	//assertions
     	Assert.assertTrue(records.size() > 0);
     	for (Record[] rec : records) {
-    		Assert.assertTrue(rec.length > 0);
+    		Assert.assertTrue((rec.length > 0) && (rec.length <= recordsCount));
     		for (int i = 0; i < rec.length; i++) {
     			System.out.println(rec[i]);
     		}
