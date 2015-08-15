@@ -10,10 +10,12 @@ body {
 
 #container {
 	border: 1px solid #bbbbbb;
+	box-shadow: 8px 5px 5px #888888;
 }
 
 #header {
-	background: #bbbbbb url("#{resource['/images/header.jpg']}");
+	background: rgba(5, 5, 5, 0.1)  url("#{resource['/images/chart.png']}");
+	background-repeat: no-repeat;
 	display: inline-block;
 	width: 100%;
 	/* 	border-bottom: 1px solid #bbbbbb; */
@@ -80,7 +82,8 @@ margin-right: 10px;
 }
 
 #footer {
-	background: url("#{resource['/images/footer.jpg']}");
+	background: rgba(5, 5, 5, 0.1) url("#{resource['/images/chart_bottom.png']}");
+	background-repeat: no-repeat;
 	margin: 0 auto;
 	padding: 2px 1%;
 	text-align: right;
