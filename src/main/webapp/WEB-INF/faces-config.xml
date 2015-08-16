@@ -50,7 +50,7 @@
 		<from-view-id>/pages/login.xhtml</from-view-id>
 		<navigation-case>
 			<from-outcome>user</from-outcome>
-			<to-view-id>/pages/user/user.xhtml</to-view-id>
+			<to-view-id>/pages/user/statistics.xhtml</to-view-id>
 			<redirect />
 		</navigation-case>
 	</navigation-rule>
@@ -60,7 +60,7 @@
 		<from-view-id>/pages/login.xhtml</from-view-id>
 		<navigation-case>
 			<from-outcome>admin</from-outcome>
-			<to-view-id>/pages/admin/admin.xhtml</to-view-id>
+			<to-view-id>/pages/admin/statistics.xhtml</to-view-id>
 			<redirect />
 		</navigation-case>
 	</navigation-rule>

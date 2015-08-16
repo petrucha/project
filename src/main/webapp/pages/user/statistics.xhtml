@@ -7,9 +7,13 @@
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:p="http://primefaces.org/ui">
 
-<h:body>
-	<ui:composition template="templates/common.xhtml">
 
+<h:body>
+	<ui:composition template="/pages/templates/forUser/commonUser.xhtml">
+
+		<ui:define name="content">
+			<h2>Users Statistics Dashboard!!!</h2>
+		</ui:define>
 	</ui:composition>
 </h:body>
 </html>
