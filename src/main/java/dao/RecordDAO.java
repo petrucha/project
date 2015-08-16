@@ -34,10 +34,10 @@ public class RecordDAO extends AbstractDAO<Record> {
 	public List<Record[]> getRecordByDevicesAndTime(final String[] devices,
 												  final double startTime, 
 												  final double endTime) {
-		if (devices.length == 0) {
-			return null;
-		}
 		List<Record[]> sortedRecords = new ArrayList<Record[]>();
+		if (devices.length == 0) {
+			return sortedRecords;
+		}
 		
 		Session hibernateSession = this.getSession();
 		String hql = "SELECT r FROM Record r WHERE (r.timestamp BETWEEN :startTime and :endTime) AND (r.device = :device)";
