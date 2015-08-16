@@ -25,7 +25,7 @@ public class RecordDAO extends AbstractDAO<Record> {
 	
 	public Record getRecordById(final int id) {
 		Session hibernateSession = this.getSession();
-		String hql = "SELECT r FROM Record r WHERE r.id = :record_id";
+		String hql = "SELECT r FROM Record r WHERE r.id = :record_id ";
 		Query query = hibernateSession.createQuery(hql)
 				.setParameter("record_id", id);
 		

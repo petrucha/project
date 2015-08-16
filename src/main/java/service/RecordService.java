@@ -86,7 +86,7 @@ public class RecordService implements Serializable {
 	}
 
 	// must have
-	public void deleteRecord(Record record) {
+	public boolean deleteRecord(Record record) {
 		try {
 			HibernateUtil.beginTransaction();
 			recordDAO.delete(record);
@@ -94,6 +94,8 @@ public class RecordService implements Serializable {
 		} catch (HibernateException ex) {
 			System.out.println("Error: deleteRecord(" + record.toString() + ")");
 		}
+		
+		return true;
 	}
 
 	// used for filtering records by device
