@@ -28,7 +28,7 @@ public class Device implements Serializable {
 	@Column(name = "mac")
 	private String mac;
 	
-	@OneToMany(mappedBy = "device", cascade = CascadeType.ALL) // do change
+	@OneToMany(mappedBy = "device") // do change
 	private Set<Record> records;
 
 

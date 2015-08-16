@@ -13,15 +13,15 @@ public class DeviceDAO extends AbstractDAO<Device> {
 		super(Device.class);
 	}
 	
-	@SuppressWarnings("unchecked")
 	public List<Device> getAllDevices(boolean notEmpty) {
 		Session hibernateSession = this.getSession();
-		String hql = "SELECT d FROM Device d";
+		String hql = "FROM Device d";
 		if (notEmpty) {
 			hql += " INNER JOIN d.records";
 		}
 		Query query = hibernateSession.createQuery(hql);
-		return query.list();
+
+		return this.findMany(query);
 	}
 
 }

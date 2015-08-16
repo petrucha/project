@@ -78,7 +78,7 @@ public class DeviceService implements Serializable {
 		List<Device> devices = new ArrayList<Device>();
 		try {
 			HibernateUtil.beginTransaction();
-			deviceDAO.getAllDevices(notEmpty);
+			devices = deviceDAO.getAllDevices(notEmpty);
 			HibernateUtil.commitTransaction();
 		} catch (HibernateException ex) {
 			System.out.println("Error: getAllDevices(" + notEmpty + ")");

@@ -3,6 +3,7 @@ package service;
 import java.util.List;
 
 import org.junit.Assert;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import entity.Device;
@@ -14,6 +15,7 @@ public class DeviceServiceTest {
 	private static DeviceService deviceService = DeviceService.getInstance();
 
 	@Test
+	@Ignore
 	public void testAddAndGetAndDeleteDevice() {
 		Device device = new Device(TestUtil.randomMacAddress());
 		deviceService.addDevice(device);
@@ -35,6 +37,7 @@ public class DeviceServiceTest {
 		Device device = new Device(TestUtil.randomMacAddress());
 		deviceService.addDevice(device);
 		
+		System.out.println("this");
 		List<Device> devices = deviceService.getAllDevices(false);
 		
 		Assert.assertTrue(devices.size() > 0);
