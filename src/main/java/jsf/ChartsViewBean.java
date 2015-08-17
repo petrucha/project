@@ -21,13 +21,16 @@ import org.primefaces.model.chart.LineChartModel;
 import org.primefaces.model.chart.PieChartModel;
 
 import entity.Record;
+import service.DeviceService;
 import service.RecordService;
 
 public class ChartsViewBean extends AbstractBean implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
-	private static RecordService instance = RecordService.getInstance();
+	private static RecordService recordService = RecordService.getInstance();
+	
+	private static DeviceService deviceService = DeviceService.getInstance();
 
 	// Bean variables
 
@@ -130,7 +133,7 @@ public class ChartsViewBean extends AbstractBean implements Serializable {
 	// Chart methods
 
 	private void createBarModel() {
-		List<Record[]> recordArrays = instance.getLastRecords(selectedDevices, recordsCount);
+		List<Record[]> recordArrays = recordService.getLastRecords(selectedDevices, recordsCount);
 		BarChartModel model = new BarChartModel();
 
 		for (Record[] recs : recordArrays) {
@@ -150,7 +153,7 @@ public class ChartsViewBean extends AbstractBean implements Serializable {
 	}
 
 	private void createLineModel() {
-		List<Record[]> recordArrays = instance.getRecordsByDevicesAndTime(selectedDevices, startDate.getTime(),
+		List<Record[]> recordArrays = recordService.getRecordsByDevicesAndTime(selectedDevices, startDate.getTime(),
 				endDate.getTime());
 		LineChartModel model = new LineChartModel();
 
@@ -175,7 +178,7 @@ public class ChartsViewBean extends AbstractBean implements Serializable {
 	}
 
 	private void createPieModel() {
-		HashMap<String, Double> averages = instance.getFilteredAverages(selectedDevices,
+		HashMap<String, Double> averages = recordService.getFilteredAverages(selectedDevices,
 																		startDate.getTime(),
 																		endDate.getTime());
 		pieModel = new PieChartModel();
@@ -201,7 +204,7 @@ public class ChartsViewBean extends AbstractBean implements Serializable {
 			series.setLabel("No records found.");
 			series.set(fmt.format(new Date()), 0);
 		} else {
-			series.setLabel(records[0].getDevice());
+			series.setLabel(records[0].getDevice().getMac());
 			// creating value data for chart series
 			for (Record rec : records) {
 				String date = fmt.format(rec.getTimestamp());
@@ -243,7 +246,7 @@ public class ChartsViewBean extends AbstractBean implements Serializable {
 	}
 	
 	private void initSelectedDevices() {
-		devices = Arrays.asList(instance.getDevicesArray());
+		devices = deviceService.getAllMacs(true);
 		// choosing first 5 devices
 		if (devices.size() < 5) {
 			selectedDevices = new String[devices.size()];

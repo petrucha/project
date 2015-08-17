@@ -26,7 +26,7 @@ public class RecordServiceTest {
     public void createDeviceAndRecord() {
     	device = new Device(TestUtil.randomMacAddress());
     	deviceService.addDevice(device);
-    	record = new Record(device, "111", 222, new Date().getTime());
+    	record = new Record(device, "111", (int) new Date().getTime()%200, new Date().getTime());
     	recordService.addRecord(record);
     }
     

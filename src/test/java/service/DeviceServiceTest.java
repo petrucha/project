@@ -47,4 +47,20 @@ public class DeviceServiceTest {
 		Assert.assertNull(deviceService.getDevice(device.getId()));
 	}
 	
+	@Test
+	public void testGetAllMacs() {
+		Device device = new Device(TestUtil.randomMacAddress());
+		deviceService.addDevice(device);
+		
+		List<String> macs = deviceService.getAllMacs(false);
+		Assert.assertTrue(macs.size() > 0);
+		Assert.assertNotNull(macs.get(0));
+		
+		macs = deviceService.getAllMacs(true);
+		Assert.assertFalse(macs.contains(device));
+		
+		deviceService.deleteDevice(device);
+		Assert.assertNull(deviceService.getDevice(device.getId()));
+	}
+	
 }

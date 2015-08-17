@@ -74,6 +74,10 @@ public class DeviceService implements Serializable {
 		return true;
 	}
 	
+	/**
+	 * @param notEmpty
+	 * @return all (has at least one record) devices
+	 */
 	public List<Device> getAllDevices(boolean notEmpty) {
 		List<Device> devices = new ArrayList<Device>();
 		try {
@@ -85,6 +89,23 @@ public class DeviceService implements Serializable {
 		}
 		
 		return devices;
+	}
+	
+	/**
+	 * @param notEmpty
+	 * @return all (has at least one record) devices MACs
+	 */
+	public List<String> getAllMacs(boolean notEmpty) {
+		List<String> macs = new ArrayList<String>();
+		try {
+			HibernateUtil.beginTransaction();
+			macs = deviceDAO.getAllMacs(notEmpty);
+			HibernateUtil.commitTransaction();
+		} catch (HibernateException ex) {
+			System.out.println("Error: getAllDevices(" + notEmpty + ")");
+		}
+		
+		return macs;
 	}
 	
 

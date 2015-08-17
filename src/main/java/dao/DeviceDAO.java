@@ -24,6 +24,16 @@ public class DeviceDAO extends AbstractDAO<Device> {
 		return this.findMany(query);
 	}
 	
-//	public
+	@SuppressWarnings("unchecked")
+	public List<String> getAllMacs(final boolean notEmpty) {
+		Session hibernateSession = this.getSession();
+		String hql = "SELECT d.mac FROM Device d";
+		if (notEmpty) {
+			hql += " INNER JOIN d.records";
+		}
+		Query query = hibernateSession.createQuery(hql);
+
+		return query.list();
+	}
 
 }
