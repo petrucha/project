@@ -8,7 +8,6 @@ import javax.faces.context.FacesContext;
 import service.GroupService;
 import service.UserService;
 import util.PasswordHash;
-import util.Role;
 import entity.Group;
 import entity.User;
 

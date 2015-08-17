@@ -17,15 +17,15 @@
 					<p:menuitem value="View" update="profileDetail"
 						icon="ui-icon-search" oncomplete="PF('profileDialog').show()" />
 					<p:menuitem value="Delete" update="profiles" icon="ui-icon-close"
-						actionListener="#{profileViewBean.deleteProfile}" />
+						actionListener="#{profilesDeleteViewBean.deleteProfile}" />
 				</p:contextMenu>
 
 				<p:dataTable id="profiles" var="user"
-					value="#{profileViewBean.users}" widgetVar="profilesTable"
+					value="#{profilesDeleteViewBean.users}" widgetVar="profilesTable"
 					emptyMessage="No profiles found with given criteria"
-					filteredValue="#{profileViewBean.filteredProfiles}"
+					filteredValue="#{profilesDeleteViewBean.filteredProfiles}"
 					rowKey="#{user.username}"
-					selection="#{profileViewBean.selectedUser}" selectionMode="single">
+					selection="#{profilesDeleteViewBean.selectedUser}" selectionMode="single">
 
 					<f:facet name="header">
            				 RightClick to View Options
@@ -53,7 +53,7 @@
 							<p:selectOneMenu onchange="PF('profilesTable').filter()">
 								<f:selectItem itemLabel="Select One" itemValue="#{null}"
 									noSelectionOption="true" />
-								<f:selectItems value="#{profileViewBean.groups}" />
+								<f:selectItems value="#{profilesDeleteViewBean.groups}" />
 							</p:selectOneMenu>
 						</f:facet>
 						<h:outputText value="#{user.group.groupname}" />
@@ -64,27 +64,27 @@
 					modal="true" showEffect="fade" hideEffect="fade" resizable="false">
 					<p:outputPanel id="profileDetail" style="text-align:center ">
 						<p:panelGrid columns="2" 
-							rendered="#{not empty profileViewBean.selectedUser}"
+							rendered="#{not empty profilesDeleteViewBean.selectedUser}"
 							columnClasses="label,value">
 
 							<h:outputText value="Username:" />
-							<h:outputText value="#{profileViewBean.selectedUser.username}" />
+							<h:outputText value="#{profilesDeleteViewBean.selectedUser.username}" />
 
 							<h:outputText value="First Name" />
-							<h:outputText value="#{profileViewBean.selectedUser.firstname}" />
+							<h:outputText value="#{profilesDeleteViewBean.selectedUser.firstname}" />
 
 							<h:outputText value="Last Name:" />
-							<h:outputText value="#{profileViewBean.selectedUser.lastname}" />
+							<h:outputText value="#{profilesDeleteViewBean.selectedUser.lastname}" />
 
 							<h:outputText value="Role" />
 							<h:outputText
-								value="#{profileViewBean.selectedUser.group.groupname}" />
+								value="#{profilesDeleteViewBean.selectedUser.group.groupname}" />
 
 							<h:outputText value="Birthday" />
-							<h:outputText value="#{profileViewBean.selectedUser.birthday}" />
+							<h:outputText value="#{profilesDeleteViewBean.selectedUser.birthday}" />
 
 							<h:outputText value="Email" />
-							<h:outputText value="#{profileViewBean.selectedUser.email}" />
+							<h:outputText value="#{profilesDeleteViewBean.selectedUser.email}" />
 						</p:panelGrid>
 					</p:outputPanel>
 				</p:dialog>

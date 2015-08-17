@@ -1,0 +1,53 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:body>
+	<ui:composition>
+
+		<h:form>
+			<h:panelGrid class="editPanelGrid" columns="2">
+
+				<h:outputLabel for="username" value="Username:" />
+				<p:inplace id="username">
+					<p:inputText value="#{profileViewEditBean.getCurrentUser().username}" />
+				</p:inplace>
+
+				<h:outputLabel for="password" value="Password:" />
+				<p:inplace id="password">
+					<p:inputText value="#{profileViewEditBean.currentUser.password}" />
+				</p:inplace>
+
+				<h:outputLabel for="firstname" value="First Name:" />
+				<p:inplace id="firstname">
+					<p:inputText value="#{profileViewEditBean.currentUser.firstname}" />
+				</p:inplace>
+
+				<h:outputLabel for="lastname" value="Last Name:" />
+				<p:inplace id="lastname">
+					<p:inputText value="#{profileViewEditBean.currentUser.lastname}" />
+				</p:inplace>
+
+				<h:outputLabel for="birthday" value="Birthday:" />
+				<p:inplace id="birthday">
+					<p:inputText value="#{profileViewEditBean.currentUser.birthday}" />
+				</p:inplace>
+
+				<h:outputLabel for="email" value="Email:" />
+				<p:inplace id="birthday">
+					<p:inputText value="#{profileViewEditBean.currentUser.email}" />
+				</p:inplace>
+
+			</h:panelGrid>
+
+		</h:form>
+	</ui:composition>
+
+</h:body>
+
+</html>
