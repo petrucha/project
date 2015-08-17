@@ -8,7 +8,7 @@
 
 
 <h:body>
-	<ui:composition template="templates/common.xhtml">
+	<ui:composition template="templates/forAll/common.xhtml">
 	<ui:define name="menu">
 				<div class="menuHomeLeft">
 				<p:tabMenu activeIndex="#{param.i}"> 
@@ -20,7 +20,7 @@
 				</p:tabMenu>
 			</div>
 			<div class="menuHomeRight">
-				<p:button value="Back" outcome="index.xhtml"  />
+				<p:button value="Back" outcome="/pages/guest/home.xhtml"  />
 			</div>
 	</ui:define>
 		<ui:define name="content">

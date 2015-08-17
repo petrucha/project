@@ -28,7 +28,7 @@ public class UserBean implements Serializable {
 
 	public String logout() {
 		getRequest().getSession().invalidate();
-		return "/pages/index.xhtml?faces-redirect=true";
+		return "/pages/guest/home.xhtml?faces-redirect=true";
 
 	}
 
