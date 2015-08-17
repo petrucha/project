@@ -36,10 +36,8 @@ public class User implements Serializable {
 	@Column(name = "email")
 	private String email;
 
-	@ManyToOne(cascade = CascadeType.ALL)
-	@JoinTable(name = "user_group",
-	joinColumns = { @JoinColumn(name = "user_id", referencedColumnName = "u_id") },
-	inverseJoinColumns = { @JoinColumn(name = "group_id", referencedColumnName = "g_id") })
+	@ManyToOne
+	@JoinColumn(name = "group_id")
 	private Group group;
 	
 	@ManyToMany(cascade = CascadeType.REFRESH)
@@ -124,7 +122,7 @@ public class User implements Serializable {
 	}
 
 	public Group getGroup() {
-		return this.group;
+		return group;
 	}
 
 	public void setGroup(Group group) {
@@ -157,8 +155,7 @@ public class User implements Serializable {
 	@Override
 	public String toString() {
 		return "User [id=" + id + ", username=" + username + ", password=" + password + ", firstname=" + firstname
-				+ ", lastname=" + lastname + ", birthday=" + birthday + ", email=" + email + ", group=" + group
-				+ ", devices=" + devices + "]";
+				+ ", lastname=" + lastname + ", birthday=" + birthday.toString() + ", email=" + email + ", group=" + group.toString() + "]";
 	}
 
 	

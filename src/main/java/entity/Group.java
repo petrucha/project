@@ -33,12 +33,8 @@ public class Group implements Serializable {
 	@Column(name = "groupdesc")
 	private String groupdesc;
 
-	/* @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL) */
-	@OneToMany(cascade = { CascadeType.PERSIST, CascadeType.MERGE })
-	@JoinTable(name = "user_group",
-	joinColumns = { @JoinColumn(name = "group_id", referencedColumnName = "g_id") },
-	inverseJoinColumns = { @JoinColumn(name = "user_id", referencedColumnName = "u_id") })
-	private Set<User> userGroups;
+	@OneToMany(mappedBy = "group")
+	private Set<User> users;
 	
 	
 	public Group(String groupname, String groupdesc) {
@@ -48,7 +44,7 @@ public class Group implements Serializable {
 	}
 	
 	public Group() {
-		userGroups = new HashSet<User>();
+//		users = new HashSet<User>();
 	}
 
 	
@@ -76,12 +72,12 @@ public class Group implements Serializable {
 		this.groupdesc = groupdesc;
 	}
 
-	public Set<User> getUserRoles() {
-		return userGroups;
+	public Set<User> getUsers() {
+		return users;
 	}
 
-	public void setUserRoles(Set<User> userGroups) {
-		this.userGroups = userGroups;
+	public void setUsers(Set<User> users) {
+		this.users = users;
 	}
 
 	@Override
