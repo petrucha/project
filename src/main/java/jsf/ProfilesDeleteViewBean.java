@@ -10,7 +10,7 @@ import service.UserService;
 import util.Role;
 
 
-public class ProfileViewBean extends AbstractBean implements Serializable {
+public class ProfilesDeleteViewBean extends AbstractBean implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 	private static  UserService userService =  UserService.getInstance();
@@ -19,7 +19,7 @@ public class ProfileViewBean extends AbstractBean implements Serializable {
 	private List<User> filteredProfiles = new ArrayList<User>();
 	private User selectedUser;
 	
-	public ProfileViewBean() {}
+	public ProfilesDeleteViewBean() {}
 	
 	public List<User> getUsers() {
 		users = userService.getAllUsers();
