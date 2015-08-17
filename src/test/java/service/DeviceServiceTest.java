@@ -15,7 +15,6 @@ public class DeviceServiceTest {
 	private static DeviceService deviceService = DeviceService.getInstance();
 
 	@Test
-	@Ignore
 	public void testAddAndGetAndDeleteDevice() {
 		Device device = new Device(TestUtil.randomMacAddress());
 		deviceService.addDevice(device);
@@ -37,11 +36,15 @@ public class DeviceServiceTest {
 		Device device = new Device(TestUtil.randomMacAddress());
 		deviceService.addDevice(device);
 		
-		System.out.println("this");
 		List<Device> devices = deviceService.getAllDevices(false);
-		
 		Assert.assertTrue(devices.size() > 0);
 		Assert.assertNotNull(devices.get(0));
+		
+		devices = deviceService.getAllDevices(true);
+		Assert.assertFalse(devices.contains(device));
+		
+		deviceService.deleteDevice(device);
+		Assert.assertNull(deviceService.getDevice(device.getId()));
 	}
 	
 }

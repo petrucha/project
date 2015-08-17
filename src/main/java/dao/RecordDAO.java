@@ -15,98 +15,95 @@ public class RecordDAO extends AbstractDAO<Record> {
 		super(Record.class);
 
 	}
-
-	public List<Record> getRecordsByDevice(final String device) {
-		Session hibernateSession = this.getSession();
-		String hql = "SELECT r FROM Record r WHERE r.device = :device";
-		Query query = hibernateSession.createQuery(hql);
-		return this.findMany(query);
-	}
 	
-	public Record getRecordById(final int id) {
-		Session hibernateSession = this.getSession();
-		String hql = "SELECT r FROM Record r WHERE r.id = :record_id ";
-		Query query = hibernateSession.createQuery(hql)
-				.setParameter("record_id", id);
-		
-		return this.findOne(query);
-	}
-	
-	public List<Record[]> getRecordByDevicesAndTime(final String[] devices,
+	/**
+	 * @param macs
+	 * @param startTime
+	 * @param endTime
+	 * @return records by time and devices
+	 */
+	public List<Record[]> getRecordByDevicesAndTime(final String[] macs,
 												  final double startTime, 
 												  final double endTime) {
 		List<Record[]> sortedRecords = new ArrayList<Record[]>();
-		if (devices.length == 0) {
+		if (macs.length == 0) {
 			sortedRecords.add(new Record[0]);
 			return sortedRecords;
 		}
 		
 		Session hibernateSession = this.getSession();
-		String hql = "SELECT r FROM Record r WHERE (r.timestamp BETWEEN :startTime and :endTime) AND (r.device = :device)";
+		String hql = "FROM Record r WHERE "
+				+ "(r.timestamp BETWEEN :startTime and :endTime) "
+				+ "AND (r.device.mac = :mac)";
 		Query query = hibernateSession.createQuery(hql)
 				.setParameter("startTime", startTime)
 				.setParameter("endTime", endTime);
 		//dividing records by device
-		for (int i = 0; i < devices.length; i++) {
-			query.setParameter("device", devices[i]);
+		for (String mac : macs) {
+			query.setParameter("mac", mac);
 			List<Record> recordList = this.findMany(query);
 			Record[] deviceRecords = new Record[recordList.size()];
 			sortedRecords.add(recordList.toArray(deviceRecords));
 		}
-		
 		return sortedRecords;
 	}
 	
-	@SuppressWarnings("unchecked")
-	public List<String> getDevicesList() {
-		Session hibernateSession = this.getSession();
-		String hql = "SELECT r.device FROM Record r GROUP BY device";
-		Query query = hibernateSession.createQuery(hql);
-		return query.list();
-	}
 	
-	// filtering by time and devices
-	public HashMap<String, Double> getFilteredAverages(final String[] devices,
+	/**
+	 * @param macs
+	 * @param startTime
+	 * @param endTime
+	 * @return record averages by time and devices
+	 */
+	public HashMap<String, Double> getFilteredAverages(final String[] macs,
 												final double startTime,
 												final double endTime) {
 		HashMap<String, Double> averages = new HashMap<String, Double>();
-		if (devices.length == 0) {
+		if (macs.length == 0) {
 			return averages;
 		}
 
 		Session hibernateSession = this.getSession();
-		String hql = "SELECT AVG(r.value) FROM Record r WHERE (r.timestamp BETWEEN :startTime and :endTime) AND (r.device = :device)";
+		String hql = "SELECT AVG(r.value) FROM Record r "
+				+ "WHERE (r.timestamp BETWEEN :startTime and :endTime) "
+				+ "AND (r.device.mac = :mac)";
 		Query query = hibernateSession.createQuery(hql)
 				.setParameter("startTime", startTime)
 				.setParameter("endTime", endTime);
 		// dividing records by device
-		for (int i = 0; i < devices.length; i++) {
-			query.setParameter("device", devices[i]);
+		for (String mac : macs) {
+			query.setParameter("mac", mac);
 			Double average = (Double) query.uniqueResult();
-			averages.put(devices[i], average);
+			averages.put(mac, average);
 		}
 
 		return averages;
 	}
 	
-	public List<Record[]> getLastRecords(final String[] devices, final int recordsCount) {
-		List<Record[]> sortedRecords = new ArrayList<Record[]>();
-		if (devices.length == 0) {
-			sortedRecords.add(new Record[0]);
-			return sortedRecords;
+	
+	/**
+	 * @param macs
+	 * @param recordsCount
+	 * @return last records
+	 */
+	public List<Record[]> getLastRecords(final String[] macs, final int recordsCount) {
+		List<Record[]> lastRecords = new ArrayList<Record[]>();
+		if (macs.length == 0) {
+			lastRecords.add(new Record[0]);
+			return lastRecords;
 		}
 		
 		Session hibernateSession = this.getSession();
-		String hql = "SELECT r FROM Record r WHERE r.device = :device ORDER BY r.timestamp DESC";
+		String hql = "SELECT r FROM Record r WHERE r.device.mac = :mac ORDER BY r.timestamp DESC";
 		Query query = hibernateSession.createQuery(hql).setMaxResults(recordsCount);
 		//dividing records by device
-		for (int i = 0; i < devices.length; i++) {
-			query.setParameter("device", devices[i]);
+		for (String mac : macs) {
+			query.setParameter("mac", mac);
 			List<Record> recordList = this.findMany(query);
 			Record[] deviceRecords = new Record[recordList.size()];
-			sortedRecords.add(recordList.toArray(deviceRecords));
+			lastRecords.add(recordList.toArray(deviceRecords));
 		}
 		
-		return sortedRecords;
+		return lastRecords;
 	}
 }

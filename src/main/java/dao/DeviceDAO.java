@@ -13,7 +13,7 @@ public class DeviceDAO extends AbstractDAO<Device> {
 		super(Device.class);
 	}
 	
-	public List<Device> getAllDevices(boolean notEmpty) {
+	public List<Device> getAllDevices(final boolean notEmpty) {
 		Session hibernateSession = this.getSession();
 		String hql = "FROM Device d";
 		if (notEmpty) {
@@ -23,5 +23,7 @@ public class DeviceDAO extends AbstractDAO<Device> {
 
 		return this.findMany(query);
 	}
+	
+//	public
 
 }
