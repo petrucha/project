@@ -44,7 +44,7 @@ public class RecordServiceTest {
         System.out.println(created);
         
         Assert.assertEquals(created.getDevice(), record.getDevice());
-        Assert.assertEquals(record.getId(), created.getId());
+        Assert.assertEquals(created.getId(), record.getId());
         Assert.assertEquals(created.getQuantity(), record.getQuantity());
         Assert.assertEquals(created.getValue(), record.getValue());
         Assert.assertEquals(created.getTimestamp(), record.getTimestamp(), 0.01); //the last argument is epsilon

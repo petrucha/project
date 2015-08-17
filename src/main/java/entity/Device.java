@@ -9,6 +9,9 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
@@ -22,16 +25,28 @@ public class Device implements Serializable {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	@Column(name = "device_id")
+	@Column(name = "d_id")
 	private int id;
 	
 	@Column(name = "mac")
 	private String mac;
 	
-	@OneToMany(mappedBy = "device") // do change
+	@OneToMany(mappedBy = "device") // do change (cascade type)
 	private Set<Record> records;
+	
+	@ManyToMany(mappedBy = "devices")
+	private Set<User> users;
+	
+	
+	public Device(String mac) {
+		super();
+		this.mac = mac;
+	}
 
-
+	public Device() {
+		super();
+	}
+	
 	
 	public int getId() {
 		return id;
@@ -57,6 +72,14 @@ public class Device implements Serializable {
 		this.records = records;
 	}
 	
+	public Set<User> getUsers() {
+		return users;
+	}
+
+	public void setUsers(Set<User> users) {
+		this.users = users;
+	}
+
 	@Override
 	public int hashCode() {
 		return getId();
@@ -77,13 +100,4 @@ public class Device implements Serializable {
 		return "Device [id=" + id + ", mac=" + mac + "]";
 	}
 
-	public Device(String mac) {
-		super();
-		this.mac = mac;
-	}
-
-	public Device() {
-		super();
-	}
-	
 }

@@ -21,6 +21,18 @@ public class GroupService implements Serializable {
 
 		return instance;
 	}
+	
+	public boolean addGroup(Group group) {
+		try {
+			HibernateUtil.beginTransaction();
+			groupDAO.save(group);
+			HibernateUtil.commitTransaction();
+		} catch (HibernateException ex) {
+			System.out.println("Error: addGroup(" + group + ")");
+		}
+		
+		return true;
+	}
 
 	public Group getGroupByName(final String groupname) {
 		Group group = null;
@@ -31,7 +43,20 @@ public class GroupService implements Serializable {
 		} catch (HibernateException ex) {
 			System.out.println("Error: getGroupByName()");
 		}
+		
 		return group;
+	}
+	
+	public boolean deleteGroup(Group group) {
+		try {
+			HibernateUtil.beginTransaction();
+			groupDAO.delete(group);
+			HibernateUtil.commitTransaction();
+		} catch (HibernateException ex) {
+			System.out.println("Error: deleteGroup(" + group + ")");
+		}
+		
+		return true;
 	}
 
 }

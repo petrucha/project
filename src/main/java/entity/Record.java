@@ -28,6 +28,19 @@ public class Record  implements Serializable {
 	@Column(name = "timestamp")
 	private double timestamp; 
 	
+	
+	public Record() {
+		super();
+	}
+
+	public Record(Device device, String quantity, int value, double timestamp) {
+		super();
+		this.device = device;
+		this.quantity = quantity;
+		this.value = value;
+		this.timestamp = timestamp;
+	}
+	
 
 	public int getId() {
 		return id;
@@ -90,16 +103,4 @@ public class Record  implements Serializable {
 				+ ", timestamp=" + timestamp + "]";
 	}
 
-	public Record() {
-		super();
-	}
-
-	public Record(Device device, String quantity, int value, double timestamp) {
-		super();
-		this.device = device;
-		this.quantity = quantity;
-		this.value = value;
-		this.timestamp = timestamp;
-	}
-	
 }

@@ -35,13 +35,23 @@ public class Group implements Serializable {
 
 	/* @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL) */
 	@OneToMany(cascade = { CascadeType.PERSIST, CascadeType.MERGE })
-	@JoinTable(name = "user_group", joinColumns = { @JoinColumn(name = "group_id", referencedColumnName = "g_id") }, inverseJoinColumns = { @JoinColumn(name = "user_id", referencedColumnName = "u_id") })
+	@JoinTable(name = "user_group",
+	joinColumns = { @JoinColumn(name = "group_id", referencedColumnName = "g_id") },
+	inverseJoinColumns = { @JoinColumn(name = "user_id", referencedColumnName = "u_id") })
 	private Set<User> userGroups;
-
+	
+	
+	public Group(String groupname, String groupdesc) {
+		super();
+		this.groupname = groupname;
+		this.groupdesc = groupdesc;
+	}
+	
 	public Group() {
 		userGroups = new HashSet<User>();
 	}
 
+	
 	public int getId() {
 		return id;
 	}
@@ -94,4 +104,5 @@ public class Group implements Serializable {
 		return "Group [id=" + id + ", groupname= " + groupname
 				+ ", groupdesc = " + groupdesc + "]";
 	}
+	
 }
