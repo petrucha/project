@@ -48,15 +48,14 @@ body {
 	background: #bbbbbb;
 }
 
-.menuSpacer{
-width :2px;
-height: 22px;
-position: relative;
-bottom: -5px;
-background-color: #A8A8A8;
-margin-left: 10px;
-margin-right: 10px;	
-	
+.menuSpacer {
+	width: 2px;
+	height: 22px;
+	position: relative;
+	bottom: -5px;
+	background-color: #A8A8A8;
+	margin-left: 10px;
+	margin-right: 10px;
 }
 
 #content {
@@ -77,6 +76,11 @@ margin-right: 10px;
 .outputLabel {
 	font-weight: bold;
 	font-style: italic;
+}
+
+.centerPanelGrid {
+	margin: 0 auto;
+
 }
 
 #footer {

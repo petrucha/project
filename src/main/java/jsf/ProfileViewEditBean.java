@@ -1,33 +1,57 @@
 package jsf;
 
 import java.io.Serializable;
-
-import javax.annotation.PostConstruct;
 import javax.faces.context.FacesContext;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
-
 import entity.User;
+import service.UserService;
+import util.PasswordHash;
 
 public class ProfileViewEditBean extends AbstractBean implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
-private User currentUser;
+	private User currentUser;
+	private String oldPassword = "";
+	private String newPassword = "";
 
 	public User getCurrentUser() {
-	  	FacesContext context = FacesContext.getCurrentInstance();
-    	LoginBean log = context.getApplication().evaluateExpressionGet(context, "#{loginBeen}", LoginBean.class);
-    	currentUser = log.getUserBean().getUser();
-
-    	if(currentUser == null)
-    	System.out.println("currentUser is NULL!!!");
-    	else 
-    		System.out.println(currentUser.toString());
-    	return currentUser;
+		FacesContext context = FacesContext.getCurrentInstance();
+		UserBean userB = context.getApplication().evaluateExpressionGet(context, "#{userBean}", UserBean.class);
+		currentUser = userB.getUser();
+		return currentUser;
 	}
+
 	public void setCurrentUser(User currentUser) {
 		this.currentUser = currentUser;
+	}
+
+	public void saveProfile() {
+		UserService userService = UserService.getInstance();
+		userService.addUser(currentUser);
+	}
+
+	public void savePassword() {
+		if (currentUser.getPassword().equals(PasswordHash.hash(oldPassword))) {
+			currentUser.setPassword(PasswordHash.hash(newPassword));
+			UserService userService = UserService.getInstance();
+			userService.addUser(currentUser);
+		}
+	}
+
+	public String getNewPassword() {
+		return newPassword;
+	}
+
+	public void setNewPassword(String newPassword) {
+		this.newPassword = newPassword;
+	}
+
+	public String getOldPassword() {
+		return oldPassword;
+	}
+
+	public void setOldPassword(String oldPassword) {
+		this.oldPassword = oldPassword;
 	}
 
 }
