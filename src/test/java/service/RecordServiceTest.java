@@ -30,11 +30,11 @@ public class RecordServiceTest {
     	recordService.addRecord(record);
     }
     
-    @After
-    public void removeDeviceAndRecord() {
-    	recordService.deleteRecord(record);
-    	deviceService.deleteDevice(device);
-    }
+//    @After
+//    public void removeDeviceAndRecord() {
+//    	recordService.deleteRecord(record);
+//    	deviceService.deleteDevice(device);
+//    }
 
     @Test
     public void testAddAndGetRecord() {

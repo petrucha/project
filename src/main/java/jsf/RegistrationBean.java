@@ -104,6 +104,7 @@ public class RegistrationBean extends AbstractBean implements Serializable {
 		if (group == null) {
 			group = new Group();
 			group.setGroupname(groupname);
+			groupService.addGroup(group);
 		}
 
 		user.setGroup(group);

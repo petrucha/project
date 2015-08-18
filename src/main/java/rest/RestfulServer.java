@@ -1,5 +1,8 @@
 package rest;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -9,27 +12,27 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
+import entity.Device;
 import entity.Record;
 import rest.data.RecordData;
 import rest.data.RecordDataHelper;
+import service.DeviceService;
 import service.RecordService;
 
 //Sets the path to base URL + /v1
 @Path("/v1")
 public class RestfulServer {
 
-	private static RecordService instance = RecordService.getInstance();
+	private static RecordService recordService = RecordService.getInstance();	
+	private static DeviceService deviceService = DeviceService.getInstance();
 	private static RecordDataHelper instanceHelper = RecordDataHelper.getInstance();
 
 	@GET
 	@Path("/records")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response getRecords() {
-	//	return Response.status(200).entity(instance.getRecordsArray()).build();
-		Record[] array = instance.getRecordsArray();
-		//RecordData[] rd= instanceHelper.recordsToRecordsData(array);
-		RecordDataHelper help = new RecordDataHelper();
-		RecordData[] rd= help.recordsToRecordsData(array);
+		List<Record> records = recordService.getRecords();
+		RecordData[] rd = instanceHelper.recordsToRecordsData(records);
 		return Response.status(200).entity(rd).build();
 	}
 
@@ -38,8 +41,9 @@ public class RestfulServer {
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response getRecordsByDevice(@PathParam("device") String device) {
 	//	return Response.status(200).entity(instance.getRecordsByDevice(device)).build();
-		Record[] array = instance.getRecordsByDevice(device);
-		RecordData[] rd= instanceHelper.recordsToRecordsData(array);
+		Device devWithRecords = deviceService.getDeviceByMac(device, true);
+		List<Record> recordsList = new ArrayList<Record>(devWithRecords.getRecords());
+		RecordData[] rd = instanceHelper.recordsToRecordsData(recordsList);
 		return Response.status(200).entity(rd).build();
 	}
 
@@ -47,13 +51,14 @@ public class RestfulServer {
 	@Path("/records")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response postRecord(Record record) {
-        if(instance.addRecord(record)){      
-		 //  return Response.status(201).entity(record).build();
-    		 RecordData rd= instanceHelper.recordToRecordData(record);
-    		return Response.status(201).entity(rd).build();}
+	public Response postRecord(RecordData recordData) {
+		Record record = instanceHelper.recordDataToRecord(recordData);
+        if(recordService.addRecord(record)){      
+    		RecordData rd= instanceHelper.recordToRecordData(record);
+    		return Response.status(201).entity(rd).build();
+    	}
+        
         return Response.status(404).build();//HTTP error code
-
 	}
 	
 }

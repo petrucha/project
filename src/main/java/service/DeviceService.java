@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.hibernate.Hibernate;
 import org.hibernate.HibernateException;
 
 import util.HibernateUtil;
@@ -45,10 +46,27 @@ public class DeviceService implements Serializable {
 			device = deviceDAO.findByID(id);
 			HibernateUtil.commitTransaction();
 		} catch (HibernateException ex) {
-			System.out.println("Error: getDeviceById()");
+			System.out.println("Error: getDevice()");
 		}
+		
 		return device;
 	} 
+	
+	public Device getDeviceByMac(String mac, boolean withRecords) {
+		Device device = null;
+		try {
+			HibernateUtil.beginTransaction();
+			device = deviceDAO.getDevicByMac(mac);
+			if (withRecords && !Hibernate.isInitialized(device.getRecords())) {
+				Hibernate.initialize(device.getRecords());
+			}
+			HibernateUtil.commitTransaction();
+		} catch (HibernateException ex) {
+			System.out.println("Error: getDevice()");
+		}
+		
+		return device;
+	}
 	
 	public boolean updateDevice(Device device) {
 		try {
