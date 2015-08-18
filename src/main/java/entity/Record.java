@@ -15,8 +15,9 @@ public class Record  implements Serializable {
 	@Column(name = "id")
 	private int id;
 
-	@Column(name = "device")
-	private String device; 
+	@ManyToOne
+	@JoinColumn(name = "device_id")
+	private Device device; 
 
 	@Column(name = "quantity")
 	private String quantity;
@@ -26,6 +27,7 @@ public class Record  implements Serializable {
 
 	@Column(name = "timestamp")
 	private double timestamp; 
+	
 
 	public int getId() {
 		return id;
@@ -34,12 +36,12 @@ public class Record  implements Serializable {
 	public void setId(int id) {
 		this.id = id;
 	}
-
-	public String getDevice() {
+	
+	public Device getDevice() {
 		return device;
 	}
 
-	public void setDevice(String device) {
+	public void setDevice(Device device) {
 		this.device = device;
 	}
 
@@ -84,15 +86,15 @@ public class Record  implements Serializable {
 
 	@Override
 	public String toString() {
-		return "Record: [" + "device = " + device + ", quantity = "
-				+ quantity + ", value = " + value + ", timestamp = " + timestamp + "]";
+		return "Record [id=" + id + ", device=" + device + ", quantity=" + quantity + ", value=" + value
+				+ ", timestamp=" + timestamp + "]";
 	}
 
 	public Record() {
 		super();
 	}
 
-	public Record(String device, String quantity, int value, double timestamp) {
+	public Record(Device device, String quantity, int value, double timestamp) {
 		super();
 		this.device = device;
 		this.quantity = quantity;

@@ -112,13 +112,8 @@
 	</navigation-rule>
 
 	<navigation-rule>
-		<display-name>pages/records/table.xhtml</display-name>
-		<from-view-id>/pages/records/table.xhtml</from-view-id>
-	</navigation-rule>
-
-	<navigation-rule>
-		<display-name>pages/records/charts.xhtml</display-name>
-		<from-view-id>/pages/records/charts.xhtml</from-view-id>
+		<display-name>pages/admin/graph.xhtml</display-name>
+		<from-view-id>/pages/admin/graph.xhtml</from-view-id>
 	</navigation-rule>
 
 	<validator>
