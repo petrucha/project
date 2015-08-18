@@ -37,7 +37,7 @@ public class UserServiceTest {
     	
     	userService.addUser(user);
     	Assert.assertTrue(user.getId() != 0);
-        User createdUser = userService.getUserByUsernameAndPassword(user.getUsername(), user.getPassword());
+        User createdUser = userService.getUserById(user.getId());
         Assert.assertNotNull(createdUser);
         System.out.println(createdUser);
         
@@ -46,7 +46,7 @@ public class UserServiceTest {
         Assert.assertEquals(createdUser.getLastname(), user.getLastname());
         Assert.assertEquals(createdUser.getPassword(), user.getPassword());
         Assert.assertEquals(createdUser.getUsername(), user.getUsername());
-//        Assert.assertTrue(createdUser.getDevices().contains(device));
+        Assert.assertTrue(createdUser.getDevices().contains(device));
         Assert.assertEquals(createdUser.getGroup(), user.getGroup());
         Assert.assertEquals(createdUser.getId(), user.getId());
         

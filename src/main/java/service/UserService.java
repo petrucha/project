@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.hibernate.Hibernate;
 import org.hibernate.HibernateException;
 
 import util.HibernateUtil;
@@ -32,6 +33,21 @@ public class UserService implements Serializable {
 			HibernateUtil.commitTransaction();
 		} catch (HibernateException ex) {
 			System.out.println("Error: getUserByUsernameAndPassword()");
+		}
+		return user;
+	}
+	
+	public User getUserById(int id) {
+		User user = null;
+		try {
+			HibernateUtil.beginTransaction();
+			user = userDAO.findByID(id);
+			if (!Hibernate.isInitialized(user.getDevices())) {
+				Hibernate.initialize(user.getDevices());
+			}
+			HibernateUtil.commitTransaction();
+		} catch (HibernateException ex) {
+			System.out.println("Error: getUserById(" + id + ")");
 		}
 		return user;
 	}

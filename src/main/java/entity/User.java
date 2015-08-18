@@ -2,6 +2,7 @@ package entity;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.Set;
 
 import javax.persistence.*;
@@ -44,7 +45,7 @@ public class User implements Serializable {
 	@JoinTable(name = "user_device",
 		joinColumns = { @JoinColumn(name = "user_id", nullable = false) }, 
 		inverseJoinColumns = { @JoinColumn(name = "device_id", nullable = false) })
-	private Set<Device> devices;
+	private Set<Device> devices = new HashSet<Device>(0);
 	
 	
 	public User(String username, String password, String firstname, String lastname, Date birthday,

@@ -2,6 +2,7 @@ package service;
 
 import java.io.Serializable;
 
+import org.hibernate.Hibernate;
 import org.hibernate.HibernateException;
 
 import util.HibernateUtil;

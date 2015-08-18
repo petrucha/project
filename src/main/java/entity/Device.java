@@ -1,6 +1,7 @@
 package entity;
 
 import java.io.Serializable;
+import java.util.HashSet;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -32,10 +33,10 @@ public class Device implements Serializable {
 	private String mac;
 	
 	@OneToMany(mappedBy = "device") // do change (cascade type)
-	private Set<Record> records;
+	private Set<Record> records = new HashSet<Record>(0);
 	
 	@ManyToMany(mappedBy = "devices")
-	private Set<User> users;
+	private Set<User> users = new HashSet<User>(0);
 	
 	
 	public Device(String mac) {

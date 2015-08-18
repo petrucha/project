@@ -34,7 +34,7 @@ public class Group implements Serializable {
 	private String groupdesc;
 
 	@OneToMany(mappedBy = "group")
-	private Set<User> users;
+	private Set<User> users =  new HashSet<User>(0);
 	
 	
 	public Group(String groupname, String groupdesc) {
@@ -44,7 +44,7 @@ public class Group implements Serializable {
 	}
 	
 	public Group() {
-//		users = new HashSet<User>();
+	
 	}
 
 	
