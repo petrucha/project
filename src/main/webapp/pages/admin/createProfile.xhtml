@@ -100,6 +100,7 @@
 								<p:inputText id="lastName" label="Last Name"
 									value="#{registrationBean.lastname}" required="true"
 									title="Enter your Last Name!">
+									<f:validateLength minimum="2" />
 								</p:inputText>
 								<h:panelGroup>
 									<p:message id="lastNameMsg" for="lastName" />

@@ -11,40 +11,113 @@
 	<ui:composition>
 
 		<h:form>
-			<h:panelGrid class="editPanelGrid" columns="2">
 
-				<h:outputLabel for="username" value="Username:" />
-				<p:inplace id="username">
-					<p:inputText value="#{profileViewEditBean.getCurrentUser().username}" />
-				</p:inplace>
+			<p:fieldset legend="Profile">
 
-				<h:outputLabel for="password" value="Password:" />
-				<p:inplace id="password">
-					<p:inputText value="#{profileViewEditBean.currentUser.password}" />
-				</p:inplace>
+				<h:panelGrid id="profilePanelGrid" class="centerPanelGrid" cellspacing="8" columns="3">
 
-				<h:outputLabel for="firstname" value="First Name:" />
-				<p:inplace id="firstname">
-					<p:inputText value="#{profileViewEditBean.currentUser.firstname}" />
-				</p:inplace>
+					<f:facet name="header">
+                                      Edit profile data on double click
+                                       <p:separator />
+					</f:facet>
 
-				<h:outputLabel for="lastname" value="Last Name:" />
-				<p:inplace id="lastname">
-					<p:inputText value="#{profileViewEditBean.currentUser.lastname}" />
-				</p:inplace>
+					<h:outputLabel class="outputLabel" for="username" value="Username" />
+					<h:outputLabel class="outputLabel" value=":" />
+					<p:inplace id="username" editor="true" effectSpeed="fast"
+						event="dblclick">
+						<p:inputText value="#{profileViewEditBean.currentUser.username}"
+							required="true" title="Minimum length: 2">
+							<f:validateLength minimum="2" />
+						</p:inputText>
+					</p:inplace>
 
-				<h:outputLabel for="birthday" value="Birthday:" />
-				<p:inplace id="birthday">
-					<p:inputText value="#{profileViewEditBean.currentUser.birthday}" />
-				</p:inplace>
+					<h:outputLabel class="outputLabel" for="firstname"
+						value="First Name" />
+					<h:outputLabel class="outputLabel" value=":" />
+					<p:inplace id="firstname" editor="true" effectSpeed="fast"
+						event="dblclick">
+						<p:inputText value="#{profileViewEditBean.currentUser.firstname}"
+							required="true" title="Minimum length: 2">
+							<f:validateLength minimum="2" />
+						</p:inputText>
+					</p:inplace>
 
-				<h:outputLabel for="email" value="Email:" />
-				<p:inplace id="birthday">
-					<p:inputText value="#{profileViewEditBean.currentUser.email}" />
-				</p:inplace>
+					<h:outputLabel class="outputLabel" for="lastname" value="Last Name" />
+					<h:outputLabel class="outputLabel" value=":" />
+					<p:inplace id="lastname" editor="true" effectSpeed="fast"
+						event="dblclick">
+						<p:inputText value="#{profileViewEditBean.currentUser.lastname}"
+							required="true" title="Minimum length: 2">
+							<f:validateLength minimum="2" />
+						</p:inputText>
+					</p:inplace>
 
-			</h:panelGrid>
+					<h:outputLabel class="outputLabel" for="birthday" value="Birthday" />
+					<h:outputLabel class="outputLabel" value=":" />
+					<p:inplace id="birthday" editor="true" effectSpeed="fast"
+						event="dblclick">
+						<p:inputMask id="date" label="Birthday"
+							value="#{profileViewEditBean.currentUser.birthday}"
+							mask="99/99/9999" required="true"
+							title="Enter your birthday: dd/mm/yyyy">
+							<f:convertDateTime pattern="dd/MM/yyyy"></f:convertDateTime>
+						</p:inputMask>
+					</p:inplace>
 
+					<h:outputLabel class="outputLabel" for="email" value="Email" />
+					<h:outputLabel class="outputLabel" value=":" />
+					<p:inplace id="email" editor="true" effectSpeed="fast"
+						event="dblclick">
+						<p:inputText value="#{profileViewEditBean.currentUser.email}"
+							required="true">
+							<f:validateRegex
+								pattern="^[_A-Za-z0-9-\+]+(\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\.[A-Za-z0-9]+)*(\.[A-Za-z]{2,})$" />
+						</p:inputText>
+					</p:inplace>
+
+					<f:facet name="footer">
+						<p:separator />
+						<p:commandButton action="#{profileViewEditBean.saveProfile()}" value="Save"
+							update="profilePanelGrid" />
+					</f:facet>
+				</h:panelGrid>
+
+			</p:fieldset>
+			</h:form>
+			<h:form>
+			<p:fieldset legend="Password" toggleable="true" toggleSpeed="500" collapsed = "true">
+
+				<h:panelGrid id="toggPanelGrid" class="centerPanelGrid" cellspacing="8" columns="3">
+					<f:facet name="header">
+                	    Change password 
+                            <p:separator />
+					</f:facet>
+					<h:outputLabel class="outputLabel" value="Old password" />
+					<h:outputLabel class="outputLabel" value=":" />
+					<p:password id="oldpass"
+						value="#{profileViewEditBean.oldPassword}"
+						title="Please enter a password!" />
+
+					<h:outputText class="outputLabel" value="New Password" />
+					<h:outputText class="outputLabel" value=":" />
+					<p:password id="pass1" value="#{profileViewEditBean.newPassword}"
+						required="true" title="Please enter a password!" feedback="true"
+						match="pass2">
+						<f:validateLength minimum="2" />
+					</p:password>
+
+					<h:outputText class="outputLabel" value="Repeat Password" />
+					<h:outputText class="outputLabel" value=":" />
+					<p:password id="pass2" required="true"
+						title="Please Confirm Password!" />
+
+					<f:facet name="footer">
+						<p:separator />
+						<p:commandButton action="#{profileViewEditBean.savePassword()}" value="Save"
+							update="toggPanelGrid" />
+					</f:facet>
+				</h:panelGrid>
+			</p:fieldset>
 		</h:form>
 	</ui:composition>
 
