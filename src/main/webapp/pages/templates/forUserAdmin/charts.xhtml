@@ -102,15 +102,17 @@
 				<f:facet name="right">
 					<h:outputText value="Stcik: " />
 					<p:inputSwitch value="#{chartsViewBean.sticky}" >
-					<p:ajax event="change" update="stickerHolder" />
+						<p:ajax event="change" update="sticker tb" />
 					</p:inputSwitch>
 				</f:facet>
 
 			</p:toolbar>
 			
-			<p:separator id="stickerHolder">
+			<h:panelGroup id="sticker">
 				<p:sticky target="tb" rendered="#{chartsViewBean.sticky}" />
-			</p:separator>
+			</h:panelGroup>
+			
+			<p:separator/>
 
 			<p:chart type="bar" model="#{chartsViewBean.barModel}"
 				style="height:400px;width:98%;" id="barChart" responsive="true" />
