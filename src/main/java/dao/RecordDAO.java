@@ -22,9 +22,10 @@ public class RecordDAO extends AbstractDAO<Record> {
 	 * @param endTime
 	 * @return records by time and devices
 	 */
-	public List<Record[]> getRecordByDevicesAndTime(final String[] macs,
-												  final double startTime, 
-												  final double endTime) {
+	public List<Record[]> getRecordsForLineChart(final String[] macs,
+												final String quantity,
+												final double startTime, 
+												final double endTime) {
 		List<Record[]> sortedRecords = new ArrayList<Record[]>();
 		if (macs.length == 0) {
 			sortedRecords.add(new Record[0]);
@@ -34,8 +35,11 @@ public class RecordDAO extends AbstractDAO<Record> {
 		Session hibernateSession = this.getSession();
 		String hql = "FROM Record r WHERE "
 				+ "(r.timestamp BETWEEN :startTime and :endTime) "
-				+ "AND (r.device.mac = :mac)";
+				+ "AND r.device.mac = :mac "
+				+ "AND r.quantity = :quantity "
+				+ "ORDER BY r.timestamp ASC";
 		Query query = hibernateSession.createQuery(hql)
+				.setParameter("quantity", quantity)
 				.setParameter("startTime", startTime)
 				.setParameter("endTime", endTime);
 		//dividing records by device
@@ -56,6 +60,7 @@ public class RecordDAO extends AbstractDAO<Record> {
 	 * @return record averages by time and devices
 	 */
 	public HashMap<String, Double> getFilteredAverages(final String[] macs,
+												final String quantity,
 												final double startTime,
 												final double endTime) {
 		HashMap<String, Double> averages = new HashMap<String, Double>();
@@ -66,14 +71,17 @@ public class RecordDAO extends AbstractDAO<Record> {
 		Session hibernateSession = this.getSession();
 		String hql = "SELECT AVG(r.value) FROM Record r "
 				+ "WHERE (r.timestamp BETWEEN :startTime and :endTime) "
-				+ "AND (r.device.mac = :mac)";
+				+ "AND r.device.mac = :mac "
+				+ "AND r.quantity = :quantity";
 		Query query = hibernateSession.createQuery(hql)
+				.setParameter("quantity", quantity)
 				.setParameter("startTime", startTime)
 				.setParameter("endTime", endTime);
 		// dividing records by device
 		for (String mac : macs) {
 			query.setParameter("mac", mac);
 			Double average = (Double) query.uniqueResult();
+			System.out.println(average+"averageasdasdas");
 			averages.put(mac, average);
 		}
 
@@ -86,7 +94,7 @@ public class RecordDAO extends AbstractDAO<Record> {
 	 * @param recordsCount
 	 * @return last records
 	 */
-	public List<Record[]> getLastRecords(final String[] macs, final int recordsCount) {
+	public List<Record[]> getLastRecords(final String[] macs, final String quantity, final int recordsCount) {
 		List<Record[]> lastRecords = new ArrayList<Record[]>();
 		if (macs.length == 0) {
 			lastRecords.add(new Record[0]);
@@ -94,14 +102,21 @@ public class RecordDAO extends AbstractDAO<Record> {
 		}
 		
 		Session hibernateSession = this.getSession();
-		String hql = "SELECT r FROM Record r WHERE r.device.mac = :mac ORDER BY r.timestamp DESC";
-		Query query = hibernateSession.createQuery(hql).setMaxResults(recordsCount);
+		String hql = "FROM Record r WHERE r.device.mac = :mac "
+				+ "AND r.quantity = :quantity "
+				+ "ORDER BY r.timestamp ASC";
+		Query query = hibernateSession.createQuery(hql)
+				.setParameter("quantity", quantity)
+				.setMaxResults(recordsCount);
 		//dividing records by device
 		for (String mac : macs) {
 			query.setParameter("mac", mac);
 			List<Record> recordList = this.findMany(query);
 			Record[] deviceRecords = new Record[recordList.size()];
 			lastRecords.add(recordList.toArray(deviceRecords));
+			for (Record record : deviceRecords) {
+				System.out.println(record);
+			}
 		}
 		
 		return lastRecords;

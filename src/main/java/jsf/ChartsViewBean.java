@@ -1,6 +1,7 @@
 package jsf;
 
 import java.io.Serializable;
+import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -22,13 +23,14 @@ import org.primefaces.model.chart.PieChartModel;
 import entity.Record;
 import service.DeviceService;
 import service.RecordService;
+import util.DateUtil;
 
 public class ChartsViewBean extends AbstractBean implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
 	private static RecordService recordService = RecordService.getInstance();
-	
+
 	private static DeviceService deviceService = DeviceService.getInstance();
 
 	// Bean variables
@@ -46,7 +48,7 @@ public class ChartsViewBean extends AbstractBean implements Serializable {
 	private Date startDate = new Date();
 
 	private Date endDate = new Date();
-	
+
 	private int recordsCount;
 
 	// Constructor
@@ -58,9 +60,9 @@ public class ChartsViewBean extends AbstractBean implements Serializable {
 		// last 3 records
 		recordsCount = 3;
 		// initializing models
+		createBarModel();
 		createLineModel();
 		createPieModel();
-		createBarModel();
 	}
 
 	// Getters and setters
@@ -132,7 +134,7 @@ public class ChartsViewBean extends AbstractBean implements Serializable {
 	// Chart methods
 
 	private void createBarModel() {
-		List<Record[]> recordArrays = recordService.getLastRecords(selectedDevices, recordsCount);
+		List<Record[]> recordArrays = recordService.getLastRecords(selectedDevices, "temp", recordsCount);
 		BarChartModel model = new BarChartModel();
 
 		for (Record[] recs : recordArrays) {
@@ -152,8 +154,8 @@ public class ChartsViewBean extends AbstractBean implements Serializable {
 	}
 
 	private void createLineModel() {
-		List<Record[]> recordArrays = recordService.getRecordsByDevicesAndTime(selectedDevices, startDate.getTime(),
-				endDate.getTime());
+		List<Record[]> recordArrays = recordService.getRecordsForLineChart(selectedDevices, "temp", startDate,
+				endDate);
 		LineChartModel model = new LineChartModel();
 
 		for (Record[] recs : recordArrays) {
@@ -168,22 +170,21 @@ public class ChartsViewBean extends AbstractBean implements Serializable {
 
 		lineModel.getAxis(AxisType.Y).setLabel("Temperature C\u00b0");
 		DateAxis axisX = new DateAxis("Dates");
-		String tomorrow = printTomorrow();
-		// set tomorrow as max day
+		String nextHour = DateUtil.printNextHour(endDate);
+		
 		axisX.setTickAngle(-50);
-		axisX.setMax(tomorrow);
-		axisX.setTickFormat("%b %#d | %H:%M");
+		axisX.setMax(nextHour);
+		axisX.setTickFormat("%#d %b %H:%M");
 		lineModel.getAxes().put(AxisType.X, axisX);
 	}
 
 	private void createPieModel() {
-		HashMap<String, Double> averages = recordService.getFilteredAverages(selectedDevices,
-																		startDate.getTime(),
-																		endDate.getTime());
+		HashMap<String, Double> averages = recordService.getFilteredAverages(selectedDevices, "temp", startDate,
+				endDate);
 		pieModel = new PieChartModel();
 		System.out.println(averages.size());
-		if (averages.size()==0) {
-			pieModel.set("No records found.", 0);
+		if (averages.size() == 0) {
+			pieModel.set("No records found for the period.", 0);
 		} else {
 			for (String key : averages.keySet()) {
 				pieModel.set(key, averages.get(key));
@@ -194,24 +195,46 @@ public class ChartsViewBean extends AbstractBean implements Serializable {
 		pieModel.setLegendPosition("w");
 		pieModel.setShowDataLabels(true);
 	}
+	
+	// initializing methods
 
 	private ChartSeries initModel(Record[] records) {
 		ChartSeries series = new ChartSeries();
-		SimpleDateFormat fmt = new SimpleDateFormat("yyyy-MM-dd hh:mm");
-		
+		SimpleDateFormat fmtOut = new SimpleDateFormat("dd MMM hh:mm:ss");
+
 		if (records.length == 0) {
-			series.setLabel("No records found.");
-			series.set(fmt.format(new Date()), 0);
+			series.setLabel("No records found for the period.");
+			series.set(fmtOut.format(new Date()), 0);
 		} else {
 			series.setLabel(records[0].getDevice().getMac());
 			// creating value data for chart series
 			for (Record rec : records) {
-				String date = fmt.format(rec.getTimestamp());
-				series.set(date, rec.getValue());
+				String formatedDate = DateUtil.timestampToStringFmt(rec.getTimestamp());
+				series.set(formatedDate, rec.getValue());
 			}
 		}
-	
+
 		return series;
+	}
+	
+	private void initSelectedDevices() {
+		devices = deviceService.getAllMacs(true);
+		// choosing first 5 devices
+		if (devices.size() < 5) {
+			selectedDevices = new String[devices.size()];
+		} else {
+			selectedDevices = new String[5];
+		}
+		for (int i = 0; (i < devices.size()) && (i < 5); i++) {
+			selectedDevices[i] = devices.get(i);
+		}
+	}
+
+	private void initTimeSpan() {
+		Calendar cal = Calendar.getInstance();
+		cal.add(Calendar.DATE, -1);
+		startDate = cal.getTime();
+		endDate = new Date();
 	}
 
 	// filter methods
@@ -227,42 +250,9 @@ public class ChartsViewBean extends AbstractBean implements Serializable {
 		facesContext.addMessage(null,
 				new FacesMessage(FacesMessage.SEVERITY_INFO, "Date Selected", format.format(event.getObject())));
 	}
-	
+
 	public void refreshBar() {
 		createBarModel();
-	}
-
-	// utility methods
-
-	private String printTomorrow() {
-		Date dt = new Date();
-		Calendar c = Calendar.getInstance();
-		c.setTime(dt);
-		c.add(Calendar.DATE, 1);
-		dt = c.getTime();
-		String tomorrow = new SimpleDateFormat("yyyy-MM-dd").format(dt);
-		return tomorrow;
-	}
-	
-	private void initSelectedDevices() {
-		devices = deviceService.getAllMacs(true);
-		// choosing first 5 devices
-		if (devices.size() < 5) {
-			selectedDevices = new String[devices.size()];
-		} else {
-			selectedDevices = new String[5];
-		}
-		for (int i = 0; (i < devices.size()) && (i < 5); i++) {
-			selectedDevices[i] = devices.get(i);
-		}
-	}
-	
-	private void initTimeSpan() {
-		Calendar cal = Calendar.getInstance();
-		cal.add(Calendar.MONTH, -1);
-		// cal.set(Calendar.DATE, 1);
-		startDate = cal.getTime();
-		endDate = new Date();
 	}
 
 }

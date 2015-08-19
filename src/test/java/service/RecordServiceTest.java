@@ -5,12 +5,14 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.sql.Timestamp;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
 import entity.Device;
 import entity.Record;
+import util.DateUtil;
 import util.TestUtil;
 
 public class RecordServiceTest {
@@ -26,15 +28,15 @@ public class RecordServiceTest {
     public void createDeviceAndRecord() {
     	device = new Device(TestUtil.randomMacAddress());
     	deviceService.addDevice(device);
-    	record = new Record(device, "111", (int) new Date().getTime()%200, new Date().getTime());
+    	record = new Record(device, "test", (int) new Date().getTime()%200, DateUtil.dateToTimestamp(new Date()));
     	recordService.addRecord(record);
     }
     
-//    @After
-//    public void removeDeviceAndRecord() {
-//    	recordService.deleteRecord(record);
-//    	deviceService.deleteDevice(device);
-//    }
+    @After
+    public void removeDeviceAndRecord() {
+    	recordService.deleteRecord(record);
+    	deviceService.deleteDevice(device);
+    }
 
     @Test
     public void testAddAndGetRecord() {
@@ -53,7 +55,7 @@ public class RecordServiceTest {
     @Test
     public void testDeleteRecord() {
     	Device device = new Device(TestUtil.randomMacAddress());
-    	Record created = new Record(device, "111", 222, new Date().getTime());
+    	Record created = new Record(device, "test", 222, DateUtil.dateToTimestamp(new Date()));
     	
         recordService.deleteRecord(created);
         Assert.assertNull(recordService.getRecord(created.getId()));
@@ -62,7 +64,7 @@ public class RecordServiceTest {
     @Test
     public void testGetRecordsByDevicesAndTime() {
     	String[] devices = {device.getMac()};
-    	List<Record[]> records = recordService.getRecordsByDevicesAndTime(devices, 0, new Date().getTime());
+    	List<Record[]> records = recordService.getRecordsForLineChart(devices, "test", DateUtil.getYesterday(), new Date());
 
     	Assert.assertTrue(records.size() > 0);
     	for (Record[] recs : records) {
@@ -79,7 +81,7 @@ public class RecordServiceTest {
     @Test
     public void testGetFilteredAverages() {
     	String[] devices = {device.getMac()};
-    	HashMap<String, Double> averages = recordService.getFilteredAverages(devices, 0, new Date().getTime());
+    	HashMap<String, Double> averages = recordService.getFilteredAverages(devices, "test", DateUtil.getYesterday(), new Date());
     	
     	Assert.assertTrue(averages.size() > 0);
     	
@@ -93,7 +95,7 @@ public class RecordServiceTest {
     	String[] devices = {device.getMac()};
     	//e.g. lets get last 5 records
     	int recordsCount = 5;
-    	List<Record[]> records = recordService.getLastRecords(devices, recordsCount);
+    	List<Record[]> records = recordService.getLastRecords(devices, "test", recordsCount);
     	
     	Assert.assertTrue(records.size() > 0);
     	for (Record[] recs : records) {

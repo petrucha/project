@@ -17,7 +17,7 @@ public class DeviceDAO extends AbstractDAO<Device> {
 		Session hibernateSession = this.getSession();
 		String hql = "FROM Device d";
 		if (notEmpty) {
-			hql += " INNER JOIN d.records";
+			hql += " WHERE d.records IS NOT EMPTY";
 		}
 		Query query = hibernateSession.createQuery(hql);
 
@@ -29,7 +29,7 @@ public class DeviceDAO extends AbstractDAO<Device> {
 		Session hibernateSession = this.getSession();
 		String hql = "SELECT d.mac FROM Device d";
 		if (notEmpty) {
-			hql += " INNER JOIN d.records";
+			hql += " WHERE d.records IS NOT EMPTY";
 		}
 		Query query = hibernateSession.createQuery(hql);
 
