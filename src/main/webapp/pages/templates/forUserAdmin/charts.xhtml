@@ -9,102 +9,125 @@
 
 <h:body>
 	<ui:composition>
+
 		<h:form>
 
-			<h:panelGrid columns="5" cellpadding="2" class="panelGridCenter">
+			<p:toolbar id="tb">
 
-				<p:column>
-					<h3>Devices:</h3>
-				</p:column>
-				<p:column>
-					<p:selectCheckboxMenu id="menu" class="filters"
-						label="Select devices" value="#{chartsViewBean.selectedDevices}"
-						filter="true" filterMatchMode="startsWith"
-						panelStyle="width:400px">
-						<f:selectItems value="#{chartsViewBean.devices}" />
-					</p:selectCheckboxMenu>
-				</p:column>
-				<p:column>
-					<h3>Limit:</h3>
-				</p:column>
-				<p:column>
-					<h:outputText id="output"
-						value="Show last #{chartsViewBean.recordsCount} records per device" />
-					<h:inputHidden id="txt2" value="#{chartsViewBean.recordsCount}" />
-					<p:slider for="txt2" display="output" style="width: 200px"
-						displayTemplate="Show last {value} records per device" step="1"
-						minValue="1" maxValue="10" />
-				</p:column>
-				<p:column>
-					<p:remoteCommand name="refrBar" update="barChart"
-						actionListener="#{chartsViewBean.refreshBar}" />
-					<p:commandButton type="button" onclick="refrBar()" value="Refresh"
-						icon="ui-icon-refresh" class="filters" />
-				</p:column>
+				<f:facet name="left">
 
-			</h:panelGrid>
+					<p:tabView>
+
+						<p:tab title="General">
+							<h:outputText value="Type :" />
+							<p:selectOneButton value="#{chartsViewBean.recordsType}">
+								<f:selectItem itemLabel="Temperature" itemValue="temp" />
+								<f:selectItem itemLabel="Pressure" itemValue="pres" />
+								<f:selectItem itemLabel="Humidity" itemValue="humi" />
+							</p:selectOneButton>
+
+							<p:commandButton type="button" onclick="refrCharts()"
+								value="Refresh" icon="ui-icon-refresh" class="filters" />
+						</p:tab>
+
+						<p:tab title="Bar Chart">
+							<h:panelGrid columns="5" cellpadding="1">
+								<p:column>
+									<h3>Devices:</h3>
+								</p:column>
+								<p:column>
+									<p:selectCheckboxMenu id="menu" class="filters"
+										label="Select devices"
+										value="#{chartsViewBean.selectedDevices}" filter="true"
+										filterMatchMode="startsWith" panelStyle="width:400px">
+										<f:selectItems value="#{chartsViewBean.devices}" />
+									</p:selectCheckboxMenu>
+								</p:column>
+								<p:column>
+									<h3>Limit:</h3>
+								</p:column>
+								<p:column>
+									<h:outputText id="output"
+										value="Show last #{chartsViewBean.recordsCount} records per device" />
+									<h:inputHidden id="txt2" value="#{chartsViewBean.recordsCount}" />
+									<p:slider for="txt2" display="output" style="width: 200px"
+										displayTemplate="Show last {value} records per device"
+										step="1" minValue="1" maxValue="5" />
+								</p:column>
+								<p:column>
+									<p:commandButton type="button" onclick="refrCharts()"
+										value="Refresh" icon="ui-icon-refresh" class="filters" />
+								</p:column>
+
+							</h:panelGrid>
+						</p:tab>
+
+						<p:tab title="Line &amp; Average Chart">
+							<h:panelGrid columns="4" cellpadding="2">
+
+								<p:column>
+									<h3>Start Date and Time:</h3>
+									<p:calendar id="startDate" value="#{chartsViewBean.startDate}"
+										pattern="dd/MM/yyyy HH:mm:ss" mask="true" class="filters" />
+								</p:column>
+
+								<p:column>
+									<h3>End Date and Time:</h3>
+									<p:calendar id="endDate" value="#{chartsViewBean.endDate}"
+										pattern="dd/MM/yyyy HH:mm:ss" mask="true" class="filters" />
+								</p:column>
+
+								<p:column>
+									<h3>Devices:</h3>
+									<p:selectCheckboxMenu id="menu1" class="filters"
+										label="Select devices"
+										value="#{chartsViewBean.selectedDevices}" filter="true"
+										filterMatchMode="startsWith" panelStyle="width:400px">
+										<f:selectItems value="#{chartsViewBean.devices}" />
+									</p:selectCheckboxMenu>
+								</p:column>
+
+								<p:column>
+									<p:commandButton type="button" onclick="refrCharts()"
+										value="Refresh" icon="ui-icon-refresh" class="filters" />
+								</p:column>
+
+							</h:panelGrid>
+						</p:tab>
+
+					</p:tabView>
+
+				</f:facet>
+
+				<f:facet name="right">
+					<h:outputText value="Stcik: " />
+					<p:inputSwitch value="#{chartsViewBean.sticky}" >
+					<p:ajax event="change" update="stickerHolder" />
+					</p:inputSwitch>
+				</f:facet>
+
+			</p:toolbar>
+			
+			<p:separator id="stickerHolder">
+				<p:sticky target="tb" rendered="#{chartsViewBean.sticky}" />
+			</p:separator>
 
 			<p:chart type="bar" model="#{chartsViewBean.barModel}"
 				style="height:400px;width:98%;" id="barChart" responsive="true" />
 
-		</h:form>
+			<p:separator />
 
-		<br />
+			<p:chart type="line" model="#{chartsViewBean.lineModel}"
+				id="lineChart" responsive="true" style="height:400px;width:98%;" />
 
-		<h:form>
+			<p:separator />
 
-			<div class="pieAndLineCharts">
+			<p:chart type="pie" model="#{chartsViewBean.pieModel}"
+				style="height:400px;widht:98%" id="pieChart" responsive="true" />
 
-				<p:chart type="line" model="#{chartsViewBean.lineModel}"
-					id="lineChart" responsive="true" style="height:400px;width:98%;" />
-
-				<div class="ui-grid ui-grid-responsive">
-					<div class="ui-grid-row ">
-
-						<div class="ui-grid-col-6 chartsPageBottom">
-
-							<p:chart type="pie" model="#{chartsViewBean.pieModel}"
-								style="height:300px;widht:400px" id="pieChart" responsive="true" />
-
-						</div>
-
-						<div class="ui-grid-col-2 chartsFilters"></div>
-
-						<div class="ui-grid-col-4 chartsFilters">
-
-							<h:panelGrid columns="1" cellpadding="2">
-
-								<h3>Start Date and Time:</h3>
-								<p:calendar id="startDate" value="#{chartsViewBean.startDate}"
-									pattern="dd/MM/yyyy HH:mm" mask="true" />
-
-								<h3>End Date and Time:</h3>
-								<p:calendar id="endDate" value="#{chartsViewBean.endDate}"
-									pattern="dd/MM/yyyy HH:mm" mask="true" />
-
-								<h3>Devices:</h3>
-								<p:selectCheckboxMenu id="menu" class="filters"
-									label="Select devices"
-									value="#{chartsViewBean.selectedDevices}" filter="true"
-									filterMatchMode="startsWith" panelStyle="width:400px">
-									<f:selectItems value="#{chartsViewBean.devices}" />
-								</p:selectCheckboxMenu>
-
-								<p:remoteCommand name="refrLineAndPie"
-									update="lineChart pieChart"
-									actionListener="#{chartsViewBean.filtersChange}" />
-								<p:commandButton type="button" onclick="refrLineAndPie()"
-									value="Refresh" icon="ui-icon-refresh" class="filters" />
-
-							</h:panelGrid>
-
-						</div>
-
-					</div>
-
-				</div>
-
-			</div>
+			<p:remoteCommand name="refrCharts"
+				update="barChart pieChart lineChart"
+				actionListener="#{chartsViewBean.filtersChange}" />
 
 		</h:form>
 

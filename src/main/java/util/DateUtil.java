@@ -7,7 +7,7 @@ import java.util.Date;
 public class DateUtil {
 	
 	public static double dateToTimestamp(Date date) {
-		SimpleDateFormat format = new SimpleDateFormat("yyyyMMddhhmmss");
+		SimpleDateFormat format = new SimpleDateFormat("yyyyMMddkkmmss");
 		String dateString = format.format(date);
 		
 		return Double.parseDouble(dateString);
@@ -29,15 +29,15 @@ public class DateUtil {
 	public static String toShortDateFormat(double datetime) {
 		StringBuffer sbIn = new StringBuffer(String.format("%.0f", datetime));
 		StringBuffer sbOut = new StringBuffer();
-		sbOut.append(sbIn.substring(6, 7));
+		sbOut.append(sbIn.substring(6, 8));
 		sbOut.append('/');
-		sbOut.append(sbIn.substring(4, 5));
+		sbOut.append(sbIn.substring(4, 6));
 		sbOut.append(' ');
-		sbOut.append(sbIn.substring(8, 9));
+		sbOut.append(sbIn.substring(8, 10));
 		sbOut.append(':');
-		sbOut.append(sbIn.substring(10, 11));
+		sbOut.append(sbIn.substring(10, 12));
 		sbOut.append(':');
-		sbOut.append(sbIn.substring(12, 13));
+		sbOut.append(sbIn.substring(12, 14));
 		
 		return sbOut.toString();
 	}
@@ -56,7 +56,7 @@ public class DateUtil {
 		c.setTime(dt);
 		c.add(Calendar.HOUR, 1);
 		dt = c.getTime();
-		return new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").format(dt);
+		return new SimpleDateFormat("yyyy-MM-dd kk:mm:ss").format(dt);
 	}
 	
 	public static Date getYesterday() {

@@ -40,6 +40,8 @@ public class ChartsViewBean extends AbstractBean implements Serializable {
 	private PieChartModel pieModel;
 
 	private BarChartModel barModel;
+	
+	private String recordsType;
 
 	private String[] selectedDevices;
 
@@ -50,6 +52,8 @@ public class ChartsViewBean extends AbstractBean implements Serializable {
 	private Date endDate = new Date();
 
 	private int recordsCount;
+	
+	private boolean sticky;
 
 	// Constructor
 
@@ -59,6 +63,8 @@ public class ChartsViewBean extends AbstractBean implements Serializable {
 		initTimeSpan();
 		// last 3 records
 		recordsCount = 3;
+		// by default is temperature
+		recordsType = "temp";
 		// initializing models
 		createBarModel();
 		createLineModel();
@@ -66,6 +72,22 @@ public class ChartsViewBean extends AbstractBean implements Serializable {
 	}
 
 	// Getters and setters
+
+	public String getRecordsType() {
+		return recordsType;
+	}
+
+	public void setRecordsType(String recordsType) {
+		this.recordsType = recordsType;
+	}
+
+	public boolean isSticky() {
+		return sticky;
+	}
+
+	public void setSticky(boolean sticky) {
+		this.sticky = sticky;
+	}
 
 	public PieChartModel getPieModel() {
 		return pieModel;
@@ -134,7 +156,7 @@ public class ChartsViewBean extends AbstractBean implements Serializable {
 	// Chart methods
 
 	private void createBarModel() {
-		List<Record[]> recordArrays = recordService.getLastRecords(selectedDevices, "temp", recordsCount);
+		List<Record[]> recordArrays = recordService.getLastRecords(selectedDevices, recordsType, recordsCount);
 		BarChartModel model = new BarChartModel();
 
 		for (Record[] recs : recordArrays) {
@@ -145,16 +167,17 @@ public class ChartsViewBean extends AbstractBean implements Serializable {
 
 		barModel.setTitle("Bar chart of last records");
 		barModel.setAnimate(true);
-		barModel.setLegendPosition("ne");
+		barModel.setLegendPosition("e");
 
-		barModel.getAxis(AxisType.Y).setLabel("Temperature C\u00b0");
+		String fullType = getFullNameOfRecordsType(recordsType);
+		barModel.getAxis(AxisType.Y).setLabel(fullType);
 
 		Axis xAxis = barModel.getAxis(AxisType.X);
 		xAxis.setLabel("Time");
 	}
 
 	private void createLineModel() {
-		List<Record[]> recordArrays = recordService.getRecordsForLineChart(selectedDevices, "temp", startDate,
+		List<Record[]> recordArrays = recordService.getRecordsForLineChart(selectedDevices, recordsType, startDate,
 				endDate);
 		LineChartModel model = new LineChartModel();
 
@@ -164,22 +187,25 @@ public class ChartsViewBean extends AbstractBean implements Serializable {
 		}
 		lineModel = model;
 
-		lineModel.setTitle("Temperature Chart");
+		lineModel.setTitle("Line Chart");
 		lineModel.setAnimate(true);
 		lineModel.setLegendPosition("e");
 
-		lineModel.getAxis(AxisType.Y).setLabel("Temperature C\u00b0");
+		String fullType = getFullNameOfRecordsType(recordsType);
+		lineModel.getAxis(AxisType.Y).setLabel(fullType);
 		DateAxis axisX = new DateAxis("Dates");
-		String nextHour = DateUtil.printNextHour(endDate);
+		
+		SimpleDateFormat fmt = new SimpleDateFormat("yyyy-MM-dd kk:mm:ss");
 		
 		axisX.setTickAngle(-50);
-		axisX.setMax(nextHour);
+		axisX.setMin(fmt.format(startDate));
+		axisX.setMax(fmt.format(endDate));
 		axisX.setTickFormat("%#d %b %H:%M");
 		lineModel.getAxes().put(AxisType.X, axisX);
 	}
 
 	private void createPieModel() {
-		HashMap<String, Double> averages = recordService.getFilteredAverages(selectedDevices, "temp", startDate,
+		HashMap<String, Double> averages = recordService.getFilteredAverages(selectedDevices, recordsType, startDate,
 				endDate);
 		pieModel = new PieChartModel();
 		System.out.println(averages.size());
@@ -192,7 +218,7 @@ public class ChartsViewBean extends AbstractBean implements Serializable {
 		}
 
 		pieModel.setTitle("Average per device");
-		pieModel.setLegendPosition("w");
+		pieModel.setLegendPosition("e");
 		pieModel.setShowDataLabels(true);
 	}
 	
@@ -200,11 +226,11 @@ public class ChartsViewBean extends AbstractBean implements Serializable {
 
 	private ChartSeries initModel(Record[] records) {
 		ChartSeries series = new ChartSeries();
-		SimpleDateFormat fmtOut = new SimpleDateFormat("dd MMM hh:mm:ss");
+		SimpleDateFormat fmt = new SimpleDateFormat("yyyy-MM-dd kk:mm:ss");
 
 		if (records.length == 0) {
 			series.setLabel("No records found for the period.");
-			series.set(fmtOut.format(new Date()), 0);
+			series.set(fmt.format(new Date()), 0);
 		} else {
 			series.setLabel(records[0].getDevice().getMac());
 			// creating value data for chart series
@@ -242,17 +268,18 @@ public class ChartsViewBean extends AbstractBean implements Serializable {
 	public void filtersChange() {
 		createLineModel();
 		createPieModel();
-	}
-
-	public void onDateSelect(SelectEvent event) {
-		FacesContext facesContext = FacesContext.getCurrentInstance();
-		SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
-		facesContext.addMessage(null,
-				new FacesMessage(FacesMessage.SEVERITY_INFO, "Date Selected", format.format(event.getObject())));
-	}
-
-	public void refreshBar() {
 		createBarModel();
 	}
-
+	
+	// util methods
+	
+	private String getFullNameOfRecordsType(String shortType) {
+		if (shortType.equals("temp")) {
+			return "Temperature C\u00b0";
+		} else if (shortType.equals("humi")) {
+			return "Humidity";
+		} else {
+			return "Pressure";
+		}
+	}
 }
