@@ -1,5 +1,7 @@
 package dao;
 
+import java.util.List;
+
 import org.hibernate.Query;
 import org.hibernate.Session;
 
@@ -25,6 +27,29 @@ public class UserDAO extends AbstractDAO<User> {
 		Query query = hibernateSession.createQuery(hql);
 		return ((Number) query.uniqueResult()).intValue();
 
+	}
+	
+	@SuppressWarnings("unchecked")
+	public List<String> getUsernamesByDevice(final int deviceId) {
+		Session hibernateSession = this.getSession();
+		String hql = "SELECT u.username FROM User u JOIN u.devices d WHERE d.id = :id";
+		Query query = hibernateSession.createQuery(hql)
+				.setParameter("id", deviceId);
+		
+		return query.list();
+	}
+	
+	@SuppressWarnings("unchecked")
+	public List<String> getUsernamesNotHavingDevice(final int deviceId){
+		Session hibernateSession = this.getSession();
+		String hql = "SELECT u.username FROM User u "
+				+ "LEFT JOIN u.devices d "
+				+ "WHERE d.id NOT IN (:id) "
+				+ "OR d.id IS NULL";
+		Query query = hibernateSession.createQuery(hql)
+				.setParameter("id", deviceId);
+		
+		return query.list();
 	}
 
 }

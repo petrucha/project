@@ -3,7 +3,6 @@ package service;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-
 import org.hibernate.Hibernate;
 import org.hibernate.HibernateException;
 
@@ -119,6 +118,30 @@ public class UserService implements Serializable {
 				System.out.println("Error: deleteUser()");
 				HibernateUtil.rollbackTransaction();
 			}
+	}
+	
+	public List<String> getUsernamesByDevice(int deviceId) {
+		List<String> usernames = new ArrayList<String>();
+		try {
+			HibernateUtil.beginTransaction();
+			usernames = userDAO.getUsernamesByDevice(deviceId);
+			HibernateUtil.commitTransaction();
+		} catch (HibernateException ex) {
+			System.out.println("Error: getUsernamesByDevice()");
+		}
+		return usernames;
+	}
+	
+	public List<String> getUsernamesNotHavingDevice(int deviceId) {
+		List<String> usernames = new ArrayList<String>();
+		try {
+			HibernateUtil.beginTransaction();
+			usernames = userDAO.getUsernamesNotHavingDevice(deviceId);
+			HibernateUtil.commitTransaction();
+		} catch (HibernateException ex) {
+			System.out.println("Error: getUsernamesNotHavingDevice()");
+		}
+		return usernames;
 	}
 
 }

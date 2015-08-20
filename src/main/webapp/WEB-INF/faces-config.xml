@@ -49,6 +49,12 @@
 		<managed-bean-class>jsf.DevicesViewBean</managed-bean-class>
 		<managed-bean-scope>view</managed-bean-scope>
 	</managed-bean>
+	
+	<managed-bean>
+		<managed-bean-name>deviceEditViewBean</managed-bean-name>
+		<managed-bean-class>jsf.DeviceEditViewBean</managed-bean-class>
+		<managed-bean-scope>view</managed-bean-scope>
+	</managed-bean>
 
 	<managed-bean>
 		<managed-bean-name>profileViewEditBean</managed-bean-name>
@@ -126,6 +132,11 @@
 	<navigation-rule>
 		<display-name>pages/admin/devices.xhtml</display-name>
 		<from-view-id>/pages/admin/devices.xhtml</from-view-id>
+	</navigation-rule>
+	
+	<navigation-rule>
+		<display-name>pages/admin/deviceEdit.xhtml</display-name>
+		<from-view-id>/pages/admin/deviceEdit.xhtml</from-view-id>
 	</navigation-rule>
 
 	<validator>
