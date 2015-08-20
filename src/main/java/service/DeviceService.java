@@ -131,6 +131,10 @@ public class DeviceService implements Serializable {
 		return macs;
 	}
 	
+	
+	/**
+	 * @return devices data for DevicesViewBean
+	 */
 	public List<DeviceData> getDevicesData() {
 		List<DeviceData> deviceDatas = new ArrayList<DeviceData>();
 		try {

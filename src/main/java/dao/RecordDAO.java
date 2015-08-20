@@ -129,8 +129,6 @@ public class RecordDAO extends AbstractDAO<Record> {
 		Query query = hibernateSession.createQuery(hql)
 				.setParameter("id", device_id)
 				.setMaxResults(1);
-		int tes = 1 + 2;
-		Record rec = this.findOne(query);
 		
 		return this.findOne(query);
 	}

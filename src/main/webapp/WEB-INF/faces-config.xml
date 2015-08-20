@@ -43,13 +43,13 @@
 		<managed-bean-class>jsf.ChartsViewBean</managed-bean-class>
 		<managed-bean-scope>view</managed-bean-scope>
 	</managed-bean>
-	
+
 	<managed-bean>
 		<managed-bean-name>devicesViewBean</managed-bean-name>
 		<managed-bean-class>jsf.DevicesViewBean</managed-bean-class>
 		<managed-bean-scope>view</managed-bean-scope>
 	</managed-bean>
-	
+
 	<managed-bean>
 		<managed-bean-name>profileViewEditBean</managed-bean-name>
 		<managed-bean-class>jsf.ProfileViewEditBean</managed-bean-class>
@@ -121,6 +121,11 @@
 	<navigation-rule>
 		<display-name>pages/admin/graph.xhtml</display-name>
 		<from-view-id>/pages/admin/graph.xhtml</from-view-id>
+	</navigation-rule>
+
+	<navigation-rule>
+		<display-name>pages/admin/devices.xhtml</display-name>
+		<from-view-id>/pages/admin/devices.xhtml</from-view-id>
 	</navigation-rule>
 
 	<validator>

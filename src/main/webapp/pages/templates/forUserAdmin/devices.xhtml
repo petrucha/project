@@ -10,22 +10,19 @@
 <h:body>
 	<ui:composition>
 
-		<p:dataTable var="car" value="#{devicesViewBean.devices}">
-			<p:column headerText="Id">
-				<h:outputText value="#{car.id}" />
+		<p:dataTable var="device" value="#{devicesViewBean.devices}">
+			<p:column headerText="MAC Address">
+				<h:outputText value="#{device.mac}" />
 			</p:column>
 
-			<p:column headerText="Year">
-				<h:outputText value="#{car.year}" />
+			<p:column headerText="Records Count">
+				<h:outputText value="#{device.recordsCount}" />
 			</p:column>
 
-			<p:column headerText="Brand">
-				<h:outputText value="#{car.brand}" />
+			<p:column headerText="Last Updated">
+				<h:outputText value="#{device.lastUpdated}" />
 			</p:column>
 
-			<p:column headerText="Color">
-				<h:outputText value="#{car.color}" />
-			</p:column>
 		</p:dataTable>
 
 	</ui:composition>
