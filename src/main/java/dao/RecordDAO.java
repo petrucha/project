@@ -121,4 +121,28 @@ public class RecordDAO extends AbstractDAO<Record> {
 		
 		return lastRecords;
 	}
+	
+	public Record getLastRecord(final int device_id) {
+		Session hibernateSession = this.getSession();
+		String hql = "FROM Record r WHERE r.device.id = :id "
+				+ "ORDER BY r.timestamp DESC";
+		Query query = hibernateSession.createQuery(hql)
+				.setParameter("id", device_id)
+				.setMaxResults(1);
+		int tes = 1 + 2;
+		Record rec = this.findOne(query);
+		
+		return this.findOne(query);
+	}
+	
+	public int countRecords(final int device_id) {
+		Session hibernateSession = this.getSession();
+		String hql = "SELECT COUNT(r.id) FROM Record r "
+				+ "WHERE r.device.id = :device_id";
+		Query query = hibernateSession.createQuery(hql)
+				.setParameter("device_id", device_id);
+		
+		return ((Number) query.uniqueResult()).intValue();
+	}
+	
 }

@@ -6,6 +6,7 @@ import org.junit.Assert;
 import org.junit.Ignore;
 import org.junit.Test;
 
+import data.DeviceData;
 import entity.Device;
 
 import util.TestUtil;
@@ -58,6 +59,22 @@ public class DeviceServiceTest {
 		
 		macs = deviceService.getAllMacs(true);
 		Assert.assertFalse(macs.contains(device));
+		
+		deviceService.deleteDevice(device);
+		Assert.assertNull(deviceService.getDevice(device.getId()));
+	}
+	
+	@Test
+	public void testGetDevicesData() {
+		Device device = new Device(TestUtil.randomMacAddress());
+		deviceService.addDevice(device);
+		
+		List<DeviceData> dds = deviceService.getDevicesData();
+		Assert.assertTrue(dds.size() > 0);
+		Assert.assertNotNull(dds.get(0));
+		for (DeviceData deviceData : dds) {
+			System.out.println(deviceData);
+		}
 		
 		deviceService.deleteDevice(device);
 		Assert.assertNull(deviceService.getDevice(device.getId()));

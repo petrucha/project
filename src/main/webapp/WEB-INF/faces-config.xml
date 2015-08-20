@@ -43,6 +43,13 @@
 		<managed-bean-class>jsf.ChartsViewBean</managed-bean-class>
 		<managed-bean-scope>view</managed-bean-scope>
 	</managed-bean>
+	
+	<managed-bean>
+		<managed-bean-name>devicesViewBean</managed-bean-name>
+		<managed-bean-class>jsf.DevicesViewBean</managed-bean-class>
+		<managed-bean-scope>view</managed-bean-scope>
+	</managed-bean>
+	
 	<managed-bean>
 		<managed-bean-name>profileViewEditBean</managed-bean-name>
 		<managed-bean-class>jsf.ProfileViewEditBean</managed-bean-class>

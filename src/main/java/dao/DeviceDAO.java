@@ -36,7 +36,7 @@ public class DeviceDAO extends AbstractDAO<Device> {
 		return query.list();
 	}
 	
-	public Device getDevicByMac(final String mac) {
+	public Device getDeviceByMac(final String mac) {
 		Session hibernateSession = this.getSession();
 		String hql = "FROM Device d WHERE d.mac = :mac";
 		Query query = hibernateSession.createQuery(hql)
