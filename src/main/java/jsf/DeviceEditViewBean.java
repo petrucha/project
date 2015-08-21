@@ -27,6 +27,8 @@ public class DeviceEditViewBean extends AbstractBean implements Serializable {
 
 	public DeviceEditViewBean() {
 		deviceId = 4;
+		this.device = deviceService.getDevice(deviceId);
+		
 		List<String> namesSource = new ArrayList<String>();
         List<String> namesTarget = new ArrayList<String>();
          
@@ -39,7 +41,7 @@ public class DeviceEditViewBean extends AbstractBean implements Serializable {
 			namesSource.add(user);
 		}
          
-        usernames = new DualListModel<String>(namesSource, namesTarget);
+        this.usernames = new DualListModel<String>(namesSource, namesTarget);
 	}
 
 
@@ -65,6 +67,11 @@ public class DeviceEditViewBean extends AbstractBean implements Serializable {
 
 	public void setDeviceId(int deviceId) {
 		this.deviceId = deviceId;
+	}
+	
+	public void doUpdate() {
+		List<String> selectedUsers = this.usernames.getTarget();
+		deviceService.addDeviceToUsers(this.device, selectedUsers);
 	}
 	
 }

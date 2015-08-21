@@ -2,7 +2,9 @@ package service;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.hibernate.Hibernate;
 import org.hibernate.HibernateException;
@@ -11,13 +13,16 @@ import util.DateUtil;
 import util.HibernateUtil;
 import dao.DeviceDAO;
 import dao.RecordDAO;
+import dao.UserDAO;
 import data.DeviceData;
 import entity.Device;
 import entity.Record;
+import entity.User;
 
 public class DeviceService implements Serializable {
 
 	private static final long serialVersionUID = 1L;
+	private static UserDAO userDAO = new UserDAO();
 	private static DeviceDAO deviceDAO = new DeviceDAO();
 	private static RecordDAO recordDAO = new RecordDAO();
 	private static DeviceService instance = null;
@@ -157,6 +162,24 @@ public class DeviceService implements Serializable {
 		}
 		
 		return deviceDatas;
+	}
+	
+	public boolean addDeviceToUsers(Device device, List<String> usernames) {
+		if (!usernames.isEmpty()){
+			try {
+			HibernateUtil.beginTransaction();
+			List<User> userList = userDAO.getUsersByUsernames(usernames);
+			Set<User> userSet = new HashSet<User>(userList);
+			device.setUsers(userSet);
+				deviceDAO.merge(device);
+				HibernateUtil.commitTransaction();
+			} catch (HibernateException ex) {
+				System.out.println("Error: addDeviceToUsers()");
+				ex.printStackTrace();
+			}
+		}
+		
+		return true;
 	}
 
 }

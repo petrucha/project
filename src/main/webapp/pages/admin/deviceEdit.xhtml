@@ -10,17 +10,20 @@
 
 <h:body>
 	<ui:composition template="/pages/templates/forAdmin/commonAdmin.xhtml">
-
+<!-- 
 		<ui:define name="metadata">
 			<f:metadata>
 				<f:viewParam name="deviceId" value="#{deviceEditViewBean.deviceId}" />
 			</f:metadata>
-		</ui:define>
+		</ui:define> -->
 
 		<ui:define name="content">
 
 			<p:pickList id="pickList" value="#{deviceEditViewBean.usernames}" var="unames"
 				itemLabel="#{unames}" itemValue="#{unames}" />
+				
+				<p:commandButton id="namesSubmit" value="Submit" action="#{deviceEditViewBean.doUpdate}" 
+				style="margin-top:5px" />
 
 		</ui:define>
 	</ui:composition>

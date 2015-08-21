@@ -3,17 +3,22 @@ package service;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
+
 import org.hibernate.Hibernate;
 import org.hibernate.HibernateException;
 
 import util.HibernateUtil;
+import dao.DeviceDAO;
 import dao.UserDAO;
+import entity.Device;
 import entity.User;
 
 public class UserService implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 	private static UserDAO userDAO = new UserDAO();
+	private static DeviceDAO deviceDAO = new DeviceDAO();
 	private static UserService instance = null;
 
 	public static UserService getInstance() {
@@ -111,11 +116,14 @@ public class UserService implements Serializable {
 		if (user != null)
 			try {
 				HibernateUtil.beginTransaction();
+				user = userDAO.findByID(user.getId());
 				user.setGroup(null);
+				user.remove();
 				userDAO.delete(user);
 				HibernateUtil.commitTransaction();
 			} catch (HibernateException ex) {
 				System.out.println("Error: deleteUser()");
+				ex.printStackTrace();
 				HibernateUtil.rollbackTransaction();
 			}
 	}

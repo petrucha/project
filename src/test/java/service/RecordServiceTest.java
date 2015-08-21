@@ -25,7 +25,7 @@ public class RecordServiceTest {
     
     @Before
     public void createDeviceAndRecord() {
-    	device = new Device(TestUtil.randomMacAddress());
+    	device = new Device(TestUtil.randomString(4));
     	deviceService.addDevice(device);
     	record = new Record(device, "test", (int) new Date().getTime()%200, DateUtil.dateToTimestamp(new Date()));
     	recordService.addRecord(record);
@@ -53,7 +53,7 @@ public class RecordServiceTest {
     
     @Test
     public void testDeleteRecord() {
-    	Device device = new Device(TestUtil.randomMacAddress());
+    	Device device = new Device(TestUtil.randomString(4));
     	Record created = new Record(device, "test", 222, DateUtil.dateToTimestamp(new Date()));
     	
         recordService.deleteRecord(created);

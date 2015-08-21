@@ -32,7 +32,7 @@ public class UserDAO extends AbstractDAO<User> {
 	@SuppressWarnings("unchecked")
 	public List<String> getUsernamesByDevice(final int deviceId) {
 		Session hibernateSession = this.getSession();
-		String hql = "SELECT u.username FROM User u JOIN u.devices d WHERE d.id = :id";
+		String hql = "SELECT u.username FROM User u LEFT JOIN u.devices d WHERE d.id = :id";
 		Query query = hibernateSession.createQuery(hql)
 				.setParameter("id", deviceId);
 		
@@ -52,4 +52,11 @@ public class UserDAO extends AbstractDAO<User> {
 		return query.list();
 	}
 
+	public List<User> getUsersByUsernames(final List<String> usernames) {
+		Session hibernateSession = this.getSession();
+		String hql = "FROM User u WHERE u.username IN (:names)";
+		Query query = hibernateSession.createQuery(hql).setParameterList("names", usernames);
+		
+		return this.findMany(query);
+	}
 }

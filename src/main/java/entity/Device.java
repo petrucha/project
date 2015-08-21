@@ -35,7 +35,11 @@ public class Device implements Serializable {
 	@OneToMany(mappedBy = "device") // do change (cascade type)
 	private Set<Record> records = new HashSet<Record>(0);
 	
-	@ManyToMany(mappedBy = "devices")
+	@ManyToMany(cascade = 
+        {CascadeType.PERSIST, CascadeType.MERGE})
+	@JoinTable(name = "user_device",
+	joinColumns = { @JoinColumn(name = "device_id", nullable = false) }, 
+	inverseJoinColumns = { @JoinColumn(name = "user_id", nullable = false) })
 	private Set<User> users = new HashSet<User>(0);
 	
 	
