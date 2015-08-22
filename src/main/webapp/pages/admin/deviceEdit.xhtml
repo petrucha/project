@@ -13,18 +13,19 @@
 <!-- 
 		<ui:define name="metadata">
 			<f:metadata>
-				<f:viewParam name="deviceId" value="#{deviceEditViewBean.deviceId}" />
+				<f:viewParam name="deviceIds" value="#{deviceEditViewBean.deviceIds}" />
 			</f:metadata>
 		</ui:define> -->
 
 		<ui:define name="content">
 
+		<h:form>
 			<p:pickList id="pickList" value="#{deviceEditViewBean.usernames}" var="unames"
 				itemLabel="#{unames}" itemValue="#{unames}" />
 				
 				<p:commandButton id="namesSubmit" value="Submit" action="#{deviceEditViewBean.doUpdate}" 
 				style="margin-top:5px" />
-
+		</h:form>
 		</ui:define>
 	</ui:composition>
 </h:body>
