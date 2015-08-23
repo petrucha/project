@@ -54,7 +54,6 @@ public class DevicesViewBean extends AbstractBean implements Serializable {
         options.put("modal", true);
         options.put("draggable", false);
         options.put("resizable", false);
-        options.put("contentHeight", 320);
         
         Map<String, List<String>> params = new HashMap<String, List<String>>();
         List<String> paramList = new ArrayList<String>();

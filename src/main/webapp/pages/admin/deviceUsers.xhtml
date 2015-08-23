@@ -8,14 +8,19 @@
 <h:head>
 	<title>Link or unlink users to the device:</title>
 	<h:outputStylesheet name="devices.css" library="css" />
+	<style type="text/css">
+        .ui-widget {
+            font-size: 90%;
+        }
+	</style>
 </h:head>
 
 <h:body>
 	<h:form>
-		<p:panelGrid columns="1">
-   
+		<p:panelGrid columns="1" class="centerPanelGrid">
+
 			<p:column>
-				
+
 				<p:pickList id="pickList" value="#{deviceUsersBean.usernames}"
 					var="unames" itemLabel="#{unames}" itemValue="#{unames}"
 					showSourceFilter="true" showTargetFilter="true"
@@ -23,19 +28,17 @@
 
 					<f:facet name="sourceCaption">Not selected</f:facet>
 					<f:facet name="targetCaption">Selected</f:facet>
-					
+
 				</p:pickList>
 
 			</p:column>
-			<p:column class="textCenter">
+			<p:column>
 
 				<p:commandButton id="namesSubmit" value="Submit"
 					action="#{deviceUsersBean.updateDevice}" />
 
 			</p:column>
-			
 		</p:panelGrid>
 	</h:form>
 </h:body>
-
 </html>

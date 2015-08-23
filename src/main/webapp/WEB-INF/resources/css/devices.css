@@ -2,6 +2,6 @@
 .centerPanelGrid.ui-panelgrid .ui-panelgrid-cell {
     border: none;
 }
-.textCenter{
-	text-align: center;
+.centerPanelGrid{
+	margin: 0 auto;
 }

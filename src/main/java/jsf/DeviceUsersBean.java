@@ -7,6 +7,7 @@ import java.util.Map;
 
 import javax.faces.context.FacesContext;
 
+import org.primefaces.context.RequestContext;
 import org.primefaces.model.DualListModel;
 
 import entity.Device;
@@ -62,5 +63,7 @@ public class DeviceUsersBean extends AbstractBean implements Serializable {
 		List<String> selectedUsers = this.usernames.getTarget();
 		Device device = deviceService.getDevice(deviceId);
 		deviceService.addDeviceToUsers(device, selectedUsers);
+		//can pass data back to the parents page (we have no data to pass) 
+		RequestContext.getCurrentInstance().closeDialog("");
 	}
 }
