@@ -12,6 +12,25 @@
 
 		<h:form>
 
+			<h:panelGroup id="chart">
+
+				<p:chart type="line" model="#{chartsViewBean.lineModel}"
+					rendered="#{chartsViewBean.chartType eq 'line'}"
+					style="height:400px;width:98%;" id="lineChart" responsive="true" />
+
+				<p:chart type="bar" model="#{chartsViewBean.barModel}"
+					rendered="#{chartsViewBean.chartType eq 'bar'}"
+					style="height:400px;width:98%;" id="barChart" responsive="true" />
+
+				<p:chart type="pie" model="#{chartsViewBean.pieModel}"
+					rendered="#{chartsViewBean.chartType eq 'pie'}"
+					style="height:400px;widht:98%" id="pieChart" responsive="true" />
+
+			</h:panelGroup>
+			
+			<p:remoteCommand name="refrCharts" update="chart"
+				actionListener="#{chartsViewBean.initChart()}" />
+
 			<p:toolbar id="tb">
 
 				<f:facet name="left">
@@ -19,11 +38,18 @@
 					<p:tabView>
 
 						<p:tab title="General">
-							<h:outputText value="Type :" />
+							<h:outputText value="Records type :" />
 							<p:selectOneButton value="#{chartsViewBean.recordsType}">
 								<f:selectItem itemLabel="Temperature" itemValue="temp" />
 								<f:selectItem itemLabel="Pressure" itemValue="pres" />
 								<f:selectItem itemLabel="Humidity" itemValue="humi" />
+							</p:selectOneButton>
+
+							<h:outputText value="Chart type :" />
+							<p:selectOneButton value="#{chartsViewBean.chartType}">
+								<f:selectItem itemLabel="Line Chart" itemValue="line" />
+								<f:selectItem itemLabel="Last records" itemValue="bar" />
+								<f:selectItem itemLabel="Average per device" itemValue="pie" />
 							</p:selectOneButton>
 
 							<p:commandButton type="button" onclick="refrCharts()"
@@ -99,37 +125,7 @@
 
 				</f:facet>
 
-				<f:facet name="right">
-					<h:outputText value="Stcik: " />
-					<p:inputSwitch value="#{chartsViewBean.sticky}" >
-						<p:ajax event="change" update="sticker tb" />
-					</p:inputSwitch>
-				</f:facet>
-
 			</p:toolbar>
-			
-			<h:panelGroup id="sticker">
-				<p:sticky target="tb" rendered="#{chartsViewBean.sticky}" />
-			</h:panelGroup>
-			
-			<p:separator/>
-
-			<p:chart type="bar" model="#{chartsViewBean.barModel}"
-				style="height:400px;width:98%;" id="barChart" responsive="true" />
-
-			<p:separator />
-
-			<p:chart type="line" model="#{chartsViewBean.lineModel}"
-				id="lineChart" responsive="true" style="height:400px;width:98%;" />
-
-			<p:separator />
-
-			<p:chart type="pie" model="#{chartsViewBean.pieModel}"
-				style="height:400px;widht:98%" id="pieChart" responsive="true" />
-
-			<p:remoteCommand name="refrCharts"
-				update="barChart pieChart lineChart"
-				actionListener="#{chartsViewBean.filtersChange}" />
 
 		</h:form>
 

@@ -4,13 +4,12 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
-
 import org.junit.Assert;
 import org.junit.Test;
 
 import data.DeviceData;
 import entity.Device;
+import entity.Group;
 import entity.User;
 import util.TestUtil;
 
@@ -18,6 +17,7 @@ public class DeviceServiceTest {
 
 	private static UserService userService = UserService.getInstance();
 	private static DeviceService deviceService = DeviceService.getInstance();
+	private static GroupService groupService = GroupService.getInstance();
 
 	@Test
 	public void testAddAndGetAndDeleteDevice() {
@@ -70,10 +70,20 @@ public class DeviceServiceTest {
 	
 	@Test
 	public void testGetDevicesData() {
+		Group group = new Group("ADMIN1", "testgroupdesc1");
+    	groupService.addGroup(group);
+      	User user = new User(TestUtil.randomString(6)+"name",
+				TestUtil.randomString(6)+"pass", TestUtil.randomString(6)+"first",
+				TestUtil.randomString(6)+"last", new Date(), 
+				TestUtil.randomString(6)+"@email.com",
+    			group, new HashSet<Device>());
+    	userService.addUser(user);
+    	
 		Device device = new Device(TestUtil.randomString(4));
+		device.getUsers().add(user);
 		deviceService.addDevice(device);
 		
-		List<DeviceData> dds = deviceService.getDevicesData();
+		List<DeviceData> dds = deviceService.getUserDevicesData(user);
 		Assert.assertTrue(dds.size() > 0);
 		Assert.assertNotNull(dds.get(0));
 		for (DeviceData deviceData : dds) {

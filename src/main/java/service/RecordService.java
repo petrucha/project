@@ -91,10 +91,10 @@ public class RecordService implements Serializable {
 	 */
 	public List<Record[]> getRecordsForLineChart(String[] devices, String quantity, Date startDate, Date endDate) {
 		List<Record[]> recordsList = new ArrayList<Record[]>();
-		double startTime = DateUtil.dateToTimestamp(startDate);
-		double endTime = DateUtil.dateToTimestamp(endDate);
 		try {
 			HibernateUtil.beginTransaction();
+			double startTime = DateUtil.dateToTimestamp(startDate);
+			double endTime = DateUtil.dateToTimestamp(endDate);
 			recordsList = recordDAO.getRecordsForLineChart(devices, quantity, startTime, endTime);
 			HibernateUtil.commitTransaction();
 		} catch (HibernateException ex) {
@@ -112,10 +112,10 @@ public class RecordService implements Serializable {
 	 */
 	public HashMap<String, Double> getFilteredAverages(String[] devices, String quantity, Date startDate, Date endDate) {
 		HashMap<String, Double> averages = new HashMap<String, Double>();
-		double startTime = DateUtil.dateToTimestamp(startDate);
-		double endTime = DateUtil.dateToTimestamp(endDate);
 		try {
 			HibernateUtil.beginTransaction();
+			double startTime = DateUtil.dateToTimestamp(startDate);
+			double endTime = DateUtil.dateToTimestamp(endDate);
 			averages = recordDAO.getFilteredAverages(devices, quantity, startTime, endTime);
 			HibernateUtil.commitTransaction();
 		} catch (HibernateException ex) {

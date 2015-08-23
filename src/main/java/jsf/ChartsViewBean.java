@@ -25,30 +25,22 @@ public class ChartsViewBean extends AbstractBean implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	private static RecordService recordService = RecordService.getInstance();
-
 	private static DeviceService deviceService = DeviceService.getInstance();
 
 	// Bean variables
 
 	private LineChartModel lineModel;
-
 	private PieChartModel pieModel;
-
 	private BarChartModel barModel;
-	
-	private String recordsType;
 
 	private String[] selectedDevices;
-
 	private List<String> devices;
-
 	private Date startDate = new Date();
-
 	private Date endDate = new Date();
-
 	private int recordsCount;
-	
-	private boolean sticky;
+
+	private String recordsType;
+	private String chartType;
 
 	// Constructor
 
@@ -61,91 +53,8 @@ public class ChartsViewBean extends AbstractBean implements Serializable {
 		// by default is temperature
 		recordsType = "temp";
 		// initializing models
-		createBarModel();
-		createLineModel();
-		createPieModel();
-	}
-
-	// Getters and setters
-
-	public String getRecordsType() {
-		return recordsType;
-	}
-
-	public void setRecordsType(String recordsType) {
-		this.recordsType = recordsType;
-	}
-
-	public boolean isSticky() {
-		return sticky;
-	}
-
-	public void setSticky(boolean sticky) {
-		this.sticky = sticky;
-	}
-
-	public PieChartModel getPieModel() {
-		return pieModel;
-	}
-
-	public void setPieModel(PieChartModel pieModel) {
-		this.pieModel = pieModel;
-	}
-
-	public int getRecordsCount() {
-		return recordsCount;
-	}
-
-	public void setRecordsCount(int recordsCount) {
-		this.recordsCount = recordsCount;
-	}
-
-	public BarChartModel getBarModel() {
-		return barModel;
-	}
-
-	public LineChartModel getLineModel() {
-		return lineModel;
-	}
-
-	public void setLineModel(LineChartModel lineModel) {
-		this.lineModel = lineModel;
-	}
-
-	public void setBarModel(BarChartModel barModel) {
-		this.barModel = barModel;
-	}
-
-	public String[] getSelectedDevices() {
-		return selectedDevices;
-	}
-
-	public void setSelectedDevices(String[] selectedDevices) {
-		this.selectedDevices = selectedDevices;
-	}
-
-	public List<String> getDevices() {
-		return devices;
-	}
-
-	public void setDevices(List<String> devices) {
-		this.devices = devices;
-	}
-
-	public Date getStartDate() {
-		return startDate;
-	}
-
-	public void setStartDate(Date startDate) {
-		this.startDate = startDate;
-	}
-
-	public Date getEndDate() {
-		return endDate;
-	}
-
-	public void setEndDate(Date endDate) {
-		this.endDate = endDate;
+		chartType = "line";
+		initChart();
 	}
 
 	// Chart methods
@@ -189,9 +98,9 @@ public class ChartsViewBean extends AbstractBean implements Serializable {
 		String fullType = getFullNameOfRecordsType(recordsType);
 		lineModel.getAxis(AxisType.Y).setLabel(fullType);
 		DateAxis axisX = new DateAxis("Dates");
-		
+
 		SimpleDateFormat fmt = new SimpleDateFormat("yyyy-MM-dd kk:mm:ss");
-		
+
 		axisX.setTickAngle(-50);
 		axisX.setMin(fmt.format(startDate));
 		axisX.setMax(fmt.format(endDate));
@@ -216,7 +125,7 @@ public class ChartsViewBean extends AbstractBean implements Serializable {
 		pieModel.setLegendPosition("e");
 		pieModel.setShowDataLabels(true);
 	}
-	
+
 	// initializing methods
 
 	private ChartSeries initModel(Record[] records) {
@@ -237,7 +146,7 @@ public class ChartsViewBean extends AbstractBean implements Serializable {
 
 		return series;
 	}
-	
+	// limit 5 devices
 	private void initSelectedDevices() {
 		devices = deviceService.getAllMacs(true);
 		// choosing first 5 devices
@@ -250,7 +159,7 @@ public class ChartsViewBean extends AbstractBean implements Serializable {
 			selectedDevices[i] = devices.get(i);
 		}
 	}
-
+	// yesterday
 	private void initTimeSpan() {
 		Calendar cal = Calendar.getInstance();
 		cal.add(Calendar.DATE, -1);
@@ -258,16 +167,16 @@ public class ChartsViewBean extends AbstractBean implements Serializable {
 		endDate = new Date();
 	}
 
-	// filter methods
-
-	public void filtersChange() {
-		createLineModel();
-		createPieModel();
-		createBarModel();
+	public void initChart() {
+		if (chartType.equals("line")) {
+			createLineModel();
+		} else if (chartType.equals("bar")) {
+			createBarModel();
+		} else {
+			createPieModel();
+		}
 	}
-	
-	// util methods
-	
+
 	private String getFullNameOfRecordsType(String shortType) {
 		if (shortType.equals("temp")) {
 			return "Temperature C\u00b0";
@@ -276,5 +185,87 @@ public class ChartsViewBean extends AbstractBean implements Serializable {
 		} else {
 			return "Pressure";
 		}
+	}
+
+	// Getters and setters
+
+	public LineChartModel getLineModel() {
+		return lineModel;
+	}
+
+	public void setLineModel(LineChartModel lineModel) {
+		this.lineModel = lineModel;
+	}
+
+	public PieChartModel getPieModel() {
+		return pieModel;
+	}
+
+	public void setPieModel(PieChartModel pieModel) {
+		this.pieModel = pieModel;
+	}
+
+	public BarChartModel getBarModel() {
+		return barModel;
+	}
+
+	public void setBarModel(BarChartModel barModel) {
+		this.barModel = barModel;
+	}
+
+	public String[] getSelectedDevices() {
+		return selectedDevices;
+	}
+
+	public void setSelectedDevices(String[] selectedDevices) {
+		this.selectedDevices = selectedDevices;
+	}
+
+	public List<String> getDevices() {
+		return devices;
+	}
+
+	public void setDevices(List<String> devices) {
+		this.devices = devices;
+	}
+
+	public Date getStartDate() {
+		return startDate;
+	}
+
+	public void setStartDate(Date startDate) {
+		this.startDate = startDate;
+	}
+
+	public Date getEndDate() {
+		return endDate;
+	}
+
+	public void setEndDate(Date endDate) {
+		this.endDate = endDate;
+	}
+
+	public int getRecordsCount() {
+		return recordsCount;
+	}
+
+	public void setRecordsCount(int recordsCount) {
+		this.recordsCount = recordsCount;
+	}
+
+	public String getRecordsType() {
+		return recordsType;
+	}
+
+	public void setRecordsType(String recordsType) {
+		this.recordsType = recordsType;
+	}
+
+	public String getChartType() {
+		return chartType;
+	}
+
+	public void setChartType(String chartType) {
+		this.chartType = chartType;
 	}
 }
