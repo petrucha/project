@@ -11,6 +11,7 @@ import org.hibernate.HibernateException;
 
 import util.DateUtil;
 import util.HibernateUtil;
+import util.Role;
 import dao.DeviceDAO;
 import dao.RecordDAO;
 import dao.UserDAO;
@@ -140,11 +141,19 @@ public class DeviceService implements Serializable {
 	/**
 	 * @return devices data for DevicesViewBean
 	 */
-	public List<DeviceData> getDevicesData() {
+	public List<DeviceData> getUserDevicesData(User user) {
 		List<DeviceData> deviceDatas = new ArrayList<DeviceData>();
 		try {
 			HibernateUtil.beginTransaction();
-			List<Device> devices = deviceDAO.getAllDevices(false);
+			
+			List<Device> devices;
+			if ( (user.getGroup().getGroupname()).equals(Role.ADMINISTRATOR) ) {
+				 devices = deviceDAO.getAllDevices(false);
+			} else {
+				user = userDAO.findByID(user.getId());
+				devices = new ArrayList<Device>(user.getDevices());
+			}
+			
 			for (Device device : devices) {
 				int recordsCount = recordDAO.countRecords(device.getId());
 				Record record = recordDAO.getLastRecord(device.getId());
@@ -155,6 +164,7 @@ public class DeviceService implements Serializable {
 				}
 				deviceDatas.add(dd);
 			}
+			
 			HibernateUtil.commitTransaction();
 		} catch (HibernateException ex) {
 			System.out.println("Error: getDevicesData()");

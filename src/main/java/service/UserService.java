@@ -3,15 +3,12 @@ package service;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
-
 import org.hibernate.Hibernate;
 import org.hibernate.HibernateException;
 
 import util.HibernateUtil;
 import dao.DeviceDAO;
 import dao.UserDAO;
-import entity.Device;
 import entity.User;
 
 public class UserService implements Serializable {

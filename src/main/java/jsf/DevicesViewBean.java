@@ -6,9 +6,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.faces.context.FacesContext;
+
 import org.primefaces.context.RequestContext;
 import data.DeviceData;
 import entity.Device;
+import entity.User;
 import service.DeviceService;
 
 public class DevicesViewBean extends AbstractBean implements Serializable {
@@ -19,9 +22,14 @@ public class DevicesViewBean extends AbstractBean implements Serializable {
 	
 	private List<DeviceData> devices;
 	private DeviceData selectedDevice;
+	private boolean adminMode;
 
 	public DevicesViewBean() {
-		this.devices = deviceService.getDevicesData();
+		FacesContext context = FacesContext.getCurrentInstance();
+		UserBean userB = context.getApplication().evaluateExpressionGet(context, "#{userBean}", UserBean.class);
+		adminMode = userB.isAdminRole();
+		User currentUser = userB.getUser();
+		this.devices = deviceService.getUserDevicesData(currentUser);
 	}
 
 	public List<DeviceData> getDevices() {
@@ -41,6 +49,10 @@ public class DevicesViewBean extends AbstractBean implements Serializable {
 		System.out.println(selectedDevice.getDeviceId());
 	}
 	
+	public boolean isAdminMode() {
+		return adminMode;
+	}
+
 	public void deleteDevice() {
 		Device dev = deviceService.getDevice(selectedDevice.getDeviceId());
 		if (dev!=null) {
