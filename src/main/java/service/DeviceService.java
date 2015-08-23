@@ -148,7 +148,7 @@ public class DeviceService implements Serializable {
 			for (Device device : devices) {
 				int recordsCount = recordDAO.countRecords(device.getId());
 				Record record = recordDAO.getLastRecord(device.getId());
-				DeviceData dd = new DeviceData(device.getMac(), recordsCount);
+				DeviceData dd = new DeviceData(device.getId(), device.getMac(), recordsCount);
 				if (record != null) {
 					String lastDate = DateUtil.timestampToStringFmt(record.getTimestamp());
 					dd.setLastUpdated(lastDate);

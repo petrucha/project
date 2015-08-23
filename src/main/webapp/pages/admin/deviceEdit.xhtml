@@ -10,22 +10,43 @@
 
 <h:body>
 	<ui:composition template="/pages/templates/forAdmin/commonAdmin.xhtml">
-<!-- 
+
 		<ui:define name="metadata">
 			<f:metadata>
-				<f:viewParam name="deviceIds" value="#{deviceEditViewBean.deviceIds}" />
+				<f:viewParam name="deviceId" value="#{deviceEditViewBean.deviceId}" required="true"/>
+				<f:event type="preRenderView" listener="#{deviceEditViewBean.prerender}" />
 			</f:metadata>
-		</ui:define> -->
+		</ui:define>
 
 		<ui:define name="content">
 
-		<h:form>
-			<p:pickList id="pickList" value="#{deviceEditViewBean.usernames}" var="unames"
-				itemLabel="#{unames}" itemValue="#{unames}" />
-				
-				<p:commandButton id="namesSubmit" value="Submit" action="#{deviceEditViewBean.doUpdate}" 
-				style="margin-top:5px" />
-		</h:form>
+			<h:form>
+
+				<p:panelGrid class="centerPanelGrid" cellspacing="3" columns="1">
+					
+					<p:column>
+						<h3 class="textCenter">Add users to the device:</h3>
+						<p:pickList id="pickList" value="#{deviceEditViewBean.usernames}"
+							var="unames" itemLabel="#{unames}" itemValue="#{unames}"
+							showSourceFilter="true" showTargetFilter="true"
+							filterMatchMode="contains">
+
+							<f:facet name="sourceCaption">Not selected</f:facet>
+							<f:facet name="targetCaption">Selected</f:facet>
+						</p:pickList>
+
+					</p:column>
+					<p:column class="textCenter">
+					
+						<p:commandButton id="namesSubmit" value="Submit"
+							action="#{deviceEditViewBean.doUpdate}" style="margin-top:5px" />
+							
+					</p:column>
+				</p:panelGrid>
+			</h:form>
+
+
+
 		</ui:define>
 	</ui:composition>
 </h:body>

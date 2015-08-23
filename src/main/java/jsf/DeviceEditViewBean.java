@@ -4,7 +4,11 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.annotation.PostConstruct;
+
 import org.primefaces.model.DualListModel;
+import org.primefaces.push.EventBus;
+import org.primefaces.push.EventBusFactory;
 
 import entity.Device;
 import service.DeviceService;
@@ -24,24 +28,8 @@ public class DeviceEditViewBean extends AbstractBean implements Serializable {
 	
 	private DualListModel<String> usernames;
 	
-
 	public DeviceEditViewBean() {
-		deviceId = 4;
-		this.device = deviceService.getDevice(deviceId);
 		
-		List<String> namesSource = new ArrayList<String>();
-        List<String> namesTarget = new ArrayList<String>();
-         
-        List<String> deviceUsers = userService.getUsernamesByDevice(deviceId);
-        for (String user : deviceUsers) {
-			namesTarget.add(user);
-		}
-        List<String> notDeviceUsers = userService.getUsernamesNotHavingDevice(deviceId);
-        for (String user : notDeviceUsers) {
-			namesSource.add(user);
-		}
-         
-        this.usernames = new DualListModel<String>(namesSource, namesTarget);
 	}
 
 
@@ -73,5 +61,23 @@ public class DeviceEditViewBean extends AbstractBean implements Serializable {
 		List<String> selectedUsers = this.usernames.getTarget();
 		deviceService.addDeviceToUsers(this.device, selectedUsers);
 	}
+	
+	public void prerender() {
+		this.device = deviceService.getDevice(deviceId);
+		
+		List<String> namesSource = new ArrayList<String>();
+        List<String> namesTarget = new ArrayList<String>();
+         
+        List<String> deviceUsers = userService.getUsernamesByDevice(deviceId);
+        for (String user : deviceUsers) {
+			namesTarget.add(user);
+		}
+        List<String> notDeviceUsers = userService.getUsernamesNotHavingDevice(deviceId);
+        for (String user : notDeviceUsers) {
+			namesSource.add(user);
+		}
+         
+        this.usernames = new DualListModel<String>(namesSource, namesTarget);
+    }
 	
 }

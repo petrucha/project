@@ -12,7 +12,63 @@
 	<ui:composition template="/pages/templates/forAdmin/commonAdmin.xhtml">
 		<ui:define name="content">
 
-		<ui:include src="/pages/templates/forUserAdmin/devices.xhtml" />
+			<h:form>
+				<p:contextMenu for="devices">
+					<p:menuitem value="Edit" icon="ui-icon-pencil"
+						url="deviceEdit.xhtml?deviceId=#{4}" />
+					<p:menuitem value="Delete" update="devices" icon="ui-icon-close"
+						actionListener="#{devicesViewBean.deleteDevice}" />
+				</p:contextMenu>
+
+				<p:dataTable id="devices" var="device"
+					value="#{devicesViewBean.devices}" rowKey="#{device.deviceId}"
+					selection="#{devicesViewBean.selectedDevice}"
+					selectionMode="single">
+					<p:column headerText="MAC Address">
+						<h:outputText value="#{device.mac}" />
+					</p:column>
+
+					<p:column headerText="Records Count">
+						<h:outputText value="#{device.recordsCount}" />
+					</p:column>
+
+					<p:column headerText="Last Updated">
+						<h:outputText value="#{device.lastUpdated}" />
+					</p:column>
+
+				</p:dataTable>
+
+				<p:dialog header="Device users" widgetVar="userDialog" modal="true"
+					showEffect="fade" hideEffect="fade" resizable="false">
+					<p:outputPanel id="deviceUsers" style="text-align:center;">
+						<p:panelGrid columns="2"
+							rendered="#{not empty devicesViewBean.selectedDevice}"
+							columnClasses="label,value">
+							<f:facet name="header">
+                    Add users to the device:
+                </f:facet>
+							<p:column>
+								<p:pickList id="pickList"
+									value="#{deviceEditViewBean.usernames}" var="unames"
+									itemLabel="#{unames}" itemValue="#{unames}"
+									showSourceFilter="true" showTargetFilter="true"
+									filterMatchMode="contains">
+
+									<f:facet name="sourceCaption">Not selected</f:facet>
+									<f:facet name="targetCaption">Selected</f:facet>
+								</p:pickList>
+
+							</p:column>
+							<p:column class="textCenter">
+
+								<p:commandButton id="namesSubmit" value="Submit"
+									action="#{deviceEditViewBean.doUpdate}" style="margin-top:5px" />
+
+							</p:column>
+						</p:panelGrid>
+					</p:outputPanel>
+				</p:dialog>
+			</h:form>
 
 		</ui:define>
 	</ui:composition>

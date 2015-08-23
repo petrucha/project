@@ -1,15 +1,30 @@
 package data;
 
-public class DeviceData {
+import java.io.Serializable;
+
+public class DeviceData implements Serializable{
+	
+	private static final long serialVersionUID = 1L;
+
+	private int deviceId;
 	
 	private String mac;
 	
 	private int recordsCount;
 	
 	private String lastUpdated = "-";
-
+	
+	
 	public String getMac() {
 		return mac;
+	}
+
+	public int getDeviceId() {
+		return deviceId;
+	}
+
+	public void setDeviceId(int deviceId) {
+		this.deviceId = deviceId;
 	}
 
 	public void setMac(String mac) {
@@ -43,8 +58,9 @@ public class DeviceData {
 		this.lastUpdated = lastUpdated;
 	}
 
-	public DeviceData(String mac, int recordsCount) {
+	public DeviceData(int deviceId, String mac, int recordsCount) {
 		super();
+		this.deviceId = deviceId;
 		this.mac = mac;
 		this.recordsCount = recordsCount;
 	}

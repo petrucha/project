@@ -80,7 +80,11 @@ body {
 
 .centerPanelGrid {
 	margin: 0 auto;
+}
 
+.centerPanelGrid.ui-panelgrid>*>tr,
+.centerPanelGrid.ui-panelgrid .ui-panelgrid-cell {
+    border: none;
 }
 
 #footer {

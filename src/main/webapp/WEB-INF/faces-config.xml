@@ -132,6 +132,11 @@
 	<navigation-rule>
 		<display-name>pages/admin/devices.xhtml</display-name>
 		<from-view-id>/pages/admin/devices.xhtml</from-view-id>
+		<navigation-case>
+			<from-outcome>success</from-outcome>
+			<to-view-id>/pages/admin/deviceEdit.xhtmll</to-view-id>
+			<redirect include-view-params="true"/>
+		</navigation-case>
 	</navigation-rule>
 	
 	<navigation-rule>

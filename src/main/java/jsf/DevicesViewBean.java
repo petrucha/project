@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.List;
 
 import data.DeviceData;
+import entity.Device;
 import service.DeviceService;
 
 public class DevicesViewBean extends AbstractBean implements Serializable {
@@ -14,6 +15,7 @@ public class DevicesViewBean extends AbstractBean implements Serializable {
 	
 	private List<DeviceData> devices;
 	
+	private DeviceData selectedDevice;
 
 	public DevicesViewBean() {
 		this.devices = deviceService.getDevicesData();
@@ -25,6 +27,23 @@ public class DevicesViewBean extends AbstractBean implements Serializable {
 
 	public void setDevices(List<DeviceData> devices) {
 		this.devices = devices;
+	}
+
+	public DeviceData getSelectedDevice() {
+		return selectedDevice;
+	}
+
+	public void setSelectedDevice(DeviceData selectedDevice) {
+		this.selectedDevice = selectedDevice;
+		System.out.println(selectedDevice.getDeviceId());
+	}
+	
+	public void deleteDevice() {
+		Device dev = deviceService.getDevice(selectedDevice.getDeviceId());
+		if (dev!=null) {
+			deviceService.deleteDevice(dev);
+		}
+		selectedDevice = null;
 	}
 	
 }
