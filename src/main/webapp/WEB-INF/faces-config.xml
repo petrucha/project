@@ -51,8 +51,8 @@
 	</managed-bean>
 	
 	<managed-bean>
-		<managed-bean-name>deviceEditViewBean</managed-bean-name>
-		<managed-bean-class>jsf.DeviceEditViewBean</managed-bean-class>
+		<managed-bean-name>deviceUsersBean</managed-bean-name>
+		<managed-bean-class>jsf.DeviceUsersBean</managed-bean-class>
 		<managed-bean-scope>view</managed-bean-scope>
 	</managed-bean>
 
@@ -132,16 +132,6 @@
 	<navigation-rule>
 		<display-name>pages/admin/devices.xhtml</display-name>
 		<from-view-id>/pages/admin/devices.xhtml</from-view-id>
-		<navigation-case>
-			<from-outcome>success</from-outcome>
-			<to-view-id>/pages/admin/deviceEdit.xhtmll</to-view-id>
-			<redirect include-view-params="true"/>
-		</navigation-case>
-	</navigation-rule>
-	
-	<navigation-rule>
-		<display-name>pages/admin/deviceEdit.xhtml</display-name>
-		<from-view-id>/pages/admin/deviceEdit.xhtml</from-view-id>
 	</navigation-rule>
 
 	<validator>
@@ -150,7 +140,11 @@
 		<validator-class>util.PasswordValidator</validator-class>
 	</validator>
 
-	<application />
+	<application>
+        <action-listener>org.primefaces.application.DialogActionListener</action-listener>
+        <navigation-handler>org.primefaces.application.DialogNavigationHandler</navigation-handler>
+        <view-handler>org.primefaces.application.DialogViewHandler</view-handler>
+    </application>
 
 </faces-config>
 

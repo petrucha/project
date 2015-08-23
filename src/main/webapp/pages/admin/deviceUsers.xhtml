@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+	<title>Link or unlink users to the device:</title>
+	<h:outputStylesheet name="devices.css" library="css" />
+</h:head>
+
+<h:body>
+	<h:form>
+		<p:panelGrid columns="1">
+   
+			<p:column>
+				
+				<p:pickList id="pickList" value="#{deviceUsersBean.usernames}"
+					var="unames" itemLabel="#{unames}" itemValue="#{unames}"
+					showSourceFilter="true" showTargetFilter="true"
+					filterMatchMode="contains">
+
+					<f:facet name="sourceCaption">Not selected</f:facet>
+					<f:facet name="targetCaption">Selected</f:facet>
+					
+				</p:pickList>
+
+			</p:column>
+			<p:column class="textCenter">
+
+				<p:commandButton id="namesSubmit" value="Submit"
+					action="#{deviceUsersBean.updateDevice}" />
+
+			</p:column>
+			
+		</p:panelGrid>
+	</h:form>
+</h:body>
+
+</html>
