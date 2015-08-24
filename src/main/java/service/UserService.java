@@ -189,6 +189,7 @@ public class UserService implements Serializable {
 			LOG.error("Failed to get usernames by device with id: " + deviceId);
 			LOG.error(ex.getCause());
 		}
+		
 		return usernames;
 	}
 	
@@ -207,6 +208,7 @@ public class UserService implements Serializable {
 			LOG.error("Failed to get by absence of the device with id: " + deviceId);
 			LOG.error(ex.getCause());
 		}
+		
 		return usernames;
 	}
 	
@@ -224,6 +226,7 @@ public class UserService implements Serializable {
 			LOG.error("Failed to get all usernames");
 			LOG.error(ex.getCause());
 		}
+		
 		return usernames;
 	}
 
