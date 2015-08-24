@@ -123,8 +123,8 @@ public class RecordService implements Serializable {
 			HibernateUtil.beginTransaction();
 			double startTime = DateUtil.dateToTimestamp(startDate);
 			double endTime = DateUtil.dateToTimestamp(endDate);
-			LOG.debug("Searching for records of type \"" + quantity
-					+ "\" from " + startTime + " to " + endTime);
+			LOG.debug("Searching of records of type \"" + quantity
+					+ "\" from " + startDate + " to " + endDate);
 			recordsList = recordDAO.getRecordsForLineChart(devices, quantity, startTime, endTime);
 			HibernateUtil.commitTransaction();
 		} catch (HibernateException ex) {
@@ -147,8 +147,8 @@ public class RecordService implements Serializable {
 			HibernateUtil.beginTransaction();
 			double startTime = DateUtil.dateToTimestamp(startDate);
 			double endTime = DateUtil.dateToTimestamp(endDate);
-			LOG.debug("Searching for records of type \"" + quantity
-					+ "\" from " + startTime + " to " + endTime);
+			LOG.debug("Searching of averages of type \"" + quantity
+					+ "\" from \"" + startDate + "\" to \"" + endDate + "\"");
 			averages = recordDAO.getFilteredAverages(devices, quantity, startTime, endTime);
 			HibernateUtil.commitTransaction();
 		} catch (HibernateException ex) {
@@ -168,7 +168,7 @@ public class RecordService implements Serializable {
 		List<Record[]> recordsList = new ArrayList<Record[]>();
 		try {
 			HibernateUtil.beginTransaction();
-			LOG.debug("Searching for last records of type \"" + quantity
+			LOG.debug("Searching of last records of type \"" + quantity
 					+ "\". Limit: " + recordsCount);
 			recordsList = recordDAO.getLastRecords(devices, quantity, recordsCount);
 			HibernateUtil.commitTransaction();
