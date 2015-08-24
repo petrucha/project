@@ -10,7 +10,7 @@ import entity.Device;
 
 public class DeviceDAO extends AbstractDAO<Device> {
 	
-	private static final Logger log = Logger.getLogger(DeviceDAO.class);
+	private static final Logger LOG = Logger.getLogger(DeviceDAO.class);
 
 	public DeviceDAO() {
 		super(Device.class);
@@ -26,7 +26,7 @@ public class DeviceDAO extends AbstractDAO<Device> {
 		if (notEmpty) {
 			hql += " WHERE d.records IS NOT EMPTY";
 		}
-		log.info("Creating a query: " + hql);
+		LOG.trace("Creating a query: " + hql);
 		Query query = hibernateSession.createQuery(hql);
 
 		return this.findMany(query);
@@ -43,7 +43,7 @@ public class DeviceDAO extends AbstractDAO<Device> {
 		if (notEmpty) {
 			hql += " WHERE d.records IS NOT EMPTY";
 		}
-		log.info("Creating a query: " + hql);
+		LOG.trace("Creating a query: " + hql);
 		Query query = hibernateSession.createQuery(hql);
 
 		return query.list();
@@ -56,9 +56,9 @@ public class DeviceDAO extends AbstractDAO<Device> {
 	public Device getDeviceByMac(final String mac) {
 		Session hibernateSession = this.getSession();
 		String hql = "FROM Device d WHERE d.mac = :mac";
-		log.info("Creating a query: " + hql);
+		LOG.trace("Creating a query: " + hql);
 		Query query = hibernateSession.createQuery(hql);
-		log.info("Setting a param \"mac\"=" + mac);
+		LOG.trace("Setting a param \"mac\"=" + mac);
 		query.setParameter("mac", mac);
 		
 		return this.findOne(query);
