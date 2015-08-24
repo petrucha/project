@@ -51,13 +51,14 @@ public class DeviceService implements Serializable {
 			LOG.debug("Saving a device: " + device.toString());
 			deviceDAO.save(device);
 			HibernateUtil.commitTransaction();
+			return true;
 		} catch (HibernateException ex) {
 			LOG.error("Failed to create a device: " + device.toString());
 			LOG.error(ex.getCause());
 			HibernateUtil.rollbackTransaction();
 		}
 		
-		return true;
+		return false;
 	}
 	
 	/**
@@ -113,13 +114,14 @@ public class DeviceService implements Serializable {
 			LOG.debug("Merging a device: " + device.toString());
 			deviceDAO.merge(device);
 			HibernateUtil.commitTransaction();
+			return true;
 		} catch (HibernateException ex) {
 			LOG.error("Failed to update a device: " + device.toString());
 			LOG.error(ex.getCause());
 			HibernateUtil.rollbackTransaction();
 		}
 		
-		return true;
+		return false;
 	}
 	
 	/**
@@ -132,13 +134,14 @@ public class DeviceService implements Serializable {
 			LOG.debug("Deleting a device: " + device.toString());
 			deviceDAO.delete(device);
 			HibernateUtil.commitTransaction();
+			return true;
 		} catch (HibernateException ex) {
 			LOG.error("Failed to delete the device: " + device.toString());
 			LOG.error(ex.getCause());
 			HibernateUtil.rollbackTransaction();
 		}
 		
-		return true;
+		return false;
 	}
 	
 	/**
@@ -245,6 +248,7 @@ public class DeviceService implements Serializable {
 				LOG.debug("Merging a device: " + device.toString());
 				deviceDAO.merge(device);
 				HibernateUtil.commitTransaction();
+				return true;
 			} catch (HibernateException ex) {
 				LOG.error("Failed to link users and the device: " + device.toString());
 				LOG.error(ex.getCause());
@@ -252,7 +256,7 @@ public class DeviceService implements Serializable {
 			}
 		}
 		
-		return true;
+		return false;
 	}
 
 }

@@ -43,13 +43,14 @@ public class RecordService implements Serializable {
 			LOG.debug("Saving a record: " + record.toString());
 			recordDAO.save(record);
 			HibernateUtil.commitTransaction();
+			return true;
 		} catch (HibernateException ex) {
 			LOG.error("Failed to create a record: " + record.toString());
 			LOG.error(ex.getCause());
 			HibernateUtil.rollbackTransaction();
 		}
 		
-		return true;
+		return false;
 	}
 	
 	/**
@@ -101,13 +102,14 @@ public class RecordService implements Serializable {
 			LOG.debug("Deleting a record: " + record.toString());
 			recordDAO.delete(record);
 			HibernateUtil.commitTransaction();
+			return true;
 		} catch (HibernateException ex) {
 			LOG.error("Failed to delete the record: " + record.toString());
 			LOG.error(ex.getCause());
 			HibernateUtil.rollbackTransaction();
 		}
 		
-		return true;
+		return false;
 	}
 
 	

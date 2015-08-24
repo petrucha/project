@@ -37,13 +37,14 @@ public class GroupService implements Serializable {
 			LOG.debug("Saving a group: " + group.toString());
 			groupDAO.save(group);
 			HibernateUtil.commitTransaction();
+			return true;
 		} catch (HibernateException ex) {
 			LOG.error("Failed to create a group: " + group.toString());
 			LOG.error(ex.getCause());
 			HibernateUtil.rollbackTransaction();
 		}
 		
-		return true;
+		return false;
 	}
 
 	/**
@@ -75,13 +76,14 @@ public class GroupService implements Serializable {
 			LOG.debug("Deleting a group: " + group.toString());
 			groupDAO.delete(group);
 			HibernateUtil.commitTransaction();
+			return true;
 		} catch (HibernateException ex) {
 			LOG.error("Failed to delete a group: " + group.toString());
 			LOG.error(ex.getCause());
 			HibernateUtil.rollbackTransaction();
 		}
 		
-		return true;
+		return false;
 	}
 
 }

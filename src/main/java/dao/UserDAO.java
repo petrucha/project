@@ -110,4 +110,24 @@ public class UserDAO extends AbstractDAO<User> {
 		
 		return query.list();
 	}
+	
+	/**
+	 * @param username
+	 * @return true if user already exist, else false
+	 */
+	public boolean isUserExist(String username) {
+		Session hibernateSession = this.getSession();
+		String hql = "SELECT u.username FROM User u "
+				+ "WHERE u.username = :username";
+		LOG.trace("Creating a query: " + hql);
+		Query query = hibernateSession.createQuery(hql);
+		LOG.trace("Setting a param \"username\"=" + username);
+		query.setParameter("username", username);
+		if ( ((String) query.uniqueResult()) != null) {
+			LOG.trace("Found an user with username: " + username);
+			return true;
+		}
+		LOG.trace("User with username \"" + username + "\" not found");
+		return false;
+	}
 }
