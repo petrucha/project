@@ -81,9 +81,11 @@
 								</h:panelGrid>
 
 								<h:panelGrid class="createPanelGrid" columns="2">
-										<h:outputText value="Sensor Users: " />
-									<h:outputText value="#{deviceCreateBean.usernames.target}"
-										styleClass="outputLabel" />
+									<h:outputText value="Sensor Users: " />
+									<ui:repeat value="#{deviceCreateBean.usernames.target}" var="item" varStatus="iterator">
+               							<h:outputText value="#{item}" styleClass="outputLabel"  />
+               							<h:outputText value=", " rendered="#{not iterator.last}" />
+            						</ui:repeat>
 
 									<h:outputText />
 									<h:outputText />
