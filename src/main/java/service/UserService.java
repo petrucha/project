@@ -7,7 +7,6 @@ import org.hibernate.Hibernate;
 import org.hibernate.HibernateException;
 
 import util.HibernateUtil;
-import dao.DeviceDAO;
 import dao.UserDAO;
 import entity.User;
 
@@ -15,7 +14,6 @@ public class UserService implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 	private static UserDAO userDAO = new UserDAO();
-	private static DeviceDAO deviceDAO = new DeviceDAO();
 	private static UserService instance = null;
 
 	public static UserService getInstance() {
@@ -157,6 +155,7 @@ public class UserService implements Serializable {
 			HibernateUtil.commitTransaction();
 		} catch (HibernateException ex) {
 			System.out.println("Error: getUsernames()");
+			ex.printStackTrace();
 		}
 		return usernames;
 	}

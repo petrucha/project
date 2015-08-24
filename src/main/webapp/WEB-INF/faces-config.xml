@@ -55,6 +55,12 @@
 		<managed-bean-class>jsf.DeviceUsersBean</managed-bean-class>
 		<managed-bean-scope>view</managed-bean-scope>
 	</managed-bean>
+	
+	<managed-bean>
+		<managed-bean-name>deviceCreateBean</managed-bean-name>
+		<managed-bean-class>jsf.DeviceCreateBean</managed-bean-class>
+		<managed-bean-scope>view</managed-bean-scope>
+	</managed-bean>
 
 	<managed-bean>
 		<managed-bean-name>profileViewEditBean</managed-bean-name>
@@ -132,6 +138,11 @@
 	<navigation-rule>
 		<display-name>pages/admin/devices.xhtml</display-name>
 		<from-view-id>/pages/admin/devices.xhtml</from-view-id>
+	</navigation-rule>
+	
+	<navigation-rule>
+		<display-name>pages/admin/createSensor.xhtml</display-name>
+		<from-view-id>/pages/admin/createSensor.xhtml</from-view-id>
 	</navigation-rule>
 
 	<validator>
