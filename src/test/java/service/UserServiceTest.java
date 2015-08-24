@@ -92,4 +92,20 @@ public class UserServiceTest {
 		Assert.assertNull(deviceService.getDevice(device.getId()));
     }
     
+    @Test
+    public void testIsUserExist() {
+    	User user = new User(TestUtil.randomString(6)+"name",
+				TestUtil.randomString(6)+"pass", TestUtil.randomString(6)+"first",
+				TestUtil.randomString(6)+"last", new Date(), 
+				TestUtil.randomString(6)+"@email.com",
+    			null, new HashSet<Device>());
+    	userService.addUser(user);
+    	
+    	Assert.assertTrue(userService.isUserExist(user.getUsername()));
+    	Assert.assertFalse(userService.isUserExist("no" + user.getUsername()));
+    	
+    	userService.deleteUser(user);
+		Assert.assertNull(userService.getUserByUsernameAndPassword(user.getUsername(), user.getPassword()));
+    }
+    
 }
