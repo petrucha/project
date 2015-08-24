@@ -27,7 +27,7 @@
 					style="height:400px;widht:98%" id="pieChart" responsive="true" />
 
 			</h:panelGroup>
-			
+
 			<p:remoteCommand name="refrCharts" update="chart"
 				actionListener="#{chartsViewBean.initChart()}" />
 
@@ -38,91 +38,74 @@
 					<p:tabView>
 
 						<p:tab title="General">
-							<h:outputText value="Records type :" />
-							<p:selectOneButton value="#{chartsViewBean.recordsType}">
-								<f:selectItem itemLabel="Temperature" itemValue="temp" />
-								<f:selectItem itemLabel="Pressure" itemValue="pres" />
-								<f:selectItem itemLabel="Humidity" itemValue="humi" />
-							</p:selectOneButton>
+							<h:panelGrid columns="2" cellpadding="2">
+								<h:outputText value="Records type :" />
+								<p:selectOneButton value="#{chartsViewBean.recordsType}">
+									<f:selectItem itemLabel="Temperature" itemValue="temp" />
+									<f:selectItem itemLabel="Pressure" itemValue="pres" />
+									<f:selectItem itemLabel="Humidity" itemValue="humi" />
+								</p:selectOneButton>
 
-							<h:outputText value="Chart type :" />
-							<p:selectOneButton value="#{chartsViewBean.chartType}">
-								<f:selectItem itemLabel="Line Chart" itemValue="line" />
-								<f:selectItem itemLabel="Last records" itemValue="bar" />
-								<f:selectItem itemLabel="Average per device" itemValue="pie" />
-							</p:selectOneButton>
-
-							<p:commandButton type="button" onclick="refrCharts()"
-								value="Refresh" icon="ui-icon-refresh" class="filters" />
+								<h:outputText value="Chart type :" />
+								<p:selectOneButton value="#{chartsViewBean.chartType}">
+									<f:selectItem itemLabel="Line Chart" itemValue="line" />
+									<f:selectItem itemLabel="Last records" itemValue="bar" />
+									<f:selectItem itemLabel="Average per device" itemValue="pie" />
+								</p:selectOneButton>
+							</h:panelGrid>
 						</p:tab>
 
 						<p:tab title="Bar Chart">
-							<h:panelGrid columns="5" cellpadding="1">
-								<p:column>
-									<h3>Devices:</h3>
-								</p:column>
-								<p:column>
-									<p:selectCheckboxMenu id="menu" class="filters"
-										label="Select devices"
-										value="#{chartsViewBean.selectedDevices}" filter="true"
-										filterMatchMode="startsWith" panelStyle="width:400px">
-										<f:selectItems value="#{chartsViewBean.devices}" />
-									</p:selectCheckboxMenu>
-								</p:column>
-								<p:column>
-									<h3>Limit:</h3>
-								</p:column>
-								<p:column>
-									<h:outputText id="output"
-										value="Show last #{chartsViewBean.recordsCount} records per device" />
-									<h:inputHidden id="txt2" value="#{chartsViewBean.recordsCount}" />
-									<p:slider for="txt2" display="output" style="width: 200px"
-										displayTemplate="Show last {value} records per device"
-										step="1" minValue="1" maxValue="5" />
-								</p:column>
-								<p:column>
-									<p:commandButton type="button" onclick="refrCharts()"
-										value="Refresh" icon="ui-icon-refresh" class="filters" />
-								</p:column>
+							<h:panelGrid columns="2" cellpadding="2">
+								<h:outputText value="Devices :" />
+								<p:selectCheckboxMenu id="menu" class="filters"
+									label="Select devices"
+									value="#{chartsViewBean.selectedDevices}" filter="true"
+									filterMatchMode="startsWith" panelStyle="width:400px">
+									<f:selectItems value="#{chartsViewBean.devices}" />
+								</p:selectCheckboxMenu>
 
+								<h:outputText value="Limit :" />
+								<h:outputText id="output"
+									value="Show last #{chartsViewBean.recordsCount} records per device" />
+								<h:inputHidden id="txt2" value="#{chartsViewBean.recordsCount}" />
+								<p:slider for="txt2" display="output" style="width: 200px"
+									displayTemplate="Show last {value} records per device" step="1"
+									minValue="1" maxValue="5" />
 							</h:panelGrid>
 						</p:tab>
 
 						<p:tab title="Line &amp; Average Chart">
-							<h:panelGrid columns="4" cellpadding="2">
+							<h:panelGrid columns="2" cellpadding="2">
 
-								<p:column>
-									<h3>Start Date and Time:</h3>
-									<p:calendar id="startDate" value="#{chartsViewBean.startDate}"
-										pattern="dd/MM/yyyy HH:mm:ss" mask="true" class="filters" />
-								</p:column>
+								<h:outputText value="Start date and time :" />
+								<p:calendar id="startDate" value="#{chartsViewBean.startDate}"
+									pattern="yyyy-MM-dd HH.mm.ss" mask="true" class="filters" />
 
-								<p:column>
-									<h3>End Date and Time:</h3>
-									<p:calendar id="endDate" value="#{chartsViewBean.endDate}"
-										pattern="dd/MM/yyyy HH:mm:ss" mask="true" class="filters" />
-								</p:column>
+								<h:outputText value="End date and time :" />
+								<p:calendar id="endDate" value="#{chartsViewBean.endDate}"
+									pattern="yyyy-MM-dd HH.mm.ss" mask="true" class="filters" />
 
-								<p:column>
-									<h3>Devices:</h3>
-									<p:selectCheckboxMenu id="menu1" class="filters"
-										label="Select devices"
-										value="#{chartsViewBean.selectedDevices}" filter="true"
-										filterMatchMode="startsWith" panelStyle="width:400px">
-										<f:selectItems value="#{chartsViewBean.devices}" />
-									</p:selectCheckboxMenu>
-								</p:column>
-
-								<p:column>
-									<p:commandButton type="button" onclick="refrCharts()"
-										value="Refresh" icon="ui-icon-refresh" class="filters" />
-								</p:column>
-
+								<h:outputText value="Devices :" />
+								<p:selectCheckboxMenu id="menu1" class="filters"
+									label="Select devices" filter="true"
+									value="#{chartsViewBean.selectedDevices}"
+									filterMatchMode="startsWith" panelStyle="width:400px">
+									<f:selectItems value="#{chartsViewBean.devices}" />
+								</p:selectCheckboxMenu>
+		
 							</h:panelGrid>
 						</p:tab>
 
 					</p:tabView>
 
+				</f:facet>
+
+				<f:facet name="right">
+				
+					<p:commandButton type="button" onclick="refrCharts()"
+						value="Refresh" icon="ui-icon-refresh" class="filters" />
+						
 				</f:facet>
 
 			</p:toolbar>
