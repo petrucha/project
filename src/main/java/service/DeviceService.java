@@ -133,7 +133,7 @@ public class DeviceService implements Serializable {
 			deviceDAO.delete(device);
 			HibernateUtil.commitTransaction();
 		} catch (HibernateException ex) {
-			LOG.error("Failed to delete a device: " + device.toString());
+			LOG.error("Failed to delete the device: " + device.toString());
 			LOG.error(ex.getCause());
 			HibernateUtil.rollbackTransaction();
 		}
@@ -151,6 +151,7 @@ public class DeviceService implements Serializable {
 			HibernateUtil.beginTransaction();
 			LOG.debug("Getting all devices. \"notEmpty\" is: " + notEmpty);
 			devices = deviceDAO.getAllDevices(notEmpty);
+			LOG.debug("Found: " + devices.size());
 			HibernateUtil.commitTransaction();
 		} catch (HibernateException ex) {
 			LOG.error("Failed to get all devices. \"notEmpty\" is: " + notEmpty);
@@ -170,6 +171,7 @@ public class DeviceService implements Serializable {
 			HibernateUtil.beginTransaction();
 			LOG.debug("Getting all devices MACs. \"notEmpty\" is: " + notEmpty);
 			macs = deviceDAO.getAllMacs(notEmpty);
+			LOG.debug("Found: " + macs.size());
 			HibernateUtil.commitTransaction();
 		} catch (HibernateException ex) {
 			LOG.error("Failed to get all devices MACs. \"notEmpty\" is: " + notEmpty);
@@ -203,12 +205,18 @@ public class DeviceService implements Serializable {
 			}
 			LOG.debug("Creating devices data");
 			for (Device device : devices) {
+				LOG.trace("Counting records of device: " + device.toString());
 				int recordsCount = recordDAO.countRecords(device.getId());
+				LOG.trace("Received: " + recordsCount);
+				LOG.trace("Getting the last record of the device");
 				Record record = recordDAO.getLastRecord(device.getId());
+				LOG.trace("Creating data object");
 				DeviceData dd = new DeviceData(device.getId(), device.getMac(), recordsCount);
 				if (record != null) {
 					String lastDate = DateUtil.timestampToStringFmt(record.getTimestamp());
 					dd.setLastUpdated(lastDate);
+				} else {
+					LOG.trace("The device doesn't have any records");
 				}
 				deviceDatas.add(dd);
 			}
