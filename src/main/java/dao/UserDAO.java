@@ -62,4 +62,13 @@ public class UserDAO extends AbstractDAO<User> {
 		
 		return this.findMany(query);
 	}
+	
+	@SuppressWarnings("unchecked")
+	public List<String> getUsernames() {
+		Session hibernateSession = this.getSession();
+		String hql = "SELECT u.username FROM User u";
+		Query query = hibernateSession.createQuery(hql);
+		
+		return query.list();
+	}
 }

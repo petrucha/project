@@ -177,15 +177,16 @@ public class DeviceService implements Serializable {
 	public boolean addDeviceToUsers(Device device, List<String> usernames) {
 		if (!usernames.isEmpty()){
 			try {
-			HibernateUtil.beginTransaction();
-			List<User> userList = userDAO.getUsersByUsernames(usernames);
-			Set<User> userSet = new HashSet<User>(userList);
-			device.setUsers(userSet);
+				HibernateUtil.beginTransaction();
+				List<User> userList = userDAO.getUsersByUsernames(usernames);
+				Set<User> userSet = new HashSet<User>(userList);
+				device.setUsers(userSet);
 				deviceDAO.merge(device);
 				HibernateUtil.commitTransaction();
 			} catch (HibernateException ex) {
 				System.out.println("Error: addDeviceToUsers()");
 				ex.printStackTrace();
+				HibernateUtil.rollbackTransaction();
 			}
 		}
 		

@@ -1,0 +1,107 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:body>
+	<ui:composition template="/pages/templates/forAdmin/commonAdmin.xhtml">
+		<ui:define name="content">
+			<h:form id="deviceCreationForm">
+
+				<p:growl id="growl" sticky="true" showDetail="true" />
+				<p:wizard>
+					<p:tab id="sensor" title="Sensor">
+						<p:panel header="Sensor">
+							<p:messages />
+
+							<h:panelGrid class="createPanelGrid" columns="3">
+
+								<h:panelGroup>
+									<h:outputText value="MAC Address:" />
+									<h:outputText style="color:red" value="*  " />
+								</h:panelGroup>
+								<p:inputText id="mac" value="#{deviceCreateBean.device.mac}"
+									required="true" label="MAC"
+									title="Enter MAC address of sensor!">
+									<f:validateLength minimum="4" maximum="4" />
+								</p:inputText>
+								<h:panelGroup>
+									<p:message id="macMsg" for="mac" />
+									<p:tooltip for="mac" styleClass="tooltip" showEvent="focus"
+										hideEvent="blur" />
+								</h:panelGroup>
+
+							</h:panelGrid>
+						</p:panel>
+					</p:tab>
+
+					<p:tab id="users" title="Users">
+						<p:panel header="Sensor Users">
+							<p:messages />
+							<h:panelGrid class="createPanelGrid" columns="3">
+								<h:panelGroup>
+
+									<p:column>
+
+										<p:pickList id="pickList" value="#{deviceCreateBean.usernames}"
+											var="unames" itemLabel="#{unames}" itemValue="#{unames}"
+											showSourceFilter="true" showTargetFilter="true"
+											filterMatchMode="contains">
+
+											<f:facet name="sourceCaption">Not selected</f:facet>
+											<f:facet name="targetCaption">Selected</f:facet>
+
+										</p:pickList>
+
+									</p:column>
+
+								</h:panelGroup>
+
+							</h:panelGrid>
+						</p:panel>
+					</p:tab>
+					<p:tab id="confirm" title="Confirmation">
+						<p:panel header="Confirmation">
+							<h:panelGrid id="confirmation" columns="3"
+								columnClasses="grid,grid,grid">
+
+								<h:panelGrid class="createPanelGrid" columns="2"
+									columnClasses="label, value">
+
+
+									<h:outputText value="MAC Address: " />
+									<h:outputText value="#{deviceCreateBean.device.mac}"
+										styleClass="outputLabel" />
+
+
+								</h:panelGrid>
+
+								
+
+								<h:panelGrid class="createPanelGrid" columns="2">
+										<h:outputText value="Sensor Users: " />
+									<h:outputText value="#{deviceCreateBean.usernames.target}"
+										styleClass="outputLabel" />
+
+									<h:outputText />
+									<h:outputText />
+								</h:panelGrid>
+								
+							</h:panelGrid>
+							<p:commandButton value="Create"
+								actionListener="#{deviceCreateBean.createDevice}"
+								update="growl" process="@this" />
+						</p:panel>
+					</p:tab>
+
+				</p:wizard>
+			</h:form>
+
+		</ui:define>
+	</ui:composition>
+</h:body>
+</html>

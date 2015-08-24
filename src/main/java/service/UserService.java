@@ -148,5 +148,17 @@ public class UserService implements Serializable {
 		}
 		return usernames;
 	}
+	
+	public List<String> getUsernames() {
+		List<String> usernames = new ArrayList<String>();
+		try {
+			HibernateUtil.beginTransaction();
+			usernames = userDAO.getUsernames();
+			HibernateUtil.commitTransaction();
+		} catch (HibernateException ex) {
+			System.out.println("Error: getUsernames()");
+		}
+		return usernames;
+	}
 
 }
