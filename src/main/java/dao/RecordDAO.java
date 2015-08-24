@@ -69,7 +69,7 @@ public class RecordDAO extends AbstractDAO<Record> {
 		}
 
 		Session hibernateSession = this.getSession();
-		String hql = "SELECT AVG(r.value) FROM Record r "
+		String hql = "SELECT AVG(r.value) AS aver FROM Record r "
 				+ "WHERE (r.timestamp BETWEEN :startTime and :endTime) "
 				+ "AND r.device.mac = :mac "
 				+ "AND r.quantity = :quantity";
@@ -80,9 +80,10 @@ public class RecordDAO extends AbstractDAO<Record> {
 		// dividing records by device
 		for (String mac : macs) {
 			query.setParameter("mac", mac);
-			Double average = (Double) query.uniqueResult();
-			System.out.println(average+"averageasdasdas");
-			averages.put(mac, average);
+			Double average =  (Double) query.uniqueResult();
+			if (average != null) {
+				averages.put(mac, average);
+			}
 		}
 
 		return averages;

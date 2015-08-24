@@ -48,23 +48,23 @@
 
 								<h:outputText value="Chart type :" />
 								<p:selectOneButton value="#{chartsViewBean.chartType}">
-									<f:selectItem itemLabel="Line Chart" itemValue="line" />
-									<f:selectItem itemLabel="Last records" itemValue="bar" />
-									<f:selectItem itemLabel="Average per device" itemValue="pie" />
+									<f:selectItem itemLabel="Line chart" itemValue="line" />
+									<f:selectItem itemLabel="Bar chart" itemValue="bar" />
+									<f:selectItem itemLabel="Pie chart" itemValue="pie" />
 								</p:selectOneButton>
-							</h:panelGrid>
-						</p:tab>
-
-						<p:tab title="Bar Chart">
-							<h:panelGrid columns="2" cellpadding="2">
+								
 								<h:outputText value="Devices :" />
-								<p:selectCheckboxMenu id="menu" class="filters"
-									label="Select devices"
-									value="#{chartsViewBean.selectedDevices}" filter="true"
+								<p:selectCheckboxMenu id="menu1" class="filters"
+									label="Select devices" filter="true"
+									value="#{chartsViewBean.selectedDevices}"
 									filterMatchMode="startsWith" panelStyle="width:400px">
 									<f:selectItems value="#{chartsViewBean.devices}" />
 								</p:selectCheckboxMenu>
+							</h:panelGrid>
+						</p:tab>
 
+						<p:tab title="Bar chart">
+							<h:panelGrid columns="2" cellpadding="2">
 								<h:outputText value="Limit :" />
 								<h:outputText id="output"
 									value="Show last #{chartsViewBean.recordsCount} records per device" />
@@ -75,9 +75,8 @@
 							</h:panelGrid>
 						</p:tab>
 
-						<p:tab title="Line &amp; Average Chart">
+						<p:tab title="Line &amp; pie charts">
 							<h:panelGrid columns="2" cellpadding="2">
-
 								<h:outputText value="Start date and time :" />
 								<p:calendar id="startDate" value="#{chartsViewBean.startDate}"
 									pattern="yyyy-MM-dd HH.mm.ss" mask="true" class="filters" />
@@ -85,15 +84,6 @@
 								<h:outputText value="End date and time :" />
 								<p:calendar id="endDate" value="#{chartsViewBean.endDate}"
 									pattern="yyyy-MM-dd HH.mm.ss" mask="true" class="filters" />
-
-								<h:outputText value="Devices :" />
-								<p:selectCheckboxMenu id="menu1" class="filters"
-									label="Select devices" filter="true"
-									value="#{chartsViewBean.selectedDevices}"
-									filterMatchMode="startsWith" panelStyle="width:400px">
-									<f:selectItems value="#{chartsViewBean.devices}" />
-								</p:selectCheckboxMenu>
-		
 							</h:panelGrid>
 						</p:tab>
 

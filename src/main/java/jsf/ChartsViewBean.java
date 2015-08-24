@@ -58,28 +58,7 @@ public class ChartsViewBean extends AbstractBean implements Serializable {
 	}
 
 	// Chart methods
-
-	private void createBarModel() {
-		List<Record[]> recordArrays = recordService.getLastRecords(selectedDevices, recordsType, recordsCount);
-		BarChartModel model = new BarChartModel();
-
-		for (Record[] recs : recordArrays) {
-			ChartSeries series = initModel(recs);
-			model.addSeries(series);
-		}
-		barModel = model;
-
-		barModel.setTitle("Bar chart of last records");
-		barModel.setAnimate(true);
-		barModel.setLegendPosition("e");
-
-		String fullType = getFullNameOfRecordsType(recordsType);
-		barModel.getAxis(AxisType.Y).setLabel(fullType);
-
-		Axis xAxis = barModel.getAxis(AxisType.X);
-		xAxis.setLabel("Time");
-	}
-
+	
 	private void createLineModel() {
 		List<Record[]> recordArrays = recordService.getRecordsForLineChart(selectedDevices, recordsType, startDate,
 				endDate);
@@ -108,9 +87,30 @@ public class ChartsViewBean extends AbstractBean implements Serializable {
 		lineModel.getAxes().put(AxisType.X, axisX);
 	}
 
+	private void createBarModel() {
+		List<Record[]> recordArrays = recordService.getLastRecords(selectedDevices, recordsType, recordsCount);
+		BarChartModel model = new BarChartModel();
+
+		for (Record[] recs : recordArrays) {
+			ChartSeries series = initModel(recs);
+			model.addSeries(series);
+		}
+		barModel = model;
+
+		barModel.setTitle("Bar chart of last records");
+		barModel.setAnimate(true);
+		barModel.setLegendPosition("e");
+
+		String fullType = getFullNameOfRecordsType(recordsType);
+		barModel.getAxis(AxisType.Y).setLabel(fullType);
+
+		Axis xAxis = barModel.getAxis(AxisType.X);
+		xAxis.setLabel("Time");
+	}
+
 	private void createPieModel() {
-		HashMap<String, Double> averages = recordService.getFilteredAverages(selectedDevices, recordsType, startDate,
-				endDate);
+		HashMap<String, Double> averages = recordService.getFilteredAverages(selectedDevices, recordsType,
+				startDate, endDate);
 		pieModel = new PieChartModel();
 		System.out.println(averages.size());
 		if (averages.size() == 0) {
