@@ -167,4 +167,16 @@ public class DeviceServiceTest {
 		Assert.assertNull(deviceService.getDevice(device.getId()));
 	}
 	
+	@Test
+    public void testIsDeviceExist() {
+		Device device = new Device(TestUtil.randomString(4));
+		deviceService.addDevice(device);
+    	
+    	Assert.assertTrue(deviceService.isDeviceExist(device.getMac()));
+    	Assert.assertFalse(deviceService.isDeviceExist("no" + device.getMac()));
+    	
+    	deviceService.deleteDevice(device);
+		Assert.assertNull(deviceService.getDevice(device.getId()));
+    }
+	
 }
