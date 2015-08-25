@@ -150,6 +150,12 @@
 		<validator-id>passwordValidator</validator-id>
 		<validator-class>util.PasswordValidator</validator-class>
 	</validator>
+	
+	<validator>
+		<display-name>Username Validator</display-name>
+	    <validator-id>usernameValidator</validator-id>
+	    <validator-class>util.UsernameValidator</validator-class>
+	</validator>
 
 	<application>
         <action-listener>org.primefaces.application.DialogActionListener</action-listener>

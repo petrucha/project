@@ -27,8 +27,8 @@ public class UserDAO extends AbstractDAO<User> {
 		LOG.trace("Creating a query: " + hql);
 		Query query = hibernateSession.createQuery(hql);
 		LOG.trace("Setting params:"
-				+ " \"username\"=" + username
-				+ " \"password\"=" + password);
+				+ " username=\"" + username
+				+ "\", password=\"" + password + "\"");
 		query.setParameter("username", username)
 				.setParameter("password", password);
 		
@@ -59,7 +59,7 @@ public class UserDAO extends AbstractDAO<User> {
 				+ "GROUP BY u.username";
 		LOG.trace("Creating a query: " + hql);
 		Query query = hibernateSession.createQuery(hql);
-		LOG.trace("Setting a param \"id\"=" + deviceId);
+		LOG.trace("Setting a param id=\"" + deviceId + "\"");
 		query.setParameter("id", deviceId);
 		
 		return query.list();
@@ -79,7 +79,7 @@ public class UserDAO extends AbstractDAO<User> {
 				+ "GROUP BY u.username";
 		LOG.trace("Creating a query: " + hql);
 		Query query = hibernateSession.createQuery(hql);
-		LOG.trace("Setting a param \"id\"=" + deviceId);
+		LOG.trace("Setting a param id=\"" + deviceId + "\"");
 		query.setParameter("id", deviceId);
 		
 		return query.list();
@@ -121,7 +121,7 @@ public class UserDAO extends AbstractDAO<User> {
 				+ "WHERE u.username = :username";
 		LOG.trace("Creating a query: " + hql);
 		Query query = hibernateSession.createQuery(hql);
-		LOG.trace("Setting a param \"username\"=" + username);
+		LOG.trace("Setting a param username=\"" + username + "\"");
 		query.setParameter("username", username);
 		if ( ((String) query.uniqueResult()) != null) {
 			LOG.trace("Found an user with username: " + username);

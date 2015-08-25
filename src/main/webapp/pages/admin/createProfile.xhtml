@@ -25,6 +25,7 @@
 								</h:panelGroup>
 								<p:inputText id="userName" value="#{registrationBean.username}"
 									required="true" label="User Name" title="Enter your User Name!">
+									<f:validator validatorId="usernameValidator" />
 									<f:validateLength minimum="2" />
 								</p:inputText>
 								<h:panelGroup>
