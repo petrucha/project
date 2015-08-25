@@ -232,6 +232,10 @@ public class UserService implements Serializable {
 		return usernames;
 	}
 	
+	/**
+	 * @param username
+	 * @return true if user already exist, else false
+	 */
 	public boolean isUserExist(String username) {
 		boolean exist = false;
 		try {

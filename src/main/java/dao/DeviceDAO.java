@@ -81,5 +81,25 @@ public class DeviceDAO extends AbstractDAO<Device> {
 		
 		return query.list();
 	}
+	
+	/**
+	 * @param mac
+	 * @return true if a device already exist, else false
+	 */
+	public boolean isDeviceExist(String mac) {
+		Session hibernateSession = this.getSession();
+		String hql = "SELECT d.mac FROM Device d "
+				+ "WHERE d.mac = :mac";
+		LOG.trace("Creating a query: " + hql);
+		Query query = hibernateSession.createQuery(hql);
+		LOG.trace("Setting a param mac=\"" + mac + "\"");
+		query.setParameter("mac", mac);
+		if ( ((String) query.uniqueResult()) != null) {
+			LOG.trace("Found a device with MAC: " + mac);
+			return true;
+		}
+		LOG.trace("Device with MAC \"" + mac + "\" not found");
+		return false;
+	}
 
 }

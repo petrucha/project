@@ -277,5 +277,24 @@ public class DeviceService implements Serializable {
 		
 		return macs;
 	}
+	
+	/**
+	 * @param mac
+	 * @return true if a device already exist, else false
+	 */
+	public boolean isDeviceExist(String mac) {
+		boolean exist = false;
+		try {
+			HibernateUtil.beginTransaction();
+			LOG.debug("Checking of existing the device with MAC: " + mac);
+			exist = deviceDAO.isDeviceExist(mac);
+			HibernateUtil.commitTransaction();
+		} catch (HibernateException ex) {
+			LOG.error("Failed to check existing");
+			LOG.error(ex.getCause());
+		}
+		
+		return exist;
+	}
 
 }
