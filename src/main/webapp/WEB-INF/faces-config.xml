@@ -156,6 +156,12 @@
 	    <validator-id>usernameValidator</validator-id>
 	    <validator-class>util.UsernameValidator</validator-class>
 	</validator>
+	
+	<validator>
+		<display-name>MAC address Validator</display-name>
+	    <validator-id>macValidator</validator-id>
+	    <validator-class>util.MacValidator</validator-class>
+	</validator>
 
 	<application>
         <action-listener>org.primefaces.application.DialogActionListener</action-listener>

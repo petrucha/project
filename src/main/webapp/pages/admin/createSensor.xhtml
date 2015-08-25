@@ -27,6 +27,7 @@
 								<p:inputText id="mac" value="#{deviceCreateBean.device.mac}"
 									required="true" label="MAC"
 									title="Enter MAC address of sensor!">
+									<f:validator validatorId="macValidator" />
 									<f:validateLength minimum="4" maximum="4" />
 								</p:inputText>
 								<h:panelGroup>

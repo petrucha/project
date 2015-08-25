@@ -6,21 +6,21 @@ import javax.faces.context.FacesContext;
 import javax.faces.validator.Validator;
 import javax.faces.validator.ValidatorException;
 
-import service.UserService;
+import service.DeviceService;
 
-public class UsernameValidator implements Validator {
+public class MacValidator implements Validator {
 	
 	@Override
 	public void validate(FacesContext context, UIComponent component,
 			Object value) throws ValidatorException {
 		
-		String username = value.toString();
-		UserService userService = UserService.getInstance();
+		String mac = value.toString();
+		DeviceService deviceService = DeviceService.getInstance();
 		
-		if(userService.isUserExist(username)){
+		if(deviceService.isDeviceExist(mac)){
 			FacesMessage msg = 
-					new FacesMessage("Username validation failed.", 
-							"Username already exist.");
+					new FacesMessage("MAC address validation failed.", 
+							"MAC address already exist.");
 				msg.setSeverity(FacesMessage.SEVERITY_ERROR);
 				throw new ValidatorException(msg);
 		}

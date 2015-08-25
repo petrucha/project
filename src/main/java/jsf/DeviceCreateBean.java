@@ -53,7 +53,6 @@ public class DeviceCreateBean extends AbstractBean implements Serializable {
 	}
 	
 	public String createDevice() {
-		deviceService.addDevice(device); // do try to remove
 		List<String> selectedUsers = usernames.getTarget();
 		
 		if(deviceService.addDeviceToUsers(device, selectedUsers)){

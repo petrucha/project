@@ -46,7 +46,6 @@ public class DevicesViewBean extends AbstractBean implements Serializable {
 
 	public void setSelectedDevice(DeviceData selectedDevice) {
 		this.selectedDevice = selectedDevice;
-		System.out.println(selectedDevice.getDeviceId());
 	}
 	
 	public boolean isAdminMode() {

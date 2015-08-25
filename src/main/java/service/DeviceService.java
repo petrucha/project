@@ -111,8 +111,8 @@ public class DeviceService implements Serializable {
 	public boolean updateDevice(Device device) {
 		try {
 			HibernateUtil.beginTransaction();
-			LOG.debug("Merging a device: " + device.toString());
-			deviceDAO.merge(device);
+			LOG.debug("Saving a device: " + device.toString());
+			deviceDAO.save(device);
 			HibernateUtil.commitTransaction();
 			return true;
 		} catch (HibernateException ex) {
@@ -238,22 +238,22 @@ public class DeviceService implements Serializable {
 	 * @return true if a device is successfully linked with users, else false
 	 */
 	public boolean addDeviceToUsers(Device device, List<String> usernames) {
-		if (!usernames.isEmpty()){
-			try {
-				HibernateUtil.beginTransaction();
+		try {
+			HibernateUtil.beginTransaction();
+			if (!usernames.isEmpty()) {
 				LOG.debug("Getting users by usernames");
 				List<User> userList = userDAO.getUsersByUsernames(usernames);
 				Set<User> userSet = new HashSet<User>(userList);
 				device.setUsers(userSet);
-				LOG.debug("Merging a device: " + device.toString());
-				deviceDAO.merge(device);
-				HibernateUtil.commitTransaction();
-				return true;
-			} catch (HibernateException ex) {
-				LOG.error("Failed to link users and the device: " + device.toString());
-				LOG.error(ex.getCause());
-				HibernateUtil.rollbackTransaction();
 			}
+			LOG.debug("Saving a device: " + device.toString());
+			deviceDAO.save(device);
+			HibernateUtil.commitTransaction();
+			return true;
+		} catch (HibernateException ex) {
+			LOG.error("Failed to link users and the device: " + device.toString());
+			LOG.error(ex.getCause());
+			HibernateUtil.rollbackTransaction();
 		}
 		
 		return false;
