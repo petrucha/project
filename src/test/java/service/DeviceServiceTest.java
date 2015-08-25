@@ -145,4 +145,26 @@ public class DeviceServiceTest {
 		Assert.assertNull(deviceService.getDevice(device.getId()));
 	}
 	
+	@Test
+	public void testGetMacsByUser() {
+		User user = new User(TestUtil.randomString(6)+"name",
+				TestUtil.randomString(6)+"pass", TestUtil.randomString(6)+"first",
+				TestUtil.randomString(6)+"last", new Date(), 
+				TestUtil.randomString(6)+"@email.com",
+    			null, null);
+		userService.addUser(user);
+		Device device = new Device(TestUtil.randomString(4));
+     	device.getUsers().add(user);
+		deviceService.addDevice(device);
+		
+		List<String> macs = deviceService.getMacsByUser(user.getUsername());
+		Assert.assertTrue(macs.contains(device.getMac()));
+    	Assert.assertEquals(macs.size(), 1);
+		
+		userService.deleteUser(user);
+		Assert.assertNull(userService.getUserByUsernameAndPassword(user.getUsername(), user.getPassword()));
+		deviceService.deleteDevice(device);
+		Assert.assertNull(deviceService.getDevice(device.getId()));
+	}
+	
 }

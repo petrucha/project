@@ -7,6 +7,8 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
+import javax.faces.context.FacesContext;
+
 import org.primefaces.model.chart.Axis;
 import org.primefaces.model.chart.AxisType;
 import org.primefaces.model.chart.BarChartModel;
@@ -16,6 +18,7 @@ import org.primefaces.model.chart.LineChartModel;
 import org.primefaces.model.chart.PieChartModel;
 
 import entity.Record;
+import entity.User;
 import service.DeviceService;
 import service.RecordService;
 import util.DateUtil;
@@ -148,7 +151,14 @@ public class ChartsViewBean extends AbstractBean implements Serializable {
 	}
 	// limit 5 devices
 	private void initSelectedDevices() {
-		devices = deviceService.getAllMacs(true);
+		FacesContext context = FacesContext.getCurrentInstance();
+		UserBean userB = context.getApplication().evaluateExpressionGet(context, "#{userBean}", UserBean.class);
+		if (userB.isAdminRole()) {
+			devices = deviceService.getAllMacs(true);
+		} else {
+			User currentUser = userB.getUser();
+			devices = deviceService.getMacsByUser(currentUser.getUsername());
+		}
 		// choosing first 5 devices
 		if (devices.size() < 5) {
 			selectedDevices = new String[devices.size()];

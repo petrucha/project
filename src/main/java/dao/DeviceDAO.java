@@ -51,7 +51,7 @@ public class DeviceDAO extends AbstractDAO<Device> {
 	
 	/**
 	 * @param mac
-	 * @return a device with specified MAC Address
+	 * @return a device with specified MAC address
 	 */
 	public Device getDeviceByMac(final String mac) {
 		Session hibernateSession = this.getSession();
@@ -62,6 +62,24 @@ public class DeviceDAO extends AbstractDAO<Device> {
 		query.setParameter("mac", mac);
 		
 		return this.findOne(query);
+	}
+	
+	/**
+	 * @param username
+	 * @return MAC addresses of the user's devices
+	 */
+	@SuppressWarnings("unchecked")
+	public List<String> getMacsByUser(String username) {
+		Session hibernateSession = this.getSession();
+		String hql = "SELECT d.mac FROM Device d "
+				+ "LEFT JOIN d.users u "
+				+ "WHERE u.username = :username ";
+		LOG.trace("Creating a query: " + hql);
+		Query query = hibernateSession.createQuery(hql);
+		LOG.trace("Setting a param username=\"" + username + "\"");
+		query.setParameter("username", username);
+		
+		return query.list();
 	}
 
 }

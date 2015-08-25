@@ -258,5 +258,24 @@ public class DeviceService implements Serializable {
 		
 		return false;
 	}
+	
+	/**
+	 * @param username
+	 * @return MAC addresses of the user's devices
+	 */
+	public List<String> getMacsByUser(String username) {
+		List<String> macs = new ArrayList<String>();
+		try {
+			HibernateUtil.beginTransaction();
+			LOG.debug("Getting MACs by user: " + username);
+			macs = deviceDAO.getMacsByUser(username);
+			HibernateUtil.commitTransaction();
+		} catch (HibernateException ex) {
+			LOG.error("Failed to get MACs by user: " + username);
+			LOG.error(ex.getCause());
+		}
+		
+		return macs;
+	}
 
 }
