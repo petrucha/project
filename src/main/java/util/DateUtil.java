@@ -4,25 +4,30 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
+import org.apache.log4j.Logger;
+
 public class DateUtil {
+	
+	private static final Logger LOG = Logger.getLogger(DateUtil.class);
 	
 	public static double dateToTimestamp(Date date) {
 		SimpleDateFormat format = new SimpleDateFormat("yyyyMMddkkmmss");
 		String dateString = format.format(date);
-		
-		return Double.parseDouble(dateString);
+		double timestamp = Double.parseDouble(dateString);
+		LOG.debug("Date was formated from " + date + " to " + timestamp);
+		return timestamp;
 	}
 	
 	public static String timestampToStringFmt(double datetime) {
-		StringBuffer sb = new StringBuffer(String.format("%.0f", datetime));
-		System.out.println(sb.toString() + "-------------");
+		String rawDateStr = String.format("%.0f", datetime);
+		StringBuffer sb = new StringBuffer(rawDateStr);
 		sb.insert(12, ':');
 		sb.insert(10, ':');
 		sb.insert(8, ' ');
 		sb.insert(6, '-');
 		sb.insert(4, '-');
 		String formatedDate = sb.toString();
-		// "yyyy-MM-dd hh:mm:ss"
+		LOG.debug("Date was formated from " + datetime + " to '" + formatedDate +"'");
 		return formatedDate;
 	}
 	
@@ -38,8 +43,9 @@ public class DateUtil {
 		sbOut.append(sbIn.substring(10, 12));
 		sbOut.append(':');
 		sbOut.append(sbIn.substring(12, 14));
-		
-		return sbOut.toString();
+		String formatedDate = sbOut.toString();
+		LOG.debug("Date was formated from " + datetime + " to '" + formatedDate +"'");
+		return formatedDate;
 	}
 	
 	public static String printTomorrow() {
@@ -48,7 +54,9 @@ public class DateUtil {
 		c.setTime(dt);
 		c.add(Calendar.DATE, 1);
 		dt = c.getTime();
-		return new SimpleDateFormat("yyyy-MM-dd").format(dt);
+		String tommorowStr = new SimpleDateFormat("yyyy-MM-dd").format(dt);
+		LOG.debug("Got tomorrow date in String: '" + tommorowStr +"'");
+		return tommorowStr;
 	}
 
 	public static String printNextHour(Date dt) {
@@ -56,7 +64,9 @@ public class DateUtil {
 		c.setTime(dt);
 		c.add(Calendar.HOUR, 1);
 		dt = c.getTime();
-		return new SimpleDateFormat("yyyy-MM-dd kk:mm:ss").format(dt);
+		String nextHourStr = new SimpleDateFormat("yyyy-MM-dd kk:mm:ss").format(dt);
+		LOG.debug("Got next hour in String: '" + nextHourStr +"'");
+		return nextHourStr;
 	}
 	
 	public static Date getYesterday() {
@@ -64,8 +74,9 @@ public class DateUtil {
 		Calendar c = Calendar.getInstance();
 		c.setTime(dt);
 		c.add(Calendar.DATE, -1);
-		
-		return c.getTime();
+		dt = c.getTime();
+		LOG.debug("Got date of yesterday: '" + dt +"'");
+		return dt;
 	}
 	
 }
