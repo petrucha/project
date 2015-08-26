@@ -157,7 +157,7 @@ public class ChartsViewBean extends AbstractBean implements Serializable {
 			devices = deviceService.getAllMacs(true);
 		} else {
 			User currentUser = userB.getUser();
-			devices = deviceService.getMacsByUser(currentUser.getUsername());
+			devices = deviceService.getMacsByUser(currentUser.getUsername(), true);
 		}
 		// choosing first 5 devices
 		if (devices.size() < 5) {

@@ -66,14 +66,18 @@ public class DeviceDAO extends AbstractDAO<Device> {
 	
 	/**
 	 * @param username
+	 * @param notEmpty
 	 * @return MAC addresses of the user's devices
 	 */
 	@SuppressWarnings("unchecked")
-	public List<String> getMacsByUser(final String username) {
+	public List<String> getMacsByUser(final String username, final boolean notEmpty) {
 		Session hibernateSession = this.getSession();
 		String hql = "SELECT d.mac FROM Device d "
 				+ "LEFT JOIN d.users u "
-				+ "WHERE u.username = :username ";
+				+ "WHERE u.username = :username";
+		if (notEmpty) {
+			hql += " AND d.records IS NOT EMPTY";
+		}
 		LOG.trace("Creating a query: " + hql);
 		Query query = hibernateSession.createQuery(hql);
 		LOG.trace("Setting a param username=\"" + username + "\"");

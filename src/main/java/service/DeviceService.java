@@ -261,17 +261,18 @@ public class DeviceService implements Serializable {
 	
 	/**
 	 * @param username
+	 * @param notEmpty
 	 * @return MAC addresses of the user's devices
 	 */
-	public List<String> getMacsByUser(String username) {
+	public List<String> getMacsByUser(String username, boolean notEmpty) {
 		List<String> macs = new ArrayList<String>();
 		try {
 			HibernateUtil.beginTransaction();
-			LOG.debug("Getting MACs by user: " + username);
-			macs = deviceDAO.getMacsByUser(username);
+			LOG.debug("Getting MACs by user: " + username + ". \"notEmpty\" is: " + notEmpty);
+			macs = deviceDAO.getMacsByUser(username, notEmpty);
 			HibernateUtil.commitTransaction();
 		} catch (HibernateException ex) {
-			LOG.error("Failed to get MACs by user: " + username);
+			LOG.error("Failed to get MACs by user: " + username + ". \"notEmpty\" is: " + notEmpty);
 			LOG.error(ex.getCause());
 		}
 		

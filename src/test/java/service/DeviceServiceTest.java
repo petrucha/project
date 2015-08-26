@@ -157,7 +157,7 @@ public class DeviceServiceTest {
      	device.getUsers().add(user);
 		deviceService.addDevice(device);
 		
-		List<String> macs = deviceService.getMacsByUser(user.getUsername());
+		List<String> macs = deviceService.getMacsByUser(user.getUsername(), false);
 		Assert.assertTrue(macs.contains(device.getMac()));
     	Assert.assertEquals(macs.size(), 1);
 		
