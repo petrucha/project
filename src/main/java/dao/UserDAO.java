@@ -115,7 +115,7 @@ public class UserDAO extends AbstractDAO<User> {
 	 * @param username
 	 * @return true if user already exist, else false
 	 */
-	public boolean isUserExist(String username) {
+	public boolean isUserExist(final String username) {
 		Session hibernateSession = this.getSession();
 		String hql = "SELECT u.username FROM User u "
 				+ "WHERE u.username = :username";

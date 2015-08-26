@@ -69,7 +69,7 @@ public class DeviceDAO extends AbstractDAO<Device> {
 	 * @return MAC addresses of the user's devices
 	 */
 	@SuppressWarnings("unchecked")
-	public List<String> getMacsByUser(String username) {
+	public List<String> getMacsByUser(final String username) {
 		Session hibernateSession = this.getSession();
 		String hql = "SELECT d.mac FROM Device d "
 				+ "LEFT JOIN d.users u "
@@ -86,7 +86,7 @@ public class DeviceDAO extends AbstractDAO<Device> {
 	 * @param mac
 	 * @return true if a device already exist, else false
 	 */
-	public boolean isDeviceExist(String mac) {
+	public boolean isDeviceExist(final String mac) {
 		Session hibernateSession = this.getSession();
 		String hql = "SELECT d.mac FROM Device d "
 				+ "WHERE d.mac = :mac";

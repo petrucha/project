@@ -52,9 +52,9 @@
 									<f:selectItem itemLabel="Bar chart" itemValue="bar" />
 									<f:selectItem itemLabel="Pie chart" itemValue="pie" />
 								</p:selectOneButton>
-								
+
 								<h:outputText value="Devices :" />
-								<p:selectCheckboxMenu id="menu1" class="filters"
+								<p:selectCheckboxMenu id="devicesListBox" class="filters"
 									label="Select devices" filter="true"
 									value="#{chartsViewBean.selectedDevices}"
 									filterMatchMode="startsWith" panelStyle="width:400px">
@@ -92,10 +92,21 @@
 				</f:facet>
 
 				<f:facet name="right">
-				
-					<p:commandButton type="button" onclick="refrCharts()"
-						value="Refresh" icon="ui-icon-refresh" class="filters" />
+					<h:panelGrid columns="2" cellpadding="2" class="facetRight">
+					
+						<p:commandButton type="button"
+							onclick="refrCharts()" value="Refresh"
+							icon="ui-icon-refresh" class="refreshButon"/>
+
+						<p:ajaxStatus onstart="PF('statusDialog').show()"
+							onsuccess="PF('statusDialog').hide()" />
+
+						<p:dialog widgetVar="statusDialog" modal="true" draggable="false"
+							closable="false" resizable="false" showHeader="false">
+							<h:graphicImage library="images" name="ajax-loader.gif" />
+						</p:dialog>
 						
+					</h:panelGrid>
 				</f:facet>
 
 			</p:toolbar>
