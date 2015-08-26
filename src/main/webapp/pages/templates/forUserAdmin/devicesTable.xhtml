@@ -21,16 +21,23 @@
 
 			<p:dataTable id="devices" var="device"
 				value="#{devicesViewBean.devices}" rowKey="#{device.deviceId}"
-				selection="#{devicesViewBean.selectedDevice}" selectionMode="single">
-				<p:column headerText="MAC Address">
+				selection="#{devicesViewBean.selectedDevice}" selectionMode="single"
+				rows="10" paginator="true"
+				paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+				rowsPerPageTemplate="5,10,15, 20">
+				<p:column headerText="MAC Address" filterBy="#{device.mac}"
+					filterMatchMode="contains" sortBy="#{device.mac}">
 					<h:outputText value="#{device.mac}" />
 				</p:column>
 
-				<p:column headerText="Records Count">
+				<p:column headerText="Records Count"
+					filterBy="#{device.recordsCount}" filterMatchMode="contains"
+					sortBy="#{device.recordsCount}">
 					<h:outputText value="#{device.recordsCount}" />
 				</p:column>
 
-				<p:column headerText="Last Updated">
+				<p:column headerText="Last Updated" filterBy="#{device.lastUpdated}"
+					filterMatchMode="contains" sortBy="#{device.lastUpdated}">
 					<h:outputText value="#{device.lastUpdated}" />
 				</p:column>
 
