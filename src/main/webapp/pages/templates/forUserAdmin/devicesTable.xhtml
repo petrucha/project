@@ -20,17 +20,20 @@
 			</p:contextMenu>
 
 			<p:dataTable id="devices" var="device"
-				value="#{devicesViewBean.devices}" rowKey="#{device.deviceId}"
+				value="#{devicesViewBean.devices}" rowKey="#{device.mac}"
+				rows="10" paginator="true"
+				paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+				rowsPerPageTemplate="5,10,15" lazy="true"
 				selection="#{devicesViewBean.selectedDevice}" selectionMode="single">
-				<p:column headerText="MAC Address">
+				<p:column headerText="MAC Address" sortBy="#{device.mac}" filterBy="#{device.mac}">
 					<h:outputText value="#{device.mac}" />
 				</p:column>
 
-				<p:column headerText="Records Count">
+				<p:column headerText="Records Count" sortBy="#{device.recordsCount}" filterBy="#{device.recordsCount}">
 					<h:outputText value="#{device.recordsCount}" />
 				</p:column>
 
-				<p:column headerText="Last Updated">
+				<p:column headerText="Last Updated" sortBy="#{device.lastUpdated}" filterBy="#{device.lastUpdated}">
 					<h:outputText value="#{device.lastUpdated}" />
 				</p:column>
 

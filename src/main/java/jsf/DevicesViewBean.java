@@ -9,7 +9,10 @@ import java.util.Map;
 import javax.faces.context.FacesContext;
 
 import org.primefaces.context.RequestContext;
+import org.primefaces.model.LazyDataModel;
+
 import data.DeviceData;
+import data.LazyDeviceDataModel;
 import entity.Device;
 import entity.User;
 import service.DeviceService;
@@ -20,7 +23,8 @@ public class DevicesViewBean extends AbstractBean implements Serializable {
 	
 	private static DeviceService deviceService = DeviceService.getInstance();
 	
-	private List<DeviceData> devices;
+//	private List<DeviceData> devices;
+	private LazyDataModel<DeviceData> devices;
 	private DeviceData selectedDevice;
 	private boolean adminMode;
 
@@ -29,14 +33,22 @@ public class DevicesViewBean extends AbstractBean implements Serializable {
 		UserBean userB = context.getApplication().evaluateExpressionGet(context, "#{userBean}", UserBean.class);
 		adminMode = userB.isAdminRole();
 		User currentUser = userB.getUser();
-		this.devices = deviceService.getUserDevicesData(currentUser);
+		this.devices = new LazyDeviceDataModel(deviceService.getUserDevicesData(currentUser));
 	}
 
-	public List<DeviceData> getDevices() {
+/*	public List<DeviceData> getDevices() {
 		return devices;
 	}
 
 	public void setDevices(List<DeviceData> devices) {
+		this.devices = devices;
+	}*/
+
+	public LazyDataModel<DeviceData> getDevices() {
+		return devices;
+	}
+
+	public void setDevices(LazyDataModel<DeviceData> devices) {
 		this.devices = devices;
 	}
 
