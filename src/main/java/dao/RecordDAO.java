@@ -183,4 +183,33 @@ public class RecordDAO extends AbstractDAO<Record> {
 		return ((Number) query.uniqueResult()).intValue();
 	}
 	
+	/**
+	 * @param username
+	 * @param startTime
+	 * @return number of last records from startTime to now.
+	 *  If username isn't null the query returns result by only user's devices
+	 */
+	public int countLastRecords(final String username, final double startTime) {
+		Session hibernateSession = this.getSession();
+		String hql = "SELECT COUNT(r.id) FROM Record r "
+				+ "LEFT JOIN r.device d "
+				+ "LEFT JOIN d.users u "
+				+ "WHERE r.timestamp >= :startTime ";
+		if (username !=  null) {
+			hql += "AND u.username = :username ";
+		}
+		LOG.trace("Creating a query: " + hql);
+		Query query = hibernateSession.createQuery(hql);
+		LOG.trace("Setting param: startTime=\"" + startTime);
+		query.setParameter("startTime", startTime);
+		if (username !=  null) {
+			LOG.trace("Setting param: username=\"" + username);
+			query.setParameter("username", username);
+		}
+		
+		return ((Number) query.uniqueResult()).intValue();
+	}
+	
+	
+	
 }

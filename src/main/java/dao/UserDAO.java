@@ -43,8 +43,8 @@ public class UserDAO extends AbstractDAO<User> {
 		String hql = "SELECT count(u.id) FROM User u";
 		LOG.trace("Creating a query: " + hql);
 		Query query = hibernateSession.createQuery(hql);
+		
 		return ((Number) query.uniqueResult()).intValue();
-
 	}
 	
 	/**

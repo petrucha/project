@@ -105,5 +105,17 @@ public class DeviceDAO extends AbstractDAO<Device> {
 		LOG.trace("Device with MAC \"" + mac + "\" not found");
 		return false;
 	}
+	
+	/**
+	 * @return number of all devices
+	 */
+	public int countDevices() {
+		Session hibernateSession = this.getSession();
+		String hql = "SELECT COUNT(d.id) FROM Device d";
+		LOG.trace("Creating a query: " + hql);
+		Query query = hibernateSession.createQuery(hql);
+		
+		return ((Number) query.uniqueResult()).intValue();
+	}
 
 }

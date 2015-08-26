@@ -107,5 +107,14 @@ public class RecordServiceTest {
     	Device drd = records.get(0)[0].getDevice();
     	Assert.assertEquals(drd, device);
     }
+    
+    @Test 
+    public void testCountLastRecords() {
+    	Date startDate = DateUtil.timestampToDate(record.getTimestamp());
+    	int number = recordService.getNumberOfLastRecords(null, startDate);
+    	Assert.assertEquals(number, 1);
+    	number = recordService.getNumberOfLastRecords("notexisting", startDate);
+    	Assert.assertEquals(number, 0);
+    }
   
 }

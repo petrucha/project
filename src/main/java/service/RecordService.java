@@ -182,4 +182,26 @@ public class RecordService implements Serializable {
 		return recordsList;
 	}
 	
+	/**
+	 * @param username
+	 * @param startDate
+	 * @return number of last records from startDate to now.
+	 *  If username isn't null the query returns result by only user's devices
+	 */
+	public int getNumberOfLastRecords(String username, Date startDate) {
+		int numRecords = 0;
+		try {
+			HibernateUtil.beginTransaction();
+			double startTime = DateUtil.dateToTimestamp(startDate);
+			LOG.debug("Obtaining the number of last records since '" + startDate + "' of user: " + username);
+			numRecords = recordDAO.countLastRecords(username, startTime);
+			LOG.debug("Found: " + numRecords + " records.");
+			HibernateUtil.commitTransaction();
+		} catch (HibernateException ex) {
+			LOG.error("Failed to get number of last records.");
+			LOG.error(ex.getCause());
+		}
+		return numRecords;
+	}
+	
 }

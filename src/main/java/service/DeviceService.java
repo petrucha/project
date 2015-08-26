@@ -297,5 +297,23 @@ public class DeviceService implements Serializable {
 		
 		return exist;
 	}
+	
+	/**
+	 * @return number of all devices
+	 */
+	public int getNumberOfDevices() {
+		int numDevices = 0;
+		try {
+			HibernateUtil.beginTransaction();
+			LOG.debug("Obtaining the number of devices");
+			numDevices = deviceDAO.countDevices();
+			LOG.debug("Found: " + numDevices + " devices.");
+			HibernateUtil.commitTransaction();
+		} catch (HibernateException ex) {
+			LOG.error("Failed to get devices number");
+			LOG.error(ex.getCause());
+		}
+		return numDevices;
+	}
 
 }

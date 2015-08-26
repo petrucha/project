@@ -121,6 +121,7 @@ public class UserService implements Serializable {
 			HibernateUtil.beginTransaction();
 			LOG.debug("Obtaining the number of users");
 			numUsers = userDAO.countUsers();
+			LOG.debug("Found: " + numUsers + " users.");
 			HibernateUtil.commitTransaction();
 		} catch (HibernateException ex) {
 			LOG.error("Failed to get users number");
