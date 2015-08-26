@@ -1,5 +1,6 @@
 package util;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -10,6 +11,10 @@ public class DateUtil {
 	
 	private static final Logger LOG = Logger.getLogger(DateUtil.class);
 	
+	/**
+	 * @param date
+	 * @return for example: 20150826105412
+	 */
 	public static double dateToTimestamp(Date date) {
 		SimpleDateFormat format = new SimpleDateFormat("yyyyMMddHHmmss");
 		String dateString = format.format(date);
@@ -18,6 +23,29 @@ public class DateUtil {
 		return timestamp;
 	}
 	
+	/**
+	 * @param datetime
+	 * @return timestamp in java.util.Date format
+	 */
+	public static Date timestampToDate(double datetime) {
+		String rawDateStr = String.format("%.0f", datetime);
+		SimpleDateFormat format = new SimpleDateFormat("yyyyMMddHHmmss");
+		try {
+			Date date = format.parse(rawDateStr);
+			LOG.debug("Date was formated from " + datetime + " to " + date);
+			return date;
+		} catch (ParseException ex) {
+			LOG.error("Failed to parse date: " + rawDateStr);
+			LOG.error(ex.getCause());
+		}
+		
+		return null;
+	}
+	
+	/**
+	 * @param datetime
+	 * @return for example: 2015-08-26 10:54:12
+	 */
 	public static String timestampToStringFmt(double datetime) {
 		String rawDateStr = String.format("%.0f", datetime);
 		StringBuffer sb = new StringBuffer(rawDateStr);
@@ -31,6 +59,10 @@ public class DateUtil {
 		return formatedDate;
 	}
 	
+	/**
+	 * @param datetime
+	 * @return for example: 26/08 10:54:12
+	 */
 	public static String toShortDateFormat(double datetime) {
 		StringBuffer sbIn = new StringBuffer(String.format("%.0f", datetime));
 		StringBuffer sbOut = new StringBuffer();
@@ -48,17 +80,26 @@ public class DateUtil {
 		return formatedDate;
 	}
 	
+	/**
+	 * @return tomorrow date since now in string format.
+	 *  For example: 2015-08-27 10:54:12
+	 */
 	public static String printTomorrow() {
 		Date dt = new Date();
 		Calendar c = Calendar.getInstance();
 		c.setTime(dt);
 		c.add(Calendar.DATE, 1);
 		dt = c.getTime();
-		String tommorowStr = new SimpleDateFormat("yyyy-MM-dd").format(dt);
+		String tommorowStr = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(dt);
 		LOG.debug("Got tomorrow date in String: '" + tommorowStr +"'");
 		return tommorowStr;
 	}
 
+	/**
+	 * @param dt
+	 * @return next hour since dt in string format.
+	 * For example: 2015-08-26 11:54:12
+	 */
 	public static String printNextHour(Date dt) {
 		Calendar c = Calendar.getInstance();
 		c.setTime(dt);
@@ -69,6 +110,9 @@ public class DateUtil {
 		return nextHourStr;
 	}
 	
+	/**
+	 * @return yesterday relatively now is java.util.Date format.
+	 */
 	public static Date getYesterday() {
 		Date dt = new Date();
 		Calendar c = Calendar.getInstance();
