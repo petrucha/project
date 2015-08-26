@@ -11,7 +11,7 @@ public class DateUtil {
 	private static final Logger LOG = Logger.getLogger(DateUtil.class);
 	
 	public static double dateToTimestamp(Date date) {
-		SimpleDateFormat format = new SimpleDateFormat("yyyyMMddkkmmss");
+		SimpleDateFormat format = new SimpleDateFormat("yyyyMMddHHmmss");
 		String dateString = format.format(date);
 		double timestamp = Double.parseDouble(dateString);
 		LOG.debug("Date was formated from " + date + " to " + timestamp);
@@ -64,7 +64,7 @@ public class DateUtil {
 		c.setTime(dt);
 		c.add(Calendar.HOUR, 1);
 		dt = c.getTime();
-		String nextHourStr = new SimpleDateFormat("yyyy-MM-dd kk:mm:ss").format(dt);
+		String nextHourStr = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(dt);
 		LOG.debug("Got next hour in String: '" + nextHourStr +"'");
 		return nextHourStr;
 	}

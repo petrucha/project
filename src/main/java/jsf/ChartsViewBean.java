@@ -81,7 +81,7 @@ public class ChartsViewBean extends AbstractBean implements Serializable {
 		lineModel.getAxis(AxisType.Y).setLabel(fullType);
 		DateAxis axisX = new DateAxis("Dates");
 
-		SimpleDateFormat fmt = new SimpleDateFormat("yyyy-MM-dd kk:mm:ss");
+		SimpleDateFormat fmt = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
 		axisX.setTickAngle(-50);
 		axisX.setMin(fmt.format(startDate));
@@ -133,7 +133,7 @@ public class ChartsViewBean extends AbstractBean implements Serializable {
 
 	private ChartSeries initModel(Record[] records) {
 		ChartSeries series = new ChartSeries();
-		SimpleDateFormat fmt = new SimpleDateFormat("yyyy-MM-dd kk:mm:ss");
+		SimpleDateFormat fmt = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
 		if (records.length == 0) {
 			series.setLabel("No records found for the period.");
