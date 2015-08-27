@@ -55,7 +55,7 @@ public class DateUtil {
 		sb.insert(6, '-');
 		sb.insert(4, '-');
 		String formatedDate = sb.toString();
-		LOG.debug("Date was formated from " + datetime + " to '" + formatedDate +"'");
+		LOG.debug("Date was formated from " + datetime + " to '" + formatedDate + "'");
 		return formatedDate;
 	}
 	
@@ -76,7 +76,7 @@ public class DateUtil {
 		sbOut.append(':');
 		sbOut.append(sbIn.substring(12, 14));
 		String formatedDate = sbOut.toString();
-		LOG.debug("Date was formated from " + datetime + " to '" + formatedDate +"'");
+		LOG.debug("Date was formated from " + datetime + " to '" + formatedDate + "'");
 		return formatedDate;
 	}
 	
@@ -91,7 +91,7 @@ public class DateUtil {
 		c.add(Calendar.DATE, 1);
 		dt = c.getTime();
 		String tommorowStr = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(dt);
-		LOG.debug("Got tomorrow date in String: '" + tommorowStr +"'");
+		LOG.debug("Got tomorrow date in String: '" + tommorowStr + "'");
 		return tommorowStr;
 	}
 
@@ -106,12 +106,12 @@ public class DateUtil {
 		c.add(Calendar.HOUR, 1);
 		dt = c.getTime();
 		String nextHourStr = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(dt);
-		LOG.debug("Got next hour in String: '" + nextHourStr +"'");
+		LOG.debug("Got next hour in String: '" + nextHourStr + "'");
 		return nextHourStr;
 	}
 	
 	/**
-	 * @return yesterday relatively now is java.util.Date format.
+	 * @return yesterday relatively now in java.util.Date format.
 	 */
 	public static Date getYesterday() {
 		Date dt = new Date();
@@ -119,7 +119,33 @@ public class DateUtil {
 		c.setTime(dt);
 		c.add(Calendar.DATE, -1);
 		dt = c.getTime();
-		LOG.debug("Got date of yesterday: '" + dt +"'");
+		LOG.debug("Got date of yesterday: '" + dt + "'");
+		return dt;
+	}
+	
+	/**
+	 * @return last minute relatively now in java.util.Date format.
+	 */
+	public static Date getLastMinute() {
+		Date dt = new Date();
+		Calendar c = Calendar.getInstance();
+		c.setTime(dt);
+		c.add(Calendar.MINUTE, -1);
+		dt = c.getTime();
+		LOG.debug("Got last MINUTE: '" + dt + "'");
+		return dt;
+	}
+	
+	/**
+	 * @return three months ago relatively now in java.util.Date format.
+	 */
+	public static Date getThreeMonthsAgo() {
+		Date dt = new Date();
+		Calendar c = Calendar.getInstance();
+		c.setTime(dt);
+		c.add(Calendar.MONTH, -3);
+		dt = c.getTime();
+		LOG.debug("Got date of three months ago: '" + dt + "'");
 		return dt;
 	}
 	

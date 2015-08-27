@@ -191,7 +191,7 @@ public class RecordDAO extends AbstractDAO<Record> {
 	 */
 	public int countLastRecords(final String username, final double startTime) {
 		Session hibernateSession = this.getSession();
-		String hql = "SELECT COUNT(r.id) FROM Record r "
+		String hql = "SELECT COUNT(DISTINCT r.id) FROM Record r "
 				+ "LEFT JOIN r.device d "
 				+ "LEFT JOIN d.users u "
 				+ "WHERE r.timestamp >= :startTime ";

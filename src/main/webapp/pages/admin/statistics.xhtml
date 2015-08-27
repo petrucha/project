@@ -13,7 +13,18 @@
 		<ui:define name="content">
 
 			<h2>Administrators Statistics Dashboard!!!</h2>
-
+			<h:form>
+			<h:panelGrid collumns="2">
+				Users registered:
+				<h:outputText value="#{statisticsViewBean.usersRegistered}"></h:outputText>
+				
+				Devices Added:
+				<h:outputText value="#{statisticsViewBean.devicesAdded}"></h:outputText>
+				
+				Records for last 3 months:
+				<h:outputText value="#{statisticsViewBean.recordsPerMinute}"></h:outputText>
+			</h:panelGrid>
+</h:form>
 		</ui:define>
 	</ui:composition>
 </h:body>

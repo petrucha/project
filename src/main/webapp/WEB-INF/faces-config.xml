@@ -67,6 +67,12 @@
 		<managed-bean-class>jsf.ProfileViewEditBean</managed-bean-class>
 		<managed-bean-scope>view</managed-bean-scope>
 	</managed-bean>
+	
+	<managed-bean>
+		<managed-bean-name>statisticsViewBean</managed-bean-name>
+		<managed-bean-class>jsf.StatisticsViewBean</managed-bean-class>
+		<managed-bean-scope>view</managed-bean-scope>
+	</managed-bean>
 
 	<!-- RULES -->
 	<navigation-rule>
