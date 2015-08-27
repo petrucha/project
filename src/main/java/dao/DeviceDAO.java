@@ -105,15 +105,25 @@ public class DeviceDAO extends AbstractDAO<Device> {
 		LOG.trace("Device with MAC \"" + mac + "\" not found");
 		return false;
 	}
-	
+
 	/**
-	 * @return number of all devices
+	 * @param username
+	 * @return number of all devices.
+	 * If username isn't null the query returns result by only user's devices
 	 */
-	public int countDevices() {
+	public int countDevices(final String username) {
 		Session hibernateSession = this.getSession();
-		String hql = "SELECT COUNT(d.id) FROM Device d";
+		String hql = "SELECT COUNT(DISTINCT d.id) FROM Device d "
+				+ "LEFT JOIN d.users u ";
+		if (username !=  null) {
+			hql += "WHERE u.username = :username";
+		}
 		LOG.trace("Creating a query: " + hql);
 		Query query = hibernateSession.createQuery(hql);
+		if (username !=  null) {
+			LOG.trace("Setting param: username=\"" + username);
+			query.setParameter("username", username);
+		}
 		
 		return ((Number) query.uniqueResult()).intValue();
 	}

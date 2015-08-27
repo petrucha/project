@@ -56,6 +56,7 @@ public class RecordDAO extends AbstractDAO<Record> {
 			query.setParameter("mac", mac);
 			LOG.trace("Searching for a list of records by device with MAC: " + mac);
 			List<Record> recordList = this.findMany(query);
+			LOG.trace("Found records: " + recordList.size());
 			Record[] deviceRecords = new Record[recordList.size()];
 			sortedRecords.add(recordList.toArray(deviceRecords));
 		}
@@ -141,6 +142,7 @@ public class RecordDAO extends AbstractDAO<Record> {
 			query.setParameter("mac", mac);
 			LOG.trace("Searching for a list of records by device with MAC: " + mac);
 			List<Record> recordList = this.findMany(query);
+			LOG.trace("Found records: " + recordList.size());
 			Record[] deviceRecords = new Record[recordList.size()];
 			lastRecords.add(recordList.toArray(deviceRecords));
 		}

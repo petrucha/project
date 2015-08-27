@@ -301,17 +301,18 @@ public class DeviceService implements Serializable {
 	/**
 	 * @return number of all devices
 	 */
-	public int getNumberOfDevices() {
+	public int getNumberOfDevices(String username) {
 		int numDevices = 0;
 		try {
 			HibernateUtil.beginTransaction();
-			LOG.debug("Obtaining the number of devices");
-			numDevices = deviceDAO.countDevices();
+			LOG.debug("Obtaining the number of devices of user: " + username);
+			numDevices = deviceDAO.countDevices(username);
 			LOG.debug("Found: " + numDevices + " devices.");
 			HibernateUtil.commitTransaction();
 		} catch (HibernateException ex) {
-			LOG.error("Failed to get devices number");
+			LOG.error("Failed to get devices number of user: " + username);
 			LOG.error(ex.getCause());
+			ex.printStackTrace();
 		}
 		return numDevices;
 	}

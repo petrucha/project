@@ -21,7 +21,7 @@ public class StatisticsViewBean extends AbstractBean implements Serializable {
 	
 	public StatisticsViewBean() {
 		this.usersRegistered = userService.getNumberOfUsers();
-		this.devicesAdded = deviceService.getNumberOfDevices();
+		this.devicesAdded = deviceService.getNumberOfDevices(null);
 		this.recordsPerMinute = recordService.getNumberOfLastRecords(null, DateUtil.getThreeMonthsAgo());
 	}
 
