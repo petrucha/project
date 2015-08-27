@@ -205,7 +205,7 @@ public class RecordDAO extends AbstractDAO<Record> {
 		LOG.trace("Setting param: startTime=\"" + startTime);
 		query.setParameter("startTime", startTime);
 		if (username !=  null) {
-			LOG.trace("Setting param: username=\"" + username);
+			LOG.trace("Setting param: username=\"" + username + "\"");
 			query.setParameter("username", username);
 		}
 		

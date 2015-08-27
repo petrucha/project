@@ -2,6 +2,9 @@ package jsf;
 
 import java.io.Serializable;
 
+import javax.faces.context.FacesContext;
+
+import entity.User;
 import service.DeviceService;
 import service.RecordService;
 import service.UserService;
@@ -17,12 +20,25 @@ public class StatisticsViewBean extends AbstractBean implements Serializable {
 	
 	private int usersRegistered;
 	private int devicesAdded;
-	private int recordsPerMinute;
+	private int lastRecordsCount;
+	private boolean adminMode;
 	
 	public StatisticsViewBean() {
-		this.usersRegistered = userService.getNumberOfUsers();
-		this.devicesAdded = deviceService.getNumberOfDevices(null);
-		this.recordsPerMinute = recordService.getNumberOfLastRecords(null, DateUtil.getThreeMonthsAgo());
+		FacesContext context = FacesContext.getCurrentInstance();
+		UserBean userB = context.getApplication().evaluateExpressionGet(context, "#{userBean}", UserBean.class);
+		if (userB.isAdminRole()) {
+			this.adminMode = true;
+			this.usersRegistered = userService.getNumberOfUsers();
+			this.devicesAdded = deviceService.getNumberOfDevices(null);
+			this.lastRecordsCount = recordService.getNumberOfLastRecords(null, DateUtil.getThreeMonthsAgo());
+		} else {
+			this.adminMode = false;
+			User currentUser = userB.getUser();
+			String username = currentUser.getUsername();
+			this.devicesAdded = deviceService.getNumberOfDevices(username);
+			this.lastRecordsCount = recordService.getNumberOfLastRecords(username , DateUtil.getThreeMonthsAgo());
+		}
+
 	}
 
 	public int getUsersRegistered() {
@@ -33,8 +49,11 @@ public class StatisticsViewBean extends AbstractBean implements Serializable {
 		return devicesAdded;
 	}
 
-	public int getRecordsPerMinute() {
-		return recordsPerMinute;
+	public int getLastRecordsCount() {
+		return lastRecordsCount;
 	}
 
+	public boolean isAdminMode() {
+		return adminMode;
+	}
 }

@@ -184,7 +184,8 @@ public class DeviceServiceTest {
 		Device device = new Device(TestUtil.randomString(4));
 		deviceService.addDevice(device);
     	
-    	Assert.assertTrue(deviceService.getNumberOfDevices() > 0);
+    	Assert.assertTrue(deviceService.getNumberOfDevices(null) > 0);
+    	Assert.assertTrue(deviceService.getNumberOfDevices("noExistingUser") == 0);
     	
     	deviceService.deleteDevice(device);
 		Assert.assertNull(deviceService.getDevice(device.getId()));

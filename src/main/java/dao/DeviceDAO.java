@@ -121,7 +121,7 @@ public class DeviceDAO extends AbstractDAO<Device> {
 		LOG.trace("Creating a query: " + hql);
 		Query query = hibernateSession.createQuery(hql);
 		if (username !=  null) {
-			LOG.trace("Setting param: username=\"" + username);
+			LOG.trace("Setting param: username=\"" + username + "\"");
 			query.setParameter("username", username);
 		}
 		
