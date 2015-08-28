@@ -8,6 +8,12 @@
 		<managed-bean-class>jsf.UserBean</managed-bean-class>
 		<managed-bean-scope>session</managed-bean-scope>
 	</managed-bean>
+	
+	<managed-bean>
+		<managed-bean-name>language</managed-bean-name>
+		<managed-bean-class>jsf.LanguageBean</managed-bean-class>
+		<managed-bean-scope>session</managed-bean-scope>
+	</managed-bean>
 
 	<managed-bean>
 		<managed-bean-name>loginBean</managed-bean-name>
@@ -159,6 +165,13 @@
         <action-listener>org.primefaces.application.DialogActionListener</action-listener>
         <navigation-handler>org.primefaces.application.DialogNavigationHandler</navigation-handler>
         <view-handler>org.primefaces.application.DialogViewHandler</view-handler>
+        <locale-config>
+     	        <default-locale>en</default-locale>
+     	   </locale-config>
+	   <resource-bundle>
+		<base-name>i18n.messages</base-name>
+		<var>msg</var>
+	   </resource-bundle>
     </application>
 
 </faces-config>

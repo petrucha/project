@@ -2,11 +2,22 @@
     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
 <html xmlns="http://www.w3.org/1999/xhtml"
-	xmlns:ui="http://java.sun.com/jsf/facelets">
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
 
 <body>
 	<ui:composition>
-		<h1 class ="headerText">zcu.wsn.dp</h1>
+		<h1 class="headerText">zcu.wsn.dp
+			<h:form>
+			<h:selectOneMenu value="#{language.localeCode}" onchange="submit()"
+					valueChangeListener="#{language.countryLocaleCodeChanged}">
+				<f:selectItems value="#{language.countriesInMap}" />
+			</h:selectOneMenu>
+
+			</h:form>
+		</h1>
 	</ui:composition>
 </body>
 </html>
