@@ -37,11 +37,11 @@
 
 					<p:tabView>
 
-						<p:tab title="General">
+						<p:tab title="#{msg['graph.tabs.general']}">
 							<h:panelGrid columns="2" cellpadding="2">
-								<h:outputText value="Records type :" />
+								<h:outputText value="#{msg['graph.records.type']}" />
 								<p:selectOneButton value="#{chartsViewBean.recordsType}">
-									<f:selectItem itemLabel="Temperature" itemValue="temp" />
+									<f:selectItem itemLabel="#{msg['graph.temp']}" itemValue="temp" />
 									<f:selectItem itemLabel="Pressure" itemValue="pres" />
 									<f:selectItem itemLabel="Humidity" itemValue="humi" />
 								</p:selectOneButton>

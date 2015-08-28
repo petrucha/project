@@ -10,11 +10,11 @@
 <link rel="stylesheet" type="text/css" href="../style/main.css" />
 </head>
 <h:body styleClass="body">
-	<h:outputText value="Access Denied!!!" styleClass="header"></h:outputText>
-	<h:outputText value="You don't have sufficient rights to view the page you're requesting,	contact your administrator if you need access!"></h:outputText>
+	<h:outputText value="#{msg['access.denied']}" styleClass="header"></h:outputText>
+	<h:outputText value="#{msg['access.denied.message']}"></h:outputText>
 	<h:messages></h:messages>
 	<h:form>
-		<h:commandLink value="Back to Login Page" action="/pages/login.xhtml"></h:commandLink>
+		<h:commandLink value="#{msg['access.denied.back']}" action="/pages/login.xhtml"></h:commandLink>
 	</h:form>
 </h:body>
 </html>

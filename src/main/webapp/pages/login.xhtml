@@ -13,14 +13,14 @@
 			<div class="menuHomeLeft">
 				<p:tabMenu activeIndex="#{param.i}">
 
-					<p:menuitem value="Login" outcome="login.xhtml">
+					<p:menuitem value="#{msg['login']}" outcome="login.xhtml">
 						<f:param name="i" value="0" />
 					</p:menuitem>
 
 				</p:tabMenu>
 			</div>
 			<div class="menuHomeRight">
-				<p:button value="Back" outcome="/pages/guest/home.xhtml" />
+				<p:button value="#{msg['back']}" outcome="/pages/guest/home.xhtml" />
 			</div>
 		</ui:define>
 		<ui:define name="content">

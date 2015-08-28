@@ -12,28 +12,28 @@
 	<ui:composition template="/pages/templates/forAdmin/commonAdmin.xhtml">
 		<ui:define name="content">
 
-			<h2 class="statHeader"><h:outputText value="#{msg['stat.header']}" />:</h2>
+			<h2 class="statHeader"><h:outputText value="#{msg['stat.header.admin']}" /></h2>
 			
 			<div class="ui-grid ui-grid-responsive statPanel">
 				<div class="ui-grid-row">
 					<div class="ui-grid-col-4 gridCenter">
 						<h3>
 							<i class="fa fa-users fa-5x statIcons"></i> <br />
-							<h:outputText value="Users registered: "></h:outputText>
-							<h:outputText value="#{statisticsViewBean.usersRegistered}"></h:outputText>
+							<h:outputText value="#{msg['stat.users']}" />
+							<h:outputText value="#{statisticsViewBean.usersRegistered}"/>
 						</h3>
 					</div>
 					<div class="ui-grid-col-4 gridCenter">
 						<h3>
 							<i class="fa fa-plug fa-5x statIcons"></i> <br />
-							<h:outputText value="Devices Added: "></h:outputText>
+							<h:outputText value="#{msg['stat.devices']}" />
 							<h:outputText value="#{statisticsViewBean.devicesAdded}"></h:outputText>
 						</h3>
 					</div>
 					<div class="ui-grid-col-4 gridCenter">
 						<h3>
 							<i class="fa fa-download fa-5x statIcons"></i> <br />
-							<h:outputText value="Records for last 3 months: "></h:outputText>
+							<h:outputText value="#{msg['stat.records']}" />
 							<h:outputText value="#{statisticsViewBean.lastRecordsCount}"></h:outputText>
 						</h3>
 					</div>

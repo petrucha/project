@@ -9,15 +9,13 @@
 
 <body>
 	<ui:composition>
-		<h1 class="headerText">zcu.wsn.dp
-			<h:form>
-			<h:selectOneMenu value="#{language.localeCode}" onchange="submit()"
-					valueChangeListener="#{language.countryLocaleCodeChanged}">
-				<f:selectItems value="#{language.countriesInMap}" />
+		<h1 class="headerText">zcu.wsn.dp</h1>
+		<h:form>
+			<h:selectOneMenu value="#{localeBean.language}" onchange="submit()">
+				<f:selectItem itemValue="en" itemLabel="English" />
+				<f:selectItem itemValue="cz" itemLabel="Czech" />
 			</h:selectOneMenu>
-
-			</h:form>
-		</h1>
+		</h:form>
 	</ui:composition>
 </body>
 </html>
