@@ -10,6 +10,7 @@
 <body>
 	<ui:composition>
 		<h1 class="headerText">zcu.wsn.dp
+			<f:view locale="#{language.localeCode}"/>
 			<h:form>
 			<h:selectOneMenu value="#{language.localeCode}" onchange="submit()"
 					valueChangeListener="#{language.countryLocaleCodeChanged}">

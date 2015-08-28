@@ -19,8 +19,12 @@ public class LanguageBean extends AbstractBean implements Serializable {
 	static {
 		countries = new LinkedHashMap<String, Object>();
 		countries.put("English", Locale.ENGLISH); // label, value
-		countries.put("Czech", new Locale("cz"));
+		countries.put("Czech", new Locale("cs","CZ"));
 	}
+
+    public LanguageBean() {
+        localeCode = FacesContext.getCurrentInstance().getApplication().getDefaultLocale().toString();
+    }
 
 	public Map<String, Object> getCountriesInMap() {
 		return countries;
