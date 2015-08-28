@@ -136,21 +136,7 @@
 		</navigation-case>
 	</navigation-rule>
 
-	<navigation-rule>
-		<display-name>pages/admin/graph.xhtml</display-name>
-		<from-view-id>/pages/admin/graph.xhtml</from-view-id>
-	</navigation-rule>
-
-	<navigation-rule>
-		<display-name>pages/admin/devices.xhtml</display-name>
-		<from-view-id>/pages/admin/devices.xhtml</from-view-id>
-	</navigation-rule>
-	
-	<navigation-rule>
-		<display-name>pages/admin/createSensor.xhtml</display-name>
-		<from-view-id>/pages/admin/createSensor.xhtml</from-view-id>
-	</navigation-rule>
-
+	<!-- VALIDATORS -->
 	<validator>
 		<display-name>Password Validator</display-name>
 		<validator-id>passwordValidator</validator-id>

@@ -13,24 +13,23 @@
 
 			<p:toolbar>
 				<f:facet name="left">
-					<p:commandButton value="Statistics" action="statistics.xhtml" />
+					<p:commandButton value="Statistics" action="statistics.xhtml?faces-redirect=true" />
 
 					<p:spacer width="5px" />
 
-					<!-- <p:commandButton value="Graph" action="/pages/records/charts.xhtml" /> -->
-					<p:commandButton value="Graph" action="graph.xhtml" />
+					<p:commandButton value="Graph" action="graph.xhtml?faces-redirect=true" />
 					<p:spacer styleClass="menuSpacer" />
 					<p:menuButton value="Sensor">
-						<p:menuitem value="Show/Edit" action="sensors.xhtml" />
-						<p:menuitem value="Add New" action="createSensor.xhtml" />
+						<p:menuitem value="Show/Edit" action="sensors.xhtml?faces-redirect=true" />
+						<p:menuitem value="Add New" action="createSensor.xhtml?faces-redirect=true" />
 					</p:menuButton>
 
 					<p:spacer width="7px" />
 
 					<p:menuButton value="Profile">
-						<p:menuitem value="My Profile" action="myProfile.xhtml" />
-						<p:menuitem value="Create" action="createProfile.xhtml" />
-						<p:menuitem value="Find/Delete" action="findDeleteProfile.xhtml" />
+						<p:menuitem value="My Profile" action="myProfile.xhtml?faces-redirect=true" />
+						<p:menuitem value="Create" action="createProfile.xhtml?faces-redirect=true" />
+						<p:menuitem value="Find/Delete" action="findDeleteProfile.xhtml?faces-redirect=true" />
 					</p:menuButton>
 				</f:facet>
 
