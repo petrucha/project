@@ -1,10 +1,10 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
-    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+		"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
 <html xmlns="http://www.w3.org/1999/xhtml"
-	xmlns:ui="http://java.sun.com/jsf/facelets"
-	xmlns:h="http://java.sun.com/jsf/html"
-	xmlns:f="http://java.sun.com/jsf/core">
+	  xmlns:ui="http://java.sun.com/jsf/facelets"
+	  xmlns:h="http://java.sun.com/jsf/html"
+	  xmlns:f="http://java.sun.com/jsf/core">
 
 <h:head>
 	<title><ui:insert name="title" />Web Sensors - 404 - Page Not Found</title>
@@ -13,11 +13,11 @@
 </h:head>
 <h:body>
 	<h1> 404 </h1>
-	<h2> PAGE NOT FOUND </h2>
-	<h3> You probably come here by wrong reference.</h3>
-	<h3> Try to get back to home page or contact with resource administrator.</h3>
+	<h2> <h:outputText value="#{msg['page.not.found']}" /> </h2>
+	<h3> <h:outputText value="#{msg['page.not.found.cause']}" /></h3>
+	<h3> <h:outputText value="#{msg['page.not.found.message']}" /></h3>
 	<h:form>
-		<h:commandButton value="Back to home page" action="/pages/guest/home.xhtml"/>
+		<h:commandButton value="#{msg['page.not.found.back']}" action="/pages/guest/home.xhtml"/>
 	</h:form>
 </h:body>
 </html>
