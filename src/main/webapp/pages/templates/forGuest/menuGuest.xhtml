@@ -10,17 +10,17 @@
 			<div class="menuHomeLeft">
 				<p:tabMenu activeIndex="#{param.i}"> 
 
-					<p:menuitem value="Home" outcome="/pages/guest/home.xhtml" >
+					<p:menuitem value="#{msg['home']}" outcome="/pages/guest/home.xhtml" >
 						<f:param name="i" value="0" />
 					</p:menuitem>
 
-					<p:menuitem value="Contacts" outcome="/pages/guest/contacts.xhtml">
+					<p:menuitem value="#{msg['contacts']}" outcome="/pages/guest/contacts.xhtml">
 						<f:param name="i" value="1" />
 					</p:menuitem>
 				</p:tabMenu>
 			</div>
 			<div class="menuHomeRight">
-				<p:button value="Login" outcome="/pages/login.xhtml" />
+				<p:button value="#{msg['login']}" outcome="/pages/login.xhtml" />
 			</div>
 	</ui:composition>
 </body>

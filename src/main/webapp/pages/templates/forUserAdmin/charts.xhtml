@@ -42,20 +42,20 @@
 								<h:outputText value="#{msg['graph.records.type']}" />
 								<p:selectOneButton value="#{chartsViewBean.recordsType}">
 									<f:selectItem itemLabel="#{msg['graph.temp']}" itemValue="temp" />
-									<f:selectItem itemLabel="Pressure" itemValue="pres" />
-									<f:selectItem itemLabel="Humidity" itemValue="humi" />
+									<f:selectItem itemLabel="#{msg['graph.pres']}" itemValue="pres" />
+									<f:selectItem itemLabel="#{msg['graph.humi']}" itemValue="humi" />
 								</p:selectOneButton>
 
-								<h:outputText value="Chart type :" />
+								<h:outputText value="#{msg['graph.chart.type']}" />
 								<p:selectOneButton value="#{chartsViewBean.chartType}">
-									<f:selectItem itemLabel="Line chart" itemValue="line" />
-									<f:selectItem itemLabel="Bar chart" itemValue="bar" />
-									<f:selectItem itemLabel="Pie chart" itemValue="pie" />
+									<f:selectItem itemLabel="#{msg['graph.type.line']}" itemValue="line" />
+									<f:selectItem itemLabel="#{msg['graph.type.bar']}" itemValue="bar" />
+									<f:selectItem itemLabel="#{msg['graph.type.pie']}" itemValue="pie" />
 								</p:selectOneButton>
 
-								<h:outputText value="Devices :" />
+								<h:outputText value="#{msg['graph.devices']}" />
 								<p:selectCheckboxMenu id="devicesListBox" class="filters"
-													  label="Select devices" filter="true"
+													  label="#{msg['graph.devices.label']}" filter="true"
 													  value="#{chartsViewBean.selectedDevices}"
 													  filterMatchMode="startsWith" panelStyle="width:400px">
 									<f:selectItems value="#{chartsViewBean.devices}" />
@@ -63,25 +63,25 @@
 							</h:panelGrid>
 						</p:tab>
 
-						<p:tab title="Bar chart">
+						<p:tab title="#{msg['graph.tabs.bar']}">
 							<h:panelGrid columns="2" cellpadding="2">
-								<h:outputText value="Limit :" />
+								<h:outputText value="#{msg['graph.limit']}" />
 								<h:outputText id="output"
-											  value="Show last #{chartsViewBean.recordsCount} records per device" />
+											  value="#{msg['graph.show.last']} #{chartsViewBean.recordsCount}" />
 								<h:inputHidden id="txt2" value="#{chartsViewBean.recordsCount}" />
 								<p:slider for="txt2" display="output" style="width: 200px"
-										  displayTemplate="Show last {value} records per device" step="1"
+										  displayTemplate="#{msg['graph.show.last']} {value}" step="1"
 										  minValue="1" maxValue="5" />
 							</h:panelGrid>
 						</p:tab>
 
-						<p:tab title="Line &amp; pie charts">
+						<p:tab title="#{msg['graph.tabs.line.pie']}">
 							<h:panelGrid columns="2" cellpadding="2">
-								<h:outputText value="Start date and time :" />
+								<h:outputText value="#{msg['graph.date.start']}" />
 								<p:calendar id="startDate" value="#{chartsViewBean.startDate}"
 											pattern="yyyy-MM-dd HH.mm.ss" mask="true" class="filters" />
 
-								<h:outputText value="End date and time :" />
+								<h:outputText value="#{msg['graph.date.end']}" />
 								<p:calendar id="endDate" value="#{chartsViewBean.endDate}"
 											pattern="yyyy-MM-dd HH.mm.ss" mask="true" class="filters" />
 							</h:panelGrid>
@@ -95,7 +95,7 @@
 					<h:panelGrid columns="2" cellpadding="2" class="facetRight">
 
 						<p:commandButton type="button"
-										 onclick="refrCharts()" value="Refresh"
+										 onclick="refrCharts()" value="#{msg['refresh']}"
 										 icon="ui-icon-refresh" class="refreshButon"/>
 
 						<p:ajaxStatus onstart="PF('statusDialog').show()"
