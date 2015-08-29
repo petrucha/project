@@ -1,8 +1,9 @@
 package jsf;
 
 import java.io.Serializable;
-import java.util.ArrayList;
+import java.text.MessageFormat;import java.util.ArrayList;
 import java.util.List;
+import java.util.ResourceBundle;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 
@@ -54,14 +55,16 @@ public class DeviceCreateBean extends AbstractBean implements Serializable {
 	
 	public String createDevice() {
 		List<String> selectedUsers = usernames.getTarget();
+
+		FacesContext context = FacesContext.getCurrentInstance();
+		ResourceBundle rb = ResourceBundle.getBundle("i18n.messages", context.getViewRoot().getLocale());
 		
 		if(deviceService.addDeviceToUsers(device, selectedUsers)){
-	        FacesMessage msg = new FacesMessage("Successful", "Device created with MAC: "
-	        		+ device.getMac() + ".");
+	        FacesMessage msg = new FacesMessage(rb.getString("successful"), MessageFormat.format(rb.getString("device.created.with.mac.0"), device.getMac()));
 	        FacesContext.getCurrentInstance().addMessage(null, msg);
 			return "success";}
 		else{
-	        FacesMessage msg = new FacesMessage("Failure", "Please, try again");
+	        FacesMessage msg = new FacesMessage(rb.getString("failure"), rb.getString("please.try.again"));
 	        FacesContext.getCurrentInstance().addMessage(null, msg);
 			return "failure";}
 	}
