@@ -12,59 +12,59 @@
 
 		<h:form>
 
-			<p:fieldset legend="Profile">
+			<p:fieldset legend="#{msg['profile']}">
 
 				<h:panelGrid id="profilePanelGrid" class="centerPanelGrid" cellspacing="8" columns="3">
 
 					<f:facet name="header">
-                                      Edit profile data on double click
-                                       <p:separator />
+						<h:outputText value="#{msg['edit.profile.data.on.double.click']}"/>
+						<p:separator />
 					</f:facet>
 
-					<h:outputLabel class="outputLabel" for="username" value="Username" />
+					<h:outputLabel class="outputLabel" for="username" value="#{msg['profiles.username']}" />
 					<h:outputLabel class="outputLabel" value=":" />
 					<p:inplace id="username" editor="true" effectSpeed="fast"
 						event="dblclick">
 						<p:inputText value="#{profileViewEditBean.currentUser.username}"
-							required="true" title="Minimum length: 2">
+							required="true" title="#{msg['profile.valid.length']}">
 							<f:validateLength minimum="2" />
 						</p:inputText>
 					</p:inplace>
 
 					<h:outputLabel class="outputLabel" for="firstname"
-						value="First Name" />
+						value="#{msg['profiles.firstname']}" />
 					<h:outputLabel class="outputLabel" value=":" />
 					<p:inplace id="firstname" editor="true" effectSpeed="fast"
 						event="dblclick">
 						<p:inputText value="#{profileViewEditBean.currentUser.firstname}"
-							required="true" title="Minimum length: 2">
+							required="true" title="#{msg['profile.valid.length']}">
 							<f:validateLength minimum="2" />
 						</p:inputText>
 					</p:inplace>
 
-					<h:outputLabel class="outputLabel" for="lastname" value="Last Name" />
+					<h:outputLabel class="outputLabel" for="lastname" value="#{msg['profiles.lastname']}" />
 					<h:outputLabel class="outputLabel" value=":" />
 					<p:inplace id="lastname" editor="true" effectSpeed="fast"
 						event="dblclick">
 						<p:inputText value="#{profileViewEditBean.currentUser.lastname}"
-							required="true" title="Minimum length: 2">
+							required="true" title="#{msg['profile.valid.length']}">
 							<f:validateLength minimum="2" />
 						</p:inputText>
 					</p:inplace>
 
-					<h:outputLabel class="outputLabel" for="birthday" value="Birthday" />
+					<h:outputLabel class="outputLabel" for="birthday" value="#{msg['profile.info.birthday']}" />
 					<h:outputLabel class="outputLabel" value=":" />
 					<p:inplace id="birthday" editor="true" effectSpeed="fast"
 						event="dblclick">
-						<p:inputMask id="date" label="Birthday"
+						<p:inputMask id="date" label="#{msg['profile.info.birthday']}"
 							value="#{profileViewEditBean.currentUser.birthday}"
 							mask="99/99/9999" required="true"
-							title="Enter your birthday: dd/mm/yyyy">
+							title="#{msg['profile.titles.my.birthday']}">
 							<f:convertDateTime pattern="dd/MM/yyyy"></f:convertDateTime>
 						</p:inputMask>
 					</p:inplace>
 
-					<h:outputLabel class="outputLabel" for="email" value="Email" />
+					<h:outputLabel class="outputLabel" for="email" value="#{msg['profile.info.email']}" />
 					<h:outputLabel class="outputLabel" value=":" />
 					<p:inplace id="email" editor="true" effectSpeed="fast"
 						event="dblclick">
@@ -77,7 +77,7 @@
 
 					<f:facet name="footer">
 						<p:separator />
-						<p:commandButton action="#{profileViewEditBean.saveProfile()}" value="Save"
+						<p:commandButton action="#{profileViewEditBean.saveProfile()}" value="#{msg['save']}"
 							update="profilePanelGrid" />
 					</f:facet>
 				</h:panelGrid>
@@ -85,35 +85,35 @@
 			</p:fieldset>
 			</h:form>
 			<h:form>
-			<p:fieldset legend="Password" toggleable="true" toggleSpeed="500" collapsed = "true">
+			<p:fieldset legend="#{msg['profile.my.password']}" toggleable="true" toggleSpeed="500" collapsed = "true">
 
 				<h:panelGrid id="toggPanelGrid" class="centerPanelGrid" cellspacing="8" columns="3">
 					<f:facet name="header">
-                	    Change password 
+						<h:outputText value="#{msg['change.password']}"/>
                             <p:separator />
 					</f:facet>
-					<h:outputLabel class="outputLabel" value="Old password" />
+					<h:outputLabel class="outputLabel" value="#{msg['profile.password.old']}" />
 					<h:outputLabel class="outputLabel" value=":" />
 					<p:password id="oldpass"
 						value="#{profileViewEditBean.oldPassword}"
-						title="Please enter a password!" />
+						title="#{msg['profile.titles.password']}" />
 
-					<h:outputText class="outputLabel" value="New Password" />
+					<h:outputText class="outputLabel" value="#{msg['profile.password.new']}" />
 					<h:outputText class="outputLabel" value=":" />
 					<p:password id="pass1" value="#{profileViewEditBean.newPassword}"
-						required="true" title="Please enter a password!" feedback="true"
+						required="true" title="#{msg['profile.titles.password']}" feedback="true"
 						match="pass2">
 						<f:validateLength minimum="2" />
 					</p:password>
 
-					<h:outputText class="outputLabel" value="Repeat Password" />
+					<h:outputText class="outputLabel" value="#{msg['profile.my.password.repeat']}" />
 					<h:outputText class="outputLabel" value=":" />
 					<p:password id="pass2" required="true"
-						title="Please Confirm Password!" />
+						title="#{msg['profile.my.password.confirm']}" />
 
 					<f:facet name="footer">
 						<p:separator />
-						<p:commandButton action="#{profileViewEditBean.savePassword()}" value="Save"
+						<p:commandButton action="#{profileViewEditBean.savePassword()}" value="#{msg['save']}"
 							update="toggPanelGrid" />
 					</f:facet>
 				</h:panelGrid>

@@ -13,34 +13,34 @@
             <p:growl id="growl" showDetail="true"/>
 
             <p:contextMenu for="devices" rendered="#{devicesViewBean.adminMode}">
-                <p:menuitem value="Device users" icon="ui-icon-pencil"
+                <p:menuitem value="#{msg['sensors.users']}" icon="ui-icon-pencil"
                             actionListener="#{devicesViewBean.openDeviceUsers}"/>
-                <p:menuitem value="Delete" update="devices" icon="ui-icon-close"
+                <p:menuitem value="#{msg['sensors.delete']}" update="devices" icon="ui-icon-close"
                             actionListener="#{devicesViewBean.deleteDevice}"/>
             </p:contextMenu>
 
             <p:dataTable id="devices" var="device"
-                         emptyMessage="No devices found with given criteria"
+                         emptyMessage="#{msg['sensors.table.empty']}"
                          value="#{devicesViewBean.devices}" rowKey="#{device.deviceId}"
                          selection="#{devicesViewBean.selectedDevice}" selectionMode="single"
                          rows="10" paginator="true"
                          paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
                          rowsPerPageTemplate="5,10,15, 20">
                 <f:facet name="header">
-                    RightClick to View Options
+                    <h:outputText value="#{msg['rightclick.to.view.options']}"/>
                 </f:facet>
-                <p:column headerText="MAC Address" filterBy="#{device.mac}"
+                <p:column headerText="#{msg['sensors.mac']}" filterBy="#{device.mac}"
                           filterMatchMode="contains" sortBy="#{device.mac}">
                     <h:outputText value="#{device.mac}"/>
                 </p:column>
 
-                <p:column headerText="Records Count"
+                <p:column headerText="#{msg['sensors.records.count']}"
                           filterBy="#{device.recordsCount}" filterMatchMode="contains"
                           sortBy="#{device.recordsCount}">
                     <h:outputText value="#{device.recordsCount}"/>
                 </p:column>
 
-                <p:column headerText="Last Updated" filterBy="#{device.lastUpdated}"
+                <p:column headerText="#{msg['sensors.last.updated']}" filterBy="#{device.lastUpdated}"
                           filterMatchMode="contains" sortBy="#{device.lastUpdated}">
 
                     <h:outputText value="#{device.lastUpdated}"/>
