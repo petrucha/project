@@ -16,6 +16,7 @@
 </h:head>
 
 <h:body>
+	<f:view locale="#{language.localeCode}"/>
 	<h:form>
 		<p:panelGrid columns="1" class="centerPanelGrid">
 
@@ -26,15 +27,15 @@
 					showSourceFilter="true" showTargetFilter="true"
 					filterMatchMode="contains">
 
-					<f:facet name="sourceCaption">Not selected</f:facet>
-					<f:facet name="targetCaption">Selected</f:facet>
+					<f:facet name="sourceCaption"><h:outputText value="#{msg['sensor.users.non.selected']}" /></f:facet>
+					<f:facet name="targetCaption"><h:outputText value="#{msg['sensor.users.selected']}" /></f:facet>
 
 				</p:pickList>
 
 			</p:column>
 			<p:column>
 
-				<p:commandButton id="namesSubmit" value="Submit"
+				<p:commandButton id="namesSubmit" value="#{msg['submit']}"
 					action="#{deviceUsersBean.updateDevice}" />
 
 			</p:column>
