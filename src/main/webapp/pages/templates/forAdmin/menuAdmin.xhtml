@@ -13,28 +13,28 @@
 
 			<p:toolbar>
 				<f:facet name="left">
-					<p:commandButton value="Statistics" action="statistics.xhtml?faces-redirect=true" />
+					<p:commandButton value="#{msg['menu.stat']}" action="statistics.xhtml?faces-redirect=true" />
 
 					<p:spacer width="5px" />
 
-					<p:commandButton value="Graph" action="graph.xhtml?faces-redirect=true" />
+					<p:commandButton value="#{msg['menu.graph']}" action="graph.xhtml?faces-redirect=true" />
 					<p:spacer styleClass="menuSpacer" />
-					<p:menuButton value="Sensor">
-						<p:menuitem value="Show/Edit" action="sensors.xhtml?faces-redirect=true" />
-						<p:menuitem value="Add New" action="createSensor.xhtml?faces-redirect=true" />
+					<p:menuButton value="#{msg['menu.sensor']}" >
+						<p:menuitem value="#{msg['menu.sensor.show']}" action="sensors.xhtml?faces-redirect=true" />
+						<p:menuitem value="#{msg['menu.sensor.add']}" action="createSensor.xhtml?faces-redirect=true" />
 					</p:menuButton>
 
 					<p:spacer width="7px" />
 
-					<p:menuButton value="Profile">
-						<p:menuitem value="My Profile" action="myProfile.xhtml?faces-redirect=true" />
-						<p:menuitem value="Create" action="createProfile.xhtml?faces-redirect=true" />
-						<p:menuitem value="Find/Delete" action="findDeleteProfile.xhtml?faces-redirect=true" />
+					<p:menuButton value="#{msg['menu.profile']}">
+						<p:menuitem value="#{msg['menu.profile.my']}" action="myProfile.xhtml?faces-redirect=true" />
+						<p:menuitem value="#{msg['menu.profile.create']}" action="createProfile.xhtml?faces-redirect=true" />
+						<p:menuitem value="#{msg['menu.profile.find']}" action="findDeleteProfile.xhtml?faces-redirect=true" />
 					</p:menuButton>
 				</f:facet>
 
 				<f:facet name="right">
-					<p:commandButton value="Logout" action="#{userBean.logout}"
+					<p:commandButton value="#{msg['logout']}" action="#{userBean.logout}"
 						icon="ui-icon-extlink" ajax="false" />
 				</f:facet>
 
