@@ -1,7 +1,9 @@
 package jsf;
 
 import java.io.Serializable;
+import java.text.MessageFormat;
 import java.util.Date;
+import java.util.ResourceBundle;
 
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
@@ -92,6 +94,9 @@ public class RegistrationBean extends AbstractBean implements Serializable {
 
 	public String registerUser() {
 
+		FacesContext context = FacesContext.getCurrentInstance();
+		ResourceBundle rb = ResourceBundle.getBundle("i18n.messages", context.getViewRoot().getLocale());
+
 		User user = new User();
 		user.setUsername(username);
 		user.setPassword(PasswordHash.hash(password));
@@ -109,11 +114,11 @@ public class RegistrationBean extends AbstractBean implements Serializable {
 
 		user.setGroup(group);
 		if (userService.addUser(user)) {
-			FacesMessage msg = new FacesMessage("Successful", "Welcome :" + user.getFirstname());
+			FacesMessage msg = new FacesMessage(rb.getString("successful"), MessageFormat.format(rb.getString("welcome.0"), user.getFirstname()));
 			FacesContext.getCurrentInstance().addMessage(null, msg);
 			return "success";
 		} else {
-			FacesMessage msg = new FacesMessage("Failure", "Please, try again");
+			FacesMessage msg = new FacesMessage(rb.getString("failure"), rb.getString("please.try.again"));
 			FacesContext.getCurrentInstance().addMessage(null, msg);
 			return "failure";
 		}

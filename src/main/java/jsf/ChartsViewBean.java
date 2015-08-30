@@ -2,10 +2,7 @@ package jsf;
 
 import java.io.Serializable;
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 
 import javax.faces.context.FacesContext;
 
@@ -30,6 +27,8 @@ public class ChartsViewBean extends AbstractBean implements Serializable {
 	private static RecordService recordService = RecordService.getInstance();
 	private static DeviceService deviceService = DeviceService.getInstance();
 
+	private static ResourceBundle rb;
+
 	// Bean variables
 
 	private LineChartModel lineModel;
@@ -48,6 +47,9 @@ public class ChartsViewBean extends AbstractBean implements Serializable {
 	// Constructor
 
 	public ChartsViewBean() {
+		FacesContext context = FacesContext.getCurrentInstance();
+		rb = ResourceBundle.getBundle("i18n.messages", context.getViewRoot().getLocale());
+		// setting default devices for chart
 		initSelectedDevices();
 		// setting a period that starts in first day of last month until now
 		initTimeSpan();
@@ -73,13 +75,13 @@ public class ChartsViewBean extends AbstractBean implements Serializable {
 		}
 		lineModel = model;
 
-		lineModel.setTitle("Line Chart");
+		lineModel.setTitle(rb.getString("line.chart"));
 		lineModel.setAnimate(true);
 		lineModel.setLegendPosition("e");
 
 		String fullType = getFullNameOfRecordsType(recordsType);
 		lineModel.getAxis(AxisType.Y).setLabel(fullType);
-		DateAxis axisX = new DateAxis("Dates");
+		DateAxis axisX = new DateAxis(rb.getString("dates"));
 
 		SimpleDateFormat fmt = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
@@ -100,7 +102,7 @@ public class ChartsViewBean extends AbstractBean implements Serializable {
 		}
 		barModel = model;
 
-		barModel.setTitle("Bar chart of last records");
+		barModel.setTitle(rb.getString("bar.chart.of.last.records"));
 		barModel.setAnimate(true);
 		barModel.setLegendPosition("e");
 
@@ -108,7 +110,7 @@ public class ChartsViewBean extends AbstractBean implements Serializable {
 		barModel.getAxis(AxisType.Y).setLabel(fullType);
 
 		Axis xAxis = barModel.getAxis(AxisType.X);
-		xAxis.setLabel("Time");
+		xAxis.setLabel(rb.getString("time"));
 	}
 
 	private void createPieModel() {
@@ -117,14 +119,14 @@ public class ChartsViewBean extends AbstractBean implements Serializable {
 		pieModel = new PieChartModel();
 		System.out.println(averages.size());
 		if (averages.size() == 0) {
-			pieModel.set("No records found for the period.", 0);
+			pieModel.set(rb.getString("no.records.found.for.the.period"), 0);
 		} else {
 			for (String key : averages.keySet()) {
 				pieModel.set(key, averages.get(key));
 			}
 		}
 
-		pieModel.setTitle("Average per device");
+		pieModel.setTitle(rb.getString("average.per.device"));
 		pieModel.setLegendPosition("e");
 		pieModel.setShowDataLabels(true);
 	}
@@ -136,7 +138,7 @@ public class ChartsViewBean extends AbstractBean implements Serializable {
 		SimpleDateFormat fmt = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
 		if (records.length == 0) {
-			series.setLabel("No records found for the period.");
+			series.setLabel(rb.getString("no.records.found.for.the.period"));
 			series.set(fmt.format(new Date()), 0);
 		} else {
 			series.setLabel(records[0].getDevice().getMac());
@@ -189,11 +191,11 @@ public class ChartsViewBean extends AbstractBean implements Serializable {
 
 	private String getFullNameOfRecordsType(String shortType) {
 		if (shortType.equals("temp")) {
-			return "Temperature C\u00b0";
+			return rb.getString("temperature.c");
 		} else if (shortType.equals("humi")) {
-			return "Humidity";
+			return rb.getString("graph.humi");
 		} else {
-			return "Pressure";
+			return rb.getString("graph.pres");
 		}
 	}
 
