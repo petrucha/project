@@ -14,17 +14,18 @@
 
 				<p:growl id="growl" sticky="true" showDetail="true" />
 				<p:wizard>
-					<p:tab id="account" title="Account">
-						<p:panel header="Account">
+					<p:tab id="account" title="#{msg['profile.account']}">
+						<p:panel header="#{msg['profile.account']}">
 							<p:messages />
 
 							<h:panelGrid class="createPanelGrid" columns="3">
 								<h:panelGroup>
-									<h:outputText value="Username:" />
+									<h:outputText value="#{msg['profile.username']}" />
 									<h:outputText style="color:red" value="*  " />
 								</h:panelGroup>
 								<p:inputText id="userName" value="#{registrationBean.username}"
-									required="true" label="User Name" title="Enter your User Name!">
+									required="true" label="#{msg['profile.labels.username']}" title="#{msg['profile.titles.username']}">
+									<f:validator validatorId="usernameValidator" />
 									<f:validateLength minimum="2" />
 								</p:inputText>
 								<h:panelGroup>
@@ -34,32 +35,32 @@
 								</h:panelGroup>
 
 								<h:panelGroup>
-									<h:outputText value="Enter Password:" />
+									<h:outputText value="#{msg['profile.password']}" />
 									<h:outputText style="color:red" value="*  " />
 								</h:panelGroup>
 								<p:password id="pass1" value="#{registrationBean.password}"
-									required="true" label="Password"
-									title="Please enter a password!" feedback="true" match="pass2">
+									required="true" label="#{msg['profile.labels.password']}"
+									title="#{msg['profile.titles.password']}" feedback="true" match="pass2">
 									<f:validateLength minimum="2" />
 								</p:password>
 								<!-- 	<p:message id="pass1Msg" for="pass1" /> -->
 
 								<h:panelGroup>
-									<h:outputText value="Repeat Password:" />
+									<h:outputText value="#{msg['profile.password.repeat']}" />
 									<h:outputText style="color:red" value="*  " />
 								</h:panelGroup>
-								<p:password id="pass2" required="true" label="Password"
-									title="Please Confirm Password!">
+								<p:password id="pass2" required="true" label="#{msg['profile.labels.password']}"
+									title="#{msg['profile.titles.password.repeat']}">
 								</p:password>
 								<!-- <p:message id="pass2Msg" for="pass2" /> -->
 
 								<h:panelGroup>
-									<h:outputText value="Role:" />
+									<h:outputText value="#{msg['profile.role']}" />
 									<h:outputText style="color:red" value="*  " />
 								</h:panelGroup>
 								<p:selectOneMenu id="groups"
 									value="#{registrationBean.groupname}" required="true"
-									requiredMessage="Select at least one user Role">
+									requiredMessage="#{msg['profile.role.message']}">
 									<f:selectItem itemLabel="Administrator"
 										itemValue="Administrator" />
 									<f:selectItem itemLabel="User" itemValue="User" />
@@ -74,17 +75,17 @@
 						</p:panel>
 					</p:tab>
 
-					<p:tab id="personal" title="Personal">
-						<p:panel header="Personal Details">
+					<p:tab id="personal" title="#{msg['profile.personal']}" >
+						<p:panel header="#{msg['profile.personal.details']}">
 							<p:messages />
 							<h:panelGrid class="createPanelGrid" columns="3">
 								<h:panelGroup>
-									<h:outputText value="First Name:" />
+									<h:outputText value="#{msg['profile.firstname']}" />
 									<h:outputText style="color:red" value="*  " />
 								</h:panelGroup>
-								<p:inputText id="firstName" label="First Name"
+								<p:inputText id="firstName" label="#{msg['profile.labels.firstname']}"
 									value="#{registrationBean.firstname}" required="true"
-									title="Enter your First Name!">
+									title="#{msg['profile.titles.firstname']}">
 									<f:validateLength minimum="2" />
 								</p:inputText>
 								<h:panelGroup>
@@ -94,12 +95,12 @@
 								</h:panelGroup>
 
 								<h:panelGroup>
-									<h:outputText value="Last Name:" />
+									<h:outputText value="#{msg['profile.lastname']}" />
 									<h:outputText style="color:red" value="*  " />
 								</h:panelGroup>
-								<p:inputText id="lastName" label="Last Name"
+								<p:inputText id="lastName" label="#{msg['profile.labels.lastname']}"
 									value="#{registrationBean.lastname}" required="true"
-									title="Enter your Last Name!">
+									title="#{msg['profile.titles.lastname']}">
 									<f:validateLength minimum="2" />
 								</p:inputText>
 								<h:panelGroup>
@@ -109,12 +110,12 @@
 								</h:panelGroup>
 
 								<h:panelGroup>
-									<h:outputText value="Birthday:" />
+									<h:outputText value="#{msg['profile.birthday']}" />
 									<h:outputText style="color:red" value="*  " />
 								</h:panelGroup>
-								<p:inputMask id="date" label="Birthday"
+								<p:inputMask id="date" label="#{msg['profile.labels.birthday']}"
 									value="#{registrationBean.birthday}" mask="99/99/9999"
-									required="true" title="Enter your birthday: dd/mm/yyyy!">
+									required="true" title="#{msg['profile.titles.birthday']}">
 									<f:convertDateTime pattern="dd/MM/yyyy"></f:convertDateTime>
 								</p:inputMask>
 								<h:panelGroup>
@@ -127,14 +128,14 @@
 						</p:panel>
 					</p:tab>
 
-					<p:tab id="contact" title="Contact">
-						<p:panel header="Contact Information">
+					<p:tab id="contact" title="#{msg['profile.contact']}">
+						<p:panel header="#{msg['profile.contact.info']}">
 							<p:messages />
 							<h:panelGrid class="createPanelGrid" columns="3">
-								<h:outputText value="Email:" />
+								<h:outputText value="#{msg['profile.email']}" />
 								<h:outputText style="color:red" value="*  " />
 								<p:inputText value="#{registrationBean.email}" required="true"
-									label="Email" size="40">
+									label="#{msg['profile.labels.email']}" size="40">
 									<f:validateRegex
 										pattern="^[_A-Za-z0-9-\+]+(\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\.[A-Za-z0-9]+)*(\.[A-Za-z]{2,})$" />
 								</p:inputText>
@@ -142,8 +143,8 @@
 						</p:panel>
 					</p:tab>
 
-					<p:tab id="confirm" title="Confirmation">
-						<p:panel header="Confirmation">
+					<p:tab id="confirm" title="#{msg['profile.confirmation']}">
+						<p:panel header="#{msg['profile.confirmation']}">
 							<h:panelGrid id="confirmation" columns="3"
 								columnClasses="grid,grid,grid">
 
@@ -151,15 +152,15 @@
 									columnClasses="label, value">
 
 
-									<h:outputText value=" Username: " />
+									<h:outputText value="#{msg['profile.username']}" />
 									<h:outputText value="#{registrationBean.username}"
 										styleClass="outputLabel" />
 
-									<h:outputText value="Password: " />
+									<h:outputText value="#{msg['profile.password']}" />
 									<h:outputText value="#{registrationBean.password}"
 										styleClass="outputLabel" />
 
-									<h:outputText value="Role: " />
+									<h:outputText value="#{msg['profile.role']}"  />
 									<h:outputText value="#{registrationBean.groupname}"
 										styleClass="outputLabel" />
 
@@ -167,16 +168,15 @@
 
 								<h:panelGrid class="createPanelGrid" columns="2">
 
-
-									<h:outputText value="First Name: " />
+									<h:outputText value="#{msg['profile.firstname']}" />
 									<h:outputText value="#{registrationBean.firstname}"
 										styleClass="outputLabel" />
 
-									<h:outputText value="Last Name: " />
+									<h:outputText value="#{msg['profile.lastname']}" />
 									<h:outputText value="#{registrationBean.lastname}"
 										styleClass="outputLabel" />
 
-									<h:outputText value="Birthday: " />
+									<h:outputText value="#{msg['profile.birthday']}" />
 									<h:outputText value="#{registrationBean.birthday}"
 										styleClass="outputLabel">
 										<f:convertDateTime pattern="dd/MM/yyyy"></f:convertDateTime>
@@ -184,7 +184,7 @@
 								</h:panelGrid>
 
 								<h:panelGrid class="createPanelGrid" columns="2">
-									<h:outputText value="Email: " />
+									<h:outputText value="#{msg['profile.email']}" />
 									<h:outputText value="#{registrationBean.email}"
 										styleClass="outputLabel" />
 
@@ -192,7 +192,7 @@
 									<h:outputText />
 								</h:panelGrid>
 							</h:panelGrid>
-							<p:commandButton value="Create"
+							<p:commandButton value="#{msg['profile.create']}"
 								actionListener="#{registrationBean.registerUser()}"
 								update="growl" process="@this" />
 						</p:panel>

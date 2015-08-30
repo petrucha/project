@@ -1,53 +1,85 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <faces-config version="2.2" xmlns="http://xmlns.jcp.org/xml/ns/javaee"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-facesconfig_2_2.xsd">
+              xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+              xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-facesconfig_2_2.xsd">
 
-	<managed-bean>
-		<managed-bean-name>userBean</managed-bean-name>
-		<managed-bean-class>jsf.UserBean</managed-bean-class>
-		<managed-bean-scope>session</managed-bean-scope>
-	</managed-bean>
+    <managed-bean>
+        <managed-bean-name>userBean</managed-bean-name>
+        <managed-bean-class>jsf.UserBean</managed-bean-class>
+        <managed-bean-scope>session</managed-bean-scope>
+    </managed-bean>
 
-	<managed-bean>
-		<managed-bean-name>loginBean</managed-bean-name>
-		<managed-bean-class>jsf.LoginBean</managed-bean-class>
-		<managed-bean-scope>request</managed-bean-scope>
-		<managed-property>
-			<property-name>userBean</property-name>
-			<property-class>jsf.UserBean</property-class>
-			<value>#{userBean}</value>
-		</managed-property>
-	</managed-bean>
+    <managed-bean>
+        <managed-bean-name>language</managed-bean-name>
+        <managed-bean-class>jsf.LanguageBean</managed-bean-class>
+        <managed-bean-scope>session</managed-bean-scope>
+    </managed-bean>
 
-	<managed-bean>
-		<managed-bean-name>registrationBean</managed-bean-name>
-		<managed-bean-class>jsf.RegistrationBean</managed-bean-class>
-		<managed-bean-scope>session</managed-bean-scope>
-	</managed-bean>
+    <managed-bean>
+        <managed-bean-name>loginBean</managed-bean-name>
+        <managed-bean-class>jsf.LoginBean</managed-bean-class>
+        <managed-bean-scope>request</managed-bean-scope>
+        <managed-property>
+            <property-name>userBean</property-name>
+            <property-class>jsf.UserBean</property-class>
+            <value>#{userBean}</value>
+        </managed-property>
+    </managed-bean>
 
-	<managed-bean>
-		<managed-bean-name>recordsViewBean</managed-bean-name>
-		<managed-bean-class>jsf.RecordsViewBean</managed-bean-class>
-		<managed-bean-scope>view</managed-bean-scope>
-	</managed-bean>
+    <managed-bean>
+        <managed-bean-name>registrationBean</managed-bean-name>
+        <managed-bean-class>jsf.RegistrationBean</managed-bean-class>
+        <managed-bean-scope>session</managed-bean-scope>
+    </managed-bean>
 
-	<managed-bean>
-		<managed-bean-name>profilesDeleteViewBean</managed-bean-name>
-		<managed-bean-class>jsf.ProfilesDeleteViewBean</managed-bean-class>
-		<managed-bean-scope>view</managed-bean-scope>
-	</managed-bean>
+    <managed-bean>
+        <managed-bean-name>recordsViewBean</managed-bean-name>
+        <managed-bean-class>jsf.RecordsViewBean</managed-bean-class>
+        <managed-bean-scope>view</managed-bean-scope>
+    </managed-bean>
 
-	<managed-bean>
-		<managed-bean-name>chartsViewBean</managed-bean-name>
-		<managed-bean-class>jsf.ChartsViewBean</managed-bean-class>
-		<managed-bean-scope>view</managed-bean-scope>
-	</managed-bean>
-	<managed-bean>
-		<managed-bean-name>profileViewEditBean</managed-bean-name>
-		<managed-bean-class>jsf.ProfileViewEditBean</managed-bean-class>
-		<managed-bean-scope>view</managed-bean-scope>
-	</managed-bean>
+    <managed-bean>
+        <managed-bean-name>profilesDeleteViewBean</managed-bean-name>
+        <managed-bean-class>jsf.ProfilesDeleteViewBean</managed-bean-class>
+        <managed-bean-scope>view</managed-bean-scope>
+    </managed-bean>
+
+    <managed-bean>
+        <managed-bean-name>chartsViewBean</managed-bean-name>
+        <managed-bean-class>jsf.ChartsViewBean</managed-bean-class>
+        <managed-bean-scope>view</managed-bean-scope>
+    </managed-bean>
+
+    <managed-bean>
+        <managed-bean-name>devicesViewBean</managed-bean-name>
+        <managed-bean-class>jsf.DevicesViewBean</managed-bean-class>
+        <managed-bean-scope>view</managed-bean-scope>
+    </managed-bean>
+
+    <managed-bean>
+        <managed-bean-name>deviceUsersBean</managed-bean-name>
+        <managed-bean-class>jsf.DeviceUsersBean</managed-bean-class>
+        <managed-bean-scope>view</managed-bean-scope>
+    </managed-bean>
+
+    <managed-bean>
+        <managed-bean-name>deviceCreateBean</managed-bean-name>
+        <managed-bean-class>jsf.DeviceCreateBean</managed-bean-class>
+        <managed-bean-scope>view</managed-bean-scope>
+    </managed-bean>
+
+    <managed-bean>
+        <managed-bean-name>profileViewEditBean</managed-bean-name>
+        <managed-bean-class>jsf.ProfileViewEditBean</managed-bean-class>
+        <managed-bean-scope>view</managed-bean-scope>
+    </managed-bean>
+
+    <managed-bean>
+        <managed-bean-name>statisticsViewBean</managed-bean-name>
+        <managed-bean-class>jsf.StatisticsViewBean</managed-bean-class>
+        <managed-bean-scope>view</managed-bean-scope>
+    </managed-bean>
+
 	<managed-bean>
 		<managed-bean-name>markersViewBean</managed-bean-name>
 		<managed-bean-class>jsf.MarkersViewBean</managed-bean-class>
@@ -59,80 +91,100 @@
 		<managed-bean-scope>view</managed-bean-scope>
 	</managed-bean>
 
-	<!-- RULES -->
-	<navigation-rule>
-		<display-name>pages/login.xhtml</display-name>
-		<from-view-id>/pages/login.xhtml</from-view-id>
-		<navigation-case>
-			<from-outcome>user</from-outcome>
-			<to-view-id>/pages/user/statistics.xhtml</to-view-id>
-			<redirect />
-		</navigation-case>
-	</navigation-rule>
+    <!-- RULES -->
+    <navigation-rule>
+        <display-name>pages/login.xhtml</display-name>
+        <from-view-id>/pages/login.xhtml</from-view-id>
+        <navigation-case>
+            <from-outcome>user</from-outcome>
+            <to-view-id>/pages/user/statistics.xhtml</to-view-id>
+            <redirect/>
+        </navigation-case>
+    </navigation-rule>
 
-	<navigation-rule>
-		<display-name>pages/login.xhtml</display-name>
-		<from-view-id>/pages/login.xhtml</from-view-id>
-		<navigation-case>
-			<from-outcome>admin</from-outcome>
-			<to-view-id>/pages/admin/statistics.xhtml</to-view-id>
-			<redirect />
-		</navigation-case>
-	</navigation-rule>
+    <navigation-rule>
+        <display-name>pages/login.xhtml</display-name>
+        <from-view-id>/pages/login.xhtml</from-view-id>
+        <navigation-case>
+            <from-outcome>admin</from-outcome>
+            <to-view-id>/pages/admin/statistics.xhtml</to-view-id>
+            <redirect/>
+        </navigation-case>
+    </navigation-rule>
 
-	<navigation-rule>
-		<display-name>pages/login.xhtml</display-name>
-		<from-view-id>/pages/login.xhtml</from-view-id>
-		<navigation-case>
-			<from-outcome>failure</from-outcome>
-			<to-view-id>/pages/login.xhtml</to-view-id>
-		</navigation-case>
-	</navigation-rule>
+    <navigation-rule>
+        <display-name>pages/login.xhtml</display-name>
+        <from-view-id>/pages/login.xhtml</from-view-id>
+        <navigation-case>
+            <from-outcome>failure</from-outcome>
+            <to-view-id>/pages/login.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>
 
-	<navigation-rule>
-		<display-name>pages/admin/createProfile.xhtml</display-name>
-		<from-view-id>/pages/admin/createProfile.xhtml</from-view-id>
-		<navigation-case>
-			<from-outcome>failure</from-outcome>
-			<to-view-id>/pages/admin/createProfile.xhtml</to-view-id>
-		</navigation-case>
-	</navigation-rule>
+    <navigation-rule>
+        <display-name>pages/admin/createProfile.xhtml</display-name>
+        <from-view-id>/pages/admin/createProfile.xhtml</from-view-id>
+        <navigation-case>
+            <from-outcome>failure</from-outcome>
+            <to-view-id>/pages/admin/createProfile.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>
 
-	<navigation-rule>
-		<display-name>pages/login.xhtml</display-name>
-		<from-view-id>/pages/login.xhtml</from-view-id>
-		<navigation-case>
-			<from-outcome>first</from-outcome>
-			<to-view-id>/pages/firstReg/firstRegistration.xhtml</to-view-id>
-			<redirect />
-		</navigation-case>
-	</navigation-rule>
+    <navigation-rule>
+        <display-name>pages/login.xhtml</display-name>
+        <from-view-id>/pages/login.xhtml</from-view-id>
+        <navigation-case>
+            <from-outcome>first</from-outcome>
+            <to-view-id>/pages/firstReg/firstRegistration.xhtml</to-view-id>
+            <redirect/>
+        </navigation-case>
+    </navigation-rule>
 
-	<navigation-rule>
-		<display-name>pages/firstReg/firstRegistration.xhtml</display-name>
-		<from-view-id>/pages/firstReg/firstRegistration.xhtml</from-view-id>
-		<navigation-case>
-			<from-outcome>failure</from-outcome>
-			<to-view-id>/pages/firstReg/firstRegistration.xhtml</to-view-id>
-		</navigation-case>
-		<navigation-case>
-			<from-outcome>success</from-outcome>
-			<to-view-id>/pages/login.xhtml</to-view-id>
-		</navigation-case>
-	</navigation-rule>
+    <navigation-rule>
+        <display-name>pages/firstReg/firstRegistration.xhtml</display-name>
+        <from-view-id>/pages/firstReg/firstRegistration.xhtml</from-view-id>
+        <navigation-case>
+            <from-outcome>failure</from-outcome>
+            <to-view-id>/pages/firstReg/firstRegistration.xhtml</to-view-id>
+        </navigation-case>
+        <navigation-case>
+            <from-outcome>success</from-outcome>
+            <to-view-id>/pages/login.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>
 
-	<navigation-rule>
-		<display-name>pages/admin/graph.xhtml</display-name>
-		<from-view-id>/pages/admin/graph.xhtml</from-view-id>
-	</navigation-rule>
+    <!-- VALIDATORS -->
+    <validator>
+        <display-name>Password Validator</display-name>
+        <validator-id>passwordValidator</validator-id>
+        <validator-class>util.PasswordValidator</validator-class>
+    </validator>
 
-	<validator>
-		<display-name>Password Validator</display-name>
-		<validator-id>passwordValidator</validator-id>
-		<validator-class>util.PasswordValidator</validator-class>
-	</validator>
+    <validator>
+        <display-name>Username Validator</display-name>
+        <validator-id>usernameValidator</validator-id>
+        <validator-class>util.UsernameValidator</validator-class>
+    </validator>
 
-	<application />
+    <validator>
+        <display-name>MAC address Validator</display-name>
+        <validator-id>macValidator</validator-id>
+        <validator-class>util.MacValidator</validator-class>
+    </validator>
+
+    <application>
+        <action-listener>org.primefaces.application.DialogActionListener</action-listener>
+        <navigation-handler>org.primefaces.application.DialogNavigationHandler</navigation-handler>
+        <view-handler>org.primefaces.application.DialogViewHandler</view-handler>
+        <locale-config>
+            <default-locale>en</default-locale>
+            <supported-locale>cs_CZ</supported-locale>
+        </locale-config>
+        <resource-bundle>
+            <base-name>i18n.messages</base-name>
+            <var>msg</var>
+        </resource-bundle>
+    </application>
 
 </faces-config>
 

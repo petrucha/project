@@ -83,6 +83,11 @@ body {
 	margin: 0 auto;
 }
 
+.centerPanelGrid.ui-panelgrid>*>tr, .centerPanelGrid.ui-panelgrid .ui-panelgrid-cell
+	{
+	border: none;
+}
+
 #footer {
 	background: url("#{resource['/images/footer.jpg']}");
 	margin: 0 auto;
@@ -103,8 +108,6 @@ a.externLink {
 }
 
 /* for alarm.xhtml*/
-
-
 .columnSelection {
 	width: 16px;
 	text-align: center;

@@ -1,0 +1,7 @@
+.centerPanelGrid.ui-panelgrid>*>tr,
+.centerPanelGrid.ui-panelgrid .ui-panelgrid-cell {
+    border: none;
+}
+.centerPanelGrid{
+	margin: 0 auto;
+}

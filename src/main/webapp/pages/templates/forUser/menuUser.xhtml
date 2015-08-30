@@ -13,25 +13,22 @@
 
 			<p:toolbar>
 				<f:facet name="left">
-					<p:commandButton value="Statistics" action="statistics.xhtml" />
+					<p:commandButton value="#{msg['menu.stat']}" action="statistics.xhtml?faces-redirect=true" />
 					<p:spacer width="5px" />
-					
-					<p:commandButton value="Graph" action="graph.xhtml" />
-					<p:spacer width="5px" />
-
 					<p:commandButton value="Alarms" action="alarms.xhtml" />
 					<p:spacer width="5px" />
-
-					<p:commandButton value="Sensors" action="#" />
+					<p:commandButton value="#{msg['menu.graph']}" action="graph.xhtml?faces-redirect=true" />
+					<p:spacer width="5px" />
+					<p:commandButton value="#{msg['menu.sensors']}" action="sensors.xhtml?faces-redirect=true" />
 					<p:spacer width="5px" />
 					
 					<!-- 	<p:spacer styleClass="menuSpacer" /> -->
-					<p:commandButton value="Profile" action="myProfile.xhtml" />
+					<p:commandButton value="#{msg['menu.profile']}" action="myProfile.xhtml?faces-redirect=true" />
 
 				</f:facet>
 
 				<f:facet name="right">
-					<p:commandButton value="Logout" action="#{userBean.logout}"
+					<p:commandButton value="#{msg['logout']}" action="#{userBean.logout}"
 						icon="ui-icon-extlink" ajax="false" />
 				</f:facet>
 

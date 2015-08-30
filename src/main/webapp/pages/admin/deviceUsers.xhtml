@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+	<title>Link or unlink users to the device:</title>
+	<h:outputStylesheet name="devices.css" library="css" />
+	<style type="text/css">
+        .ui-widget {
+            font-size: 90%;
+        }
+	</style>
+</h:head>
+
+<h:body>
+	<f:view locale="#{language.localeCode}"/>
+	<h:form>
+		<p:panelGrid columns="1" class="centerPanelGrid">
+
+			<p:column>
+
+				<p:pickList id="pickList" value="#{deviceUsersBean.usernames}"
+					var="unames" itemLabel="#{unames}" itemValue="#{unames}"
+					showSourceFilter="true" showTargetFilter="true"
+					filterMatchMode="contains">
+
+					<f:facet name="sourceCaption"><h:outputText value="#{msg['sensor.users.non.selected']}" /></f:facet>
+					<f:facet name="targetCaption"><h:outputText value="#{msg['sensor.users.selected']}" /></f:facet>
+
+				</p:pickList>
+
+			</p:column>
+			<p:column>
+
+				<p:commandButton id="namesSubmit" value="#{msg['submit']}"
+					action="#{deviceUsersBean.updateDevice}" />
+
+			</p:column>
+		</p:panelGrid>
+	</h:form>
+</h:body>
+</html>

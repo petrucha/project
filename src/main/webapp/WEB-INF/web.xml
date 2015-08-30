@@ -37,13 +37,17 @@
 		<param-name>primefaces.THEME</param-name>
 		<param-value>bootstrap</param-value>
 	</context-param>
+	<context-param>
+   		<param-name>primefaces.FONT_AWESOME</param-name>
+   		<param-value>true</param-value>
+	</context-param>
 	<listener>
 		<listener-class>com.sun.faces.config.ConfigureListener</listener-class>
 	</listener>
 
 	<!-- REST server -->
 	<servlet>
-		<servlet-name>jersey-serlvet</servlet-name>
+		<servlet-name>jersey-servlet</servlet-name>
 		<servlet-class>com.sun.jersey.spi.container.servlet.ServletContainer</servlet-class>
 		<init-param>
 			<param-name>com.sun.jersey.config.property.packages</param-name>
@@ -56,10 +60,10 @@
 		<load-on-startup>1</load-on-startup>
 	</servlet>
 	<servlet-mapping>
-		<servlet-name>jersey-serlvet</servlet-name>
+		<servlet-name>jersey-servlet</servlet-name>
 		<url-pattern>/rest/*</url-pattern>
 	</servlet-mapping>
-	<security-constraint>
+<!-- 	<security-constraint>
 		<web-resource-collection>
 			<web-resource-name>records</web-resource-name>
 			<url-pattern>/rest/*</url-pattern>
@@ -67,7 +71,7 @@
 		<user-data-constraint>
 			<transport-guarantee>CONFIDENTIAL</transport-guarantee>
 		</user-data-constraint>
-	</security-constraint>
+	</security-constraint> -->
 
 
 	<!-- Security -->
@@ -87,6 +91,11 @@
 	<error-page>
 		<error-code>403</error-code>
 		<location>/pages/accessDenied.xhtml</location>
+	</error-page>
+	
+	<error-page>
+		<error-code>404</error-code>
+		<location>/pages/pageNotFound.xhtml</location>
 	</error-page>
 
 	<!-- Filters -->

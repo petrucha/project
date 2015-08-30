@@ -14,45 +14,52 @@
 
 			<h:form>
 				<p:contextMenu for="profiles">
-					<p:menuitem value="View" update="profileDetail"
+					<p:menuitem value="#{msg['profile.view']}" update="profileDetail"
 						icon="ui-icon-search" oncomplete="PF('profileDialog').show()" />
-					<p:menuitem value="Delete" update="profiles" icon="ui-icon-close"
+					<p:menuitem value="#{msg['profile.delete']}" update="profiles"
+						icon="ui-icon-close"
 						actionListener="#{profilesDeleteViewBean.deleteProfile}" />
 				</p:contextMenu>
 
 				<p:dataTable id="profiles" var="user"
 					value="#{profilesDeleteViewBean.users}" widgetVar="profilesTable"
-					emptyMessage="No profiles found with given criteria"
+					emptyMessage="#{msg['profiles.empty.message']}"
 					filteredValue="#{profilesDeleteViewBean.filteredProfiles}"
 					rowKey="#{user.username}"
-					selection="#{profilesDeleteViewBean.selectedUser}" selectionMode="single">
+					selection="#{profilesDeleteViewBean.selectedUser}"
+					selectionMode="single">
 
 					<f:facet name="header">
-           				 Right click to view options
-        			</f:facet>
+
+						<h:outputText value="#{msg['rightclick.to.view.options']}" />
+
+					</f:facet>
 
 
-					<p:column filterBy="#{user.username}" headerText="Username"
+					<p:column filterBy="#{user.username}"
+						headerText="#{msg['profiles.username']}"
 						filterMatchMode="contains">
 						<h:outputText value="#{user.username}" />
 					</p:column>
 
-					<p:column filterBy="#{user.firstname}" headerText="First Name"
+					<p:column filterBy="#{user.firstname}"
+						headerText="#{msg['profiles.firstname']}"
 						filterMatchMode="contains">
 						<h:outputText value="#{user.firstname}" />
 					</p:column>
 
-					<p:column filterBy="#{user.lastname}" headerText="Last Name"
+					<p:column filterBy="#{user.lastname}"
+						headerText="#{msg['profiles.lastname']}"
 						filterMatchMode="contains">
 						<h:outputText value="#{user.lastname}" />
 					</p:column>
 
-					<p:column filterBy="#{user.group.groupname}" headerText="Group"
-						filterMatchMode="exact">
+					<p:column filterBy="#{user.group.groupname}"
+						headerText="#{msg['profiles.group']}" filterMatchMode="exact">
 						<f:facet name="filter">
 							<p:selectOneMenu onchange="PF('profilesTable').filter()">
-								<f:selectItem itemLabel="Select One" itemValue="#{null}"
-									noSelectionOption="true" />
+								<f:selectItem itemLabel="#{msg['profiles.select.one']}"
+									itemValue="#{null}" noSelectionOption="true" />
 								<f:selectItems value="#{profilesDeleteViewBean.groups}" />
 							</p:selectOneMenu>
 						</f:facet>
@@ -60,31 +67,36 @@
 					</p:column>
 
 				</p:dataTable>
-				<p:dialog header="Profile Info" widgetVar="profileDialog"
+				<p:dialog header="#{msg['profiles.info']}" widgetVar="profileDialog"
 					modal="true" showEffect="fade" hideEffect="fade" resizable="false">
 					<p:outputPanel id="profileDetail" style="text-align:center ">
-						<p:panelGrid columns="2" 
+						<p:panelGrid columns="2"
 							rendered="#{not empty profilesDeleteViewBean.selectedUser}"
 							columnClasses="label,value">
 
-							<h:outputText value="Username:" />
-							<h:outputText value="#{profilesDeleteViewBean.selectedUser.username}" />
+							<h:outputText value="#{msg['profiles.info.username']}" />
+							<h:outputText
+								value="#{profilesDeleteViewBean.selectedUser.username}" />
 
-							<h:outputText value="First Name" />
-							<h:outputText value="#{profilesDeleteViewBean.selectedUser.firstname}" />
+							<h:outputText value="#{msg['profiles.info.firstname']}" />
+							<h:outputText
+								value="#{profilesDeleteViewBean.selectedUser.firstname}" />
 
-							<h:outputText value="Last Name:" />
-							<h:outputText value="#{profilesDeleteViewBean.selectedUser.lastname}" />
+							<h:outputText value="#{msg['profiles.info.lastname']}" />
+							<h:outputText
+								value="#{profilesDeleteViewBean.selectedUser.lastname}" />
 
-							<h:outputText value="Role" />
+							<h:outputText value="#{msg['profiles.info.role']}" />
 							<h:outputText
 								value="#{profilesDeleteViewBean.selectedUser.group.groupname}" />
 
-							<h:outputText value="Birthday" />
-							<h:outputText value="#{profilesDeleteViewBean.selectedUser.birthday}" />
+							<h:outputText value="#{msg['profile.info.birthday']}" />
+							<h:outputText
+								value="#{profilesDeleteViewBean.selectedUser.birthday}" />
 
-							<h:outputText value="Email" />
-							<h:outputText value="#{profilesDeleteViewBean.selectedUser.email}" />
+							<h:outputText value="#{msg['profile.info.email']}" />
+							<h:outputText
+								value="#{profilesDeleteViewBean.selectedUser.email}" />
 						</p:panelGrid>
 					</p:outputPanel>
 				</p:dialog>

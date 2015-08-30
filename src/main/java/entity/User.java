@@ -41,10 +41,7 @@ public class User implements Serializable {
 	@JoinColumn(name = "group_id")
 	private Group group;
 	
-	@ManyToMany(cascade = CascadeType.REFRESH)
-	@JoinTable(name = "user_device",
-		joinColumns = { @JoinColumn(name = "user_id", nullable = false) }, 
-		inverseJoinColumns = { @JoinColumn(name = "device_id", nullable = false) })
+	@ManyToMany(mappedBy = "users", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
 	private Set<Device> devices = new HashSet<Device>(0);
 	
 	
@@ -137,6 +134,17 @@ public class User implements Serializable {
 	public void setDevices(Set<Device> devices) {
 		this.devices = devices;
 	}
+	
+	public void removeDevice(Device device) {
+        this.devices.remove(device);
+        device.getUsers().remove(this);
+    }
+ 
+    public void remove() {
+        for(Device device : devices) {
+            removeDevice(device);
+        }
+    }
 
 	@Override
 	public int hashCode() {
@@ -156,7 +164,7 @@ public class User implements Serializable {
 	@Override
 	public String toString() {
 		return "User [id=" + id + ", username=" + username + ", password=" + password + ", firstname=" + firstname
-				+ ", lastname=" + lastname + ", birthday=" + birthday.toString() + ", email=" + email + ", group=" + group.toString() + "]";
+				+ ", lastname=" + lastname + ", birthday=" + birthday.toString() + ", email=" + email + "]";
 	}
 
 	

@@ -14,7 +14,7 @@ public class DeviceCreatorTest {
 	@Test
 	public void testAddAndGetAndDeleteDevice() {
 		for(int i=0; i<10;i++){
-		Device device = new Device(TestUtil.randomMacAddress());
+		Device device = new Device(TestUtil.randomString(4));
 		deviceService.addDevice(device);}
 
 	}

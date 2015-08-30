@@ -1,0 +1,53 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+<h:body>
+    <ui:composition>
+        <h:form>
+            <p:growl id="growl" showDetail="true"/>
+
+            <p:contextMenu for="devices" rendered="#{devicesViewBean.adminMode}">
+                <p:menuitem value="#{msg['sensors.users']}" icon="ui-icon-pencil"
+                            actionListener="#{devicesViewBean.openDeviceUsers}"/>
+                <p:menuitem value="#{msg['sensors.delete']}" update="devices" icon="ui-icon-close"
+                            actionListener="#{devicesViewBean.deleteDevice}"/>
+            </p:contextMenu>
+
+            <p:dataTable id="devices" var="device"
+                         emptyMessage="#{msg['sensors.table.empty']}"
+                         value="#{devicesViewBean.devices}" rowKey="#{device.deviceId}"
+                         selection="#{devicesViewBean.selectedDevice}" selectionMode="single"
+                         rows="10" paginator="true"
+                         paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                         rowsPerPageTemplate="5,10,15, 20">
+                <f:facet name="header">
+                    <h:outputText value="#{msg['rightclick.to.view.options']}"/>
+                </f:facet>
+                <p:column headerText="#{msg['sensors.mac']}" filterBy="#{device.mac}"
+                          filterMatchMode="contains" sortBy="#{device.mac}">
+                    <h:outputText value="#{device.mac}"/>
+                </p:column>
+
+                <p:column headerText="#{msg['sensors.records.count']}"
+                          filterBy="#{device.recordsCount}" filterMatchMode="contains"
+                          sortBy="#{device.recordsCount}">
+                    <h:outputText value="#{device.recordsCount}"/>
+                </p:column>
+
+                <p:column headerText="#{msg['sensors.last.updated']}" filterBy="#{device.lastUpdated}"
+                          filterMatchMode="contains" sortBy="#{device.lastUpdated}">
+
+                    <h:outputText value="#{device.lastUpdated}"/>
+                </p:column>
+
+            </p:dataTable>
+        </h:form>
+    </ui:composition>
+</h:body>
+</html>
