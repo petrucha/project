@@ -10,7 +10,46 @@
 <h:body>
 	<ui:composition template="/pages/templates/forGuest/commonGuest.xhtml">
 		<ui:define name="content">
-			<h1>Contacts!</h1>
+       <script src="http://maps.google.com/maps/api/js?sensor=false" type="text/javascript"></script>
+			<p:panelGrid layout="grid" columns="2">
+				<f:facet name="header">
+					 PRAHA
+				</f:facet>
+				<h:panelGroup>
+					<h:panelGroup>
+						<p>
+							<b>IMA s.r.o</b><br />
+							<p:separator />
+							Institut mikroelektronických<br /> aplikací<br /> Na Valentince
+							1003/11 <br /> 150 00 Praha 5 <br /> <b>tel.: (+420) 251
+								081 097</b><br /> <b>fax: (+420) 251 081 066</b> <br />ima@ima.cz
+						</p>
+					</h:panelGroup>
+					<h:panelGroup>
+						<p>
+							<p:separator />
+							<b>KONZULTACE</b><br />
+							<p:separator />
+							tel.: (+420) 251 081 097<br /> fax: (+420) 251 081 066<br />
+							consulting@ima.cz
+						</p>
+					</h:panelGroup>
+					<h:panelGroup>
+						<p>
+							<p:separator />
+							<b>SERVIS</b><br />
+							<p:separator />
+							tel.: (+420) 251 081 095<br /> tel.: (+420) 251 081 051<br />
+							fax: (+420) 251 081 066<br /> servis@ima.cz
+						</p>
+
+					</h:panelGroup>
+				</h:panelGroup>
+				<h:panelGroup>
+					<p:gmap class="gmap" center="50.0674428, 14.4104003" zoom="15"
+						type="HYBRID" model="#{markersViewBean.getMarker()}" />
+				</h:panelGroup>
+			</p:panelGrid>
 		</ui:define>
 	</ui:composition>
 </h:body>

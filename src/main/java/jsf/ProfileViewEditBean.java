@@ -9,7 +9,7 @@ import util.PasswordHash;
 public class ProfileViewEditBean extends AbstractBean implements Serializable {
 
 	private static final long serialVersionUID = 1L;
-
+    private static UserService userService = UserService.getInstance();
 	private User currentUser;
 	private String oldPassword = "";
 	private String newPassword = "";
@@ -33,7 +33,6 @@ public class ProfileViewEditBean extends AbstractBean implements Serializable {
 	public void savePassword() {
 		if (currentUser.getPassword().equals(PasswordHash.hash(oldPassword))) {
 			currentUser.setPassword(PasswordHash.hash(newPassword));
-			UserService userService = UserService.getInstance();
 			userService.addUser(currentUser);
 		}
 	}

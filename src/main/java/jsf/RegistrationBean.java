@@ -14,6 +14,8 @@ import entity.User;
 public class RegistrationBean extends AbstractBean implements Serializable {
 
 	private static final long serialVersionUID = 1L;
+	private static GroupService groupService = GroupService.getInstance();
+	private static UserService userService = UserService.getInstance();
 	private String username;
 	private String password;
 	private String confirmpassword;
@@ -47,7 +49,7 @@ public class RegistrationBean extends AbstractBean implements Serializable {
 	public void setPassword(String password) {
 		this.password = password;
 	}
-	
+
 	public String getConfirmpassword() {
 		return confirmpassword;
 	}
@@ -89,17 +91,15 @@ public class RegistrationBean extends AbstractBean implements Serializable {
 	}
 
 	public String registerUser() {
-			
-		UserService userService = UserService.getInstance();
+
 		User user = new User();
 		user.setUsername(username);
 		user.setPassword(PasswordHash.hash(password));
 		user.setFirstname(firstname);
-        user.setLastname(lastname);
-        user.setBirthday(birthday);
-        user.setEmail(email);
-		
-		GroupService groupService = GroupService.getInstance();
+		user.setLastname(lastname);
+		user.setBirthday(birthday);
+		user.setEmail(email);
+
 		Group group = groupService.getGroupByName(groupname);
 		if (group == null) {
 			group = new Group();
@@ -108,14 +108,15 @@ public class RegistrationBean extends AbstractBean implements Serializable {
 		}
 
 		user.setGroup(group);
-		if(userService.addUser(user)){
-	        FacesMessage msg = new FacesMessage("Successful", "Welcome :" + user.getFirstname());
-	        FacesContext.getCurrentInstance().addMessage(null, msg);
-			return "success";}
-		else{
-	        FacesMessage msg = new FacesMessage("Failure", "Please, try again");
-	        FacesContext.getCurrentInstance().addMessage(null, msg);
-			return "failure";}
+		if (userService.addUser(user)) {
+			FacesMessage msg = new FacesMessage("Successful", "Welcome :" + user.getFirstname());
+			FacesContext.getCurrentInstance().addMessage(null, msg);
+			return "success";
+		} else {
+			FacesMessage msg = new FacesMessage("Failure", "Please, try again");
+			FacesContext.getCurrentInstance().addMessage(null, msg);
+			return "failure";
+		}
 	}
 
 }
