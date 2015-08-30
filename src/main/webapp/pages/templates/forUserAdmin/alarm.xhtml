@@ -1,0 +1,107 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:body>
+	<ui:composition>
+
+		<h:form id="alarmForm">
+			<p:wizard>
+				<p:tab id="selectDevice" title="Select Devices">
+					<p:panelGrid id="alarmPanel">
+						<p:row>
+							<p:column>
+								<p:dataTable id="checkboxDevice" var="device"
+									value="#{alarmDeviceBean.devices}"
+									selection="#{alarmDeviceBean.selectedDevicesTabLeft}"
+									rowKey="#{device.mac}" scrollable="true" scrollHeight="325">
+									<f:facet name="header">
+            					Select one or more devices       
+						</f:facet>
+									<p:column selectionMode="multiple" class="columnSelection" />
+									<p:column headerText="mac">
+										<h:outputText value="#{device.mac}" />
+									</p:column>
+									<f:facet name="footer">
+										<p:commandButton process="checkboxDevice"
+											update=":alarmForm:deviceDetail" icon="ui-icon-search"
+											value="View" oncomplete="PF('deviceDetail').show()" />
+										<p:commandButton value="Refresh"
+											action="#{alarmDeviceBean.refreshLeftTab()}"
+											update="checkboxDevice" />
+									</f:facet>
+								</p:dataTable>
+
+								<p:dialog header="Selected Devices" widgetVar="deviceDetail"
+									modal="true" showEffect="fade" hideEffect="fade"
+									resizable="false" class="dialog">
+									<p:outputPanel id="deviceDetail" class="dialogPanel">
+										<ui:repeat value="#{alarmDeviceBean.selectedDevicesTabLeft}"
+											var="device">
+											<h:outputText value="#{device.mac}" class="dialogText" />
+										</ui:repeat>
+									</p:outputPanel>
+								</p:dialog>
+							</p:column>
+
+							<p:column>
+
+								<p:commandButton action="#{alarmDeviceBean.move()}"
+									update="selectedTabDevice" value="Move >>" />
+							</p:column>
+
+
+							<p:column>
+								<p:dataTable id="selectedTabDevice" var="device"
+									value="#{alarmDeviceBean.selectedDevicesTabRight}"
+									selectionMode="single"
+									selection="#{alarmDeviceBean.selectedDevice}"
+									rowKey="#{device.mac}" scrollable="true" scrollHeight="325">
+									<f:facet name="header">
+        				   Selected devices
+        				</f:facet>
+									<p:column headerText="mac">
+										<h:outputText value="#{device.mac}" />
+									</p:column>
+									<f:facet name="footer">
+										<p:commandButton value="Delete"
+											action="#{alarmDeviceBean.deleteSelected()}"
+											update="selectedTabDevice" />
+										<p:commandButton value="Clear"
+											action="#{alarmDeviceBean.clearRightTab()}"
+											update="selectedTabDevice" />
+									</f:facet>
+								</p:dataTable>
+
+							</p:column>
+
+							<!-- 					<p:column>
+						<p:commandButton value="Create Alarm" />
+						<p:commandButton value="Delete Alarm" />
+					</p:column> -->
+						</p:row>
+
+					</p:panelGrid>
+				</p:tab>
+				<p:tab id="createAlarm" title="Create Alarm">
+					<h:outputText value="Temperature: " />
+					<p:inputSwitch value="#{alarmDeviceBean.temperature}">
+						<f:ajax event="change" execute="@this" render="alarmTemperatureOn" />
+					</p:inputSwitch>
+					<h:panelGroup id="alarmTemperatureOn" >
+						<h:outputText rendered="#{alarmDeviceBean.temperature}"  value="Hello!"></h:outputText>
+					</h:panelGroup>
+				</p:tab>
+				<p:tab id="confirmationAlarm" title="Confirmation">
+				</p:tab>
+			</p:wizard>
+		</h:form>
+
+	</ui:composition>
+</h:body>
+</html>

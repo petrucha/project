@@ -48,6 +48,16 @@
 		<managed-bean-class>jsf.ProfileViewEditBean</managed-bean-class>
 		<managed-bean-scope>view</managed-bean-scope>
 	</managed-bean>
+	<managed-bean>
+		<managed-bean-name>markersViewBean</managed-bean-name>
+		<managed-bean-class>jsf.MarkersViewBean</managed-bean-class>
+		<managed-bean-scope>view</managed-bean-scope>
+	</managed-bean>
+	<managed-bean>
+		<managed-bean-name>alarmDeviceBean</managed-bean-name>
+		<managed-bean-class>jsf.AlarmDeviceBean</managed-bean-class>
+		<managed-bean-scope>view</managed-bean-scope>
+	</managed-bean>
 
 	<!-- RULES -->
 	<navigation-rule>
