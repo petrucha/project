@@ -27,7 +27,7 @@ public class RecordServiceTest {
     public void createDeviceAndRecord() {
     	device = new Device(TestUtil.randomString(4));
     	deviceService.addDevice(device);
-    	record = new Record(device, "test", (int) new Date().getTime()%200, DateUtil.dateToTimestamp(new Date()));
+    	record = new Record(device, "test", TestUtil.randInt(-100, 100), DateUtil.dateToTimestamp(new Date()));
     	recordService.addRecord(record);
     }
     

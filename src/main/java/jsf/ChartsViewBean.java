@@ -1,11 +1,11 @@
 package jsf;
 
 import java.io.Serializable;
-import java.text.SimpleDateFormat;
 import java.util.*;
 
 import javax.faces.context.FacesContext;
 
+import org.apache.log4j.Logger;
 import org.primefaces.model.chart.Axis;
 import org.primefaces.model.chart.AxisType;
 import org.primefaces.model.chart.BarChartModel;
@@ -23,11 +23,22 @@ import util.DateUtil;
 public class ChartsViewBean extends AbstractBean implements Serializable {
 
 	private static final long serialVersionUID = 1L;
+	
+	private static final Logger LOG = Logger.getLogger(ChartsViewBean.class);
 
 	private static RecordService recordService = RecordService.getInstance();
 	private static DeviceService deviceService = DeviceService.getInstance();
 
 	private static ResourceBundle rb;
+	
+	// Default selected devices number
+	private static final int DEV_NUMBER = 5;
+	// Default records number per device for bar chart
+	private static final int REC_NUMBER = 5;
+	// Records type by default
+	private static final String REC_TYPE = "temp";
+	// Chart type by default
+	private static final String CHART_TYPE = "line";
 
 	// Bean variables
 
@@ -47,18 +58,20 @@ public class ChartsViewBean extends AbstractBean implements Serializable {
 	// Constructor
 
 	public ChartsViewBean() {
+		LOG.debug("Getting Faces Context and resource bundle.");
 		FacesContext context = FacesContext.getCurrentInstance();
 		rb = ResourceBundle.getBundle("i18n.messages", context.getViewRoot().getLocale());
-		// setting default devices for chart
+		
+		LOG.debug("Setting default devices for chart.");
 		initSelectedDevices();
-		// setting a period that starts in first day of last month until now
+		
+		LOG.debug("Chart data time span initialization.");
 		initTimeSpan();
-		// last 3 records
-		recordsCount = 3;
-		// by default is temperature
-		recordsType = "temp";
-		// initializing models
-		chartType = "line";
+		
+		recordsCount = REC_NUMBER;
+		recordsType = REC_TYPE;
+		chartType = CHART_TYPE;
+		
 		initChart();
 	}
 
@@ -67,46 +80,69 @@ public class ChartsViewBean extends AbstractBean implements Serializable {
 	private void createLineModel() {
 		List<Record[]> recordArrays = recordService.getRecordsForLineChart(selectedDevices, recordsType, startDate,
 				endDate);
+		LOG.debug("Received records of " + recordArrays.size() + " devices.");
+		
 		LineChartModel model = new LineChartModel();
-
-		for (Record[] recs : recordArrays) {
-			ChartSeries series = initModel(recs);
-			model.addSeries(series);
+		LOG.debug("Line chart model initialization.");
+		for (int i = 0; i < recordArrays.size(); i++) {
+			Record[] recs = recordArrays.get(i);
+			if (recs.length > 0) {
+				ChartSeries series = initSeries(recs);
+				model.addSeries(series);
+				LOG.trace("Initialized a series with size: " + recs.length);
+			}
 		}
+		if ( model.getSeries().size() == 0 ) {
+			model.addSeries(initEmptySeries());
+			LOG.debug("Line chart model has no data.");
+		}
+		
 		lineModel = model;
-
 		lineModel.setTitle(rb.getString("line.chart"));
 		lineModel.setAnimate(true);
 		lineModel.setLegendPosition("e");
 
 		String fullType = getFullNameOfRecordsType(recordsType);
+		LOG.debug("Records type now is: " + fullType);
 		lineModel.getAxis(AxisType.Y).setLabel(fullType);
+		
 		DateAxis axisX = new DateAxis(rb.getString("dates"));
-
-		SimpleDateFormat fmt = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-
 		axisX.setTickAngle(-50);
-		axisX.setMin(fmt.format(startDate));
-		axisX.setMax(fmt.format(endDate));
+		String startStr = DateUtil.dateToCZFormat(startDate);
+		String endStr = DateUtil.dateToCZFormat(endDate);
+		LOG.debug("Time span now is: from " + startStr + " to " + endStr + ".");
+		axisX.setMin(startStr);
+		axisX.setMax(endStr);
 		axisX.setTickFormat("%#d %b %H:%M");
 		lineModel.getAxes().put(AxisType.X, axisX);
 	}
 
 	private void createBarModel() {
 		List<Record[]> recordArrays = recordService.getLastRecords(selectedDevices, recordsType, recordsCount);
+		LOG.debug("Received records of " + recordArrays.size() + " devices.");
+		
 		BarChartModel model = new BarChartModel();
-
-		for (Record[] recs : recordArrays) {
-			ChartSeries series = initModel(recs);
-			model.addSeries(series);
+		LOG.debug("Bar chart model initialization.");
+		for (int i = 0; i < recordArrays.size(); i++) {
+			Record[] recs = recordArrays.get(i);
+			if (recs.length > 0) {
+				ChartSeries series = initSeries(recs);
+				model.addSeries(series);
+				LOG.trace("Initialized a series with size: " + recs.length);
+			}
 		}
+		if ( model.getSeries().size() == 0 ) {
+			model.addSeries(initEmptySeries());
+			LOG.debug("Bar chart model has no data.");
+		}
+		
 		barModel = model;
-
 		barModel.setTitle(rb.getString("bar.chart.of.last.records"));
 		barModel.setAnimate(true);
 		barModel.setLegendPosition("e");
 
 		String fullType = getFullNameOfRecordsType(recordsType);
+		LOG.debug("Records type now is: " + fullType);
 		barModel.getAxis(AxisType.Y).setLabel(fullType);
 
 		Axis xAxis = barModel.getAxis(AxisType.X);
@@ -116,8 +152,10 @@ public class ChartsViewBean extends AbstractBean implements Serializable {
 	private void createPieModel() {
 		HashMap<String, Double> averages = recordService.getFilteredAverages(selectedDevices, recordsType,
 				startDate, endDate);
+		LOG.debug("Received averages of " + averages.size() + " devices.");
+		
+		LOG.debug("Chart model initialization.");
 		pieModel = new PieChartModel();
-		System.out.println(averages.size());
 		if (averages.size() == 0) {
 			pieModel.set(rb.getString("no.records.found.for.the.period"), 0);
 		} else {
@@ -133,49 +171,51 @@ public class ChartsViewBean extends AbstractBean implements Serializable {
 
 	// initializing methods
 
-	private ChartSeries initModel(Record[] records) {
+	private ChartSeries initSeries(Record[] records) {
 		ChartSeries series = new ChartSeries();
-		SimpleDateFormat fmt = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
-		if (records.length == 0) {
-			series.setLabel(rb.getString("no.records.found.for.the.period"));
-			series.set(fmt.format(new Date()), 0);
-		} else {
-			series.setLabel(records[0].getDevice().getMac());
-			// creating value data for chart series
-			for (Record rec : records) {
-				String formatedDate = DateUtil.timestampToStringFmt(rec.getTimestamp());
-				series.set(formatedDate, rec.getValue());
-			}
+		LOG.debug("Initialization of " + records.length + " records.");
+		series.setLabel(records[0].getDevice().getMac());
+		// creating value data for chart series
+		for (Record rec : records) {
+			String formatedDate = DateUtil.timestampToStringFmt(rec.getTimestamp());
+			series.set(formatedDate, rec.getValue());
 		}
 
 		return series;
 	}
+	
+	private ChartSeries initEmptySeries() {
+		ChartSeries series = new ChartSeries();
+		series.setLabel(rb.getString("no.records.found.for.the.period"));
+		series.set(DateUtil.dateToCZFormat(new Date()), 0);
+		return series;
+	}
+	
 	// limit 5 devices
 	private void initSelectedDevices() {
 		FacesContext context = FacesContext.getCurrentInstance();
 		UserBean userB = context.getApplication().evaluateExpressionGet(context, "#{userBean}", UserBean.class);
+		
 		if (userB.isAdminRole()) {
 			devices = deviceService.getAllMacs(true);
+			LOG.debug("Recieved " + devices.size() + " devices with admin access.");
 		} else {
 			User currentUser = userB.getUser();
 			devices = deviceService.getMacsByUser(currentUser.getUsername(), true);
+			LOG.debug("Recieved " + devices.size() + " devices with user access. User: " + currentUser.getUsername());
 		}
-		// choosing first 5 devices
-		if (devices.size() < 5) {
-			selectedDevices = new String[devices.size()];
-		} else {
-			selectedDevices = new String[5];
-		}
-		for (int i = 0; (i < devices.size()) && (i < 5); i++) {
+		// choosing default devices
+		int size = devices.size() < DEV_NUMBER ? devices.size() : DEV_NUMBER;
+		selectedDevices = new String[size];
+		for (int i = 0; i < size; i++) {
 			selectedDevices[i] = devices.get(i);
 		}
 	}
+	
 	// yesterday
 	private void initTimeSpan() {
-		Calendar cal = Calendar.getInstance();
-		cal.add(Calendar.DATE, -1);
-		startDate = cal.getTime();
+		startDate = DateUtil.getYesterday();
 		endDate = new Date();
 	}
 

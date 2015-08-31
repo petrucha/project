@@ -9,6 +9,9 @@ import org.apache.log4j.Logger;
 
 public class DateUtil {
 	
+	public static final String formatCZ = "yyyy-MM-dd HH:mm:ss";
+	public static final String formatTimestamp = "yyyyMMddHHmmss";
+	
 	private static final Logger LOG = Logger.getLogger(DateUtil.class);
 	
 	/**
@@ -16,7 +19,7 @@ public class DateUtil {
 	 * @return for example: 20150826105412
 	 */
 	public static double dateToTimestamp(Date date) {
-		SimpleDateFormat format = new SimpleDateFormat("yyyyMMddHHmmss");
+		SimpleDateFormat format = new SimpleDateFormat(formatTimestamp);
 		String dateString = format.format(date);
 		double timestamp = Double.parseDouble(dateString);
 		LOG.debug("Date was formated from " + date + " to " + timestamp);
@@ -29,7 +32,7 @@ public class DateUtil {
 	 */
 	public static Date timestampToDate(double datetime) {
 		String rawDateStr = String.format("%.0f", datetime);
-		SimpleDateFormat format = new SimpleDateFormat("yyyyMMddHHmmss");
+		SimpleDateFormat format = new SimpleDateFormat(formatTimestamp);
 		try {
 			Date date = format.parse(rawDateStr);
 			LOG.debug("Date was formated from " + datetime + " to " + date);
@@ -90,7 +93,7 @@ public class DateUtil {
 		c.setTime(dt);
 		c.add(Calendar.DATE, 1);
 		dt = c.getTime();
-		String tommorowStr = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(dt);
+		String tommorowStr = new SimpleDateFormat(formatCZ).format(dt);
 		LOG.debug("Got tomorrow date in String: '" + tommorowStr + "'");
 		return tommorowStr;
 	}
@@ -105,7 +108,7 @@ public class DateUtil {
 		c.setTime(dt);
 		c.add(Calendar.HOUR, 1);
 		dt = c.getTime();
-		String nextHourStr = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(dt);
+		String nextHourStr = new SimpleDateFormat(formatCZ).format(dt);
 		LOG.debug("Got next hour in String: '" + nextHourStr + "'");
 		return nextHourStr;
 	}
@@ -132,7 +135,7 @@ public class DateUtil {
 		c.setTime(dt);
 		c.add(Calendar.MINUTE, -1);
 		dt = c.getTime();
-		LOG.debug("Got last MINUTE: '" + dt + "'");
+		LOG.debug("Got last minute: '" + dt + "'");
 		return dt;
 	}
 	
@@ -147,6 +150,17 @@ public class DateUtil {
 		dt = c.getTime();
 		LOG.debug("Got date of three months ago: '" + dt + "'");
 		return dt;
+	}
+	
+	/**
+	 * @param date
+	 * @return date in format "yyyy-MM-dd HH:mm:ss"
+	 */
+	public static String dateToCZFormat(Date date) {
+		SimpleDateFormat fmt = new SimpleDateFormat(formatCZ);
+		String dateStr = fmt.format(date);
+		LOG.debug("Date was formated from '" + date + "' to '" + dateStr + "'.");		
+		return dateStr;
 	}
 	
 }
