@@ -40,17 +40,19 @@
 						<p:tab title="#{msg['graph.tabs.general']}">
 							<h:panelGrid columns="2" cellpadding="2">
 								<h:outputText value="#{msg['graph.records.type']}" />
-								<p:selectOneButton value="#{chartsViewBean.recordsType}">
+								<p:selectOneButton id="recordsType" value="#{chartsViewBean.recordsType}">
+									<p:ajax event="change" update="chartType"></p:ajax>
 									<f:selectItem itemLabel="#{msg['graph.temp']}" itemValue="temp" />
 									<f:selectItem itemLabel="#{msg['graph.pres']}" itemValue="pres" />
 									<f:selectItem itemLabel="#{msg['graph.humi']}" itemValue="humi" />
 								</p:selectOneButton>
 
 								<h:outputText value="#{msg['graph.chart.type']}" />
-								<p:selectOneButton value="#{chartsViewBean.chartType}">
+								<p:selectOneButton id="chartType" value="#{chartsViewBean.chartType}" >
 									<f:selectItem itemLabel="#{msg['graph.type.line']}" itemValue="line" />
 									<f:selectItem itemLabel="#{msg['graph.type.bar']}" itemValue="bar" />
-									<f:selectItem itemLabel="#{msg['graph.type.pie']}" itemValue="pie" />
+									<f:selectItem itemLabel="#{msg['graph.type.pie']}" itemValue="pie" 
+											itemDisabled="#{chartsViewBean.recordsType eq 'temp'}"/>
 								</p:selectOneButton>
 
 								<h:outputText value="#{msg['graph.devices']}" />
@@ -79,11 +81,11 @@
 							<h:panelGrid columns="2" cellpadding="2">
 								<h:outputText value="#{msg['graph.date.start']}" />
 								<p:calendar id="startDate" value="#{chartsViewBean.startDate}"
-											pattern="yyyy-MM-dd HH.mm.ss" mask="true" class="filters" />
+											pattern="yyyy-MM-dd HH:mm:ss" mask="true" class="filters" />
 
 								<h:outputText value="#{msg['graph.date.end']}" />
 								<p:calendar id="endDate" value="#{chartsViewBean.endDate}"
-											pattern="yyyy-MM-dd HH.mm.ss" mask="true" class="filters" />
+											pattern="yyyy-MM-dd HH:mm:ss" mask="true" class="filters" />
 							</h:panelGrid>
 						</p:tab>
 

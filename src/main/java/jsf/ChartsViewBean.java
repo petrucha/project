@@ -34,7 +34,7 @@ public class ChartsViewBean extends AbstractBean implements Serializable {
 	// Default selected devices number
 	private static final int DEV_NUMBER = 5;
 	// Default records number per device for bar chart
-	private static final int REC_NUMBER = 5;
+	private static final int REC_NUMBER = 3;
 	// Records type by default
 	private static final String REC_TYPE = "temp";
 	// Chart type by default
@@ -215,7 +215,7 @@ public class ChartsViewBean extends AbstractBean implements Serializable {
 	
 	// yesterday
 	private void initTimeSpan() {
-		startDate = DateUtil.getYesterday();
+		startDate = DateUtil.getLastHour();
 		endDate = new Date();
 	}
 

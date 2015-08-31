@@ -3,8 +3,10 @@ package service;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -29,6 +31,29 @@ public class RecordServiceTest {
     	deviceService.addDevice(device);
     	record = new Record(device, "test", TestUtil.randInt(-100, 100), DateUtil.dateToTimestamp(new Date()));
     	recordService.addRecord(record);
+    }
+    
+//    @BeforeClass
+    public static void createDevicesAndRecords() {
+    	for (int j=0; j<30; j++) {
+    		Device dev = new Device(TestUtil.randomString(4));
+        	deviceService.addDevice(dev);
+        	Calendar c = Calendar.getInstance();
+        	Date dt = new Date();
+    		c.setTime(dt);
+    		c.add(Calendar.HOUR, -1);
+    		for (int i=0; i<100; i++) {
+    			c.add(Calendar.SECOND, 10);
+    			dt = c.getTime();
+    			double timestamp = DateUtil.dateToTimestamp(dt);
+    			Record rec1 = new Record(dev, "temp", TestUtil.randInt(-100, 100), timestamp);
+    			Record rec2 = new Record(dev, "humi", TestUtil.randInt(-100, 100), timestamp);
+    			Record rec3 = new Record(dev, "pres", TestUtil.randInt(-100, 100), timestamp);
+    			recordService.addRecord(rec1);
+    			recordService.addRecord(rec2);
+    			recordService.addRecord(rec3);
+    		}
+    	}
     }
     
     @After

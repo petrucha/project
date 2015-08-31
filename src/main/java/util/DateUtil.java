@@ -114,6 +114,21 @@ public class DateUtil {
 	}
 	
 	/**
+	 * @param dt
+	 * @return next minute since dt in string format.
+	 * For example: 2015-08-26 11:54:12
+	 */
+	public static String printNextMinute(Date dt) {
+		Calendar c = Calendar.getInstance();
+		c.setTime(dt);
+		c.add(Calendar.MINUTE, 1);
+		dt = c.getTime();
+		String nextHourStr = new SimpleDateFormat(formatCZ).format(dt);
+		LOG.debug("Got next minute in String: '" + nextHourStr + "'");
+		return nextHourStr;
+	}
+	
+	/**
 	 * @return yesterday relatively now in java.util.Date format.
 	 */
 	public static Date getYesterday() {
@@ -123,6 +138,19 @@ public class DateUtil {
 		c.add(Calendar.DATE, -1);
 		dt = c.getTime();
 		LOG.debug("Got date of yesterday: '" + dt + "'");
+		return dt;
+	}
+	
+	/**
+	 * @return last hour relatively now in java.util.Date format.
+	 */
+	public static Date getLastHour() {
+		Date dt = new Date();
+		Calendar c = Calendar.getInstance();
+		c.setTime(dt);
+		c.add(Calendar.HOUR, -1);
+		dt = c.getTime();
+		LOG.debug("Got last hour: '" + dt + "'");
 		return dt;
 	}
 	
