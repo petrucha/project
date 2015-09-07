@@ -1,6 +1,7 @@
 package jsf;
 
 import java.io.Serializable;
+import java.util.ResourceBundle;
 
 import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpServletRequest;
@@ -44,6 +45,9 @@ public class LoginBean extends AbstractBean implements Serializable {
 
 	public String login() {
 
+		FacesContext context = FacesContext.getCurrentInstance();
+		ResourceBundle rb = ResourceBundle.getBundle("i18n.messages", context.getViewRoot().getLocale());
+
 		HttpServletRequest request = (HttpServletRequest) FacesContext
 				.getCurrentInstance().getExternalContext().getRequest();
 
@@ -68,7 +72,7 @@ public class LoginBean extends AbstractBean implements Serializable {
 			if (userService.isFirstUser())
 				return "first";
 		}
-		this.displayErrorMessageToUser("Check your username/password");
+		this.displayErrorMessageToUser(rb.getString("check.your.username.password"));
 		return "failure";
 	}
 

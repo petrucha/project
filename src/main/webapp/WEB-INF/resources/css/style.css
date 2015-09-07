@@ -125,7 +125,9 @@ a.externLink {
 	width: 200px;
 }
 
+.lang {
+	padding: 0.3em;
+}
 .noBorderPanelGrid.ui-panelgrid>*>tr, .noBorderPanelGrid.ui-panelgrid .ui-panelgrid-cell
 	{
 	border: none;
-}

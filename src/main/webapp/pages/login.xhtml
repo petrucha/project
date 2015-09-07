@@ -25,33 +25,33 @@
 		</ui:define>
 		<ui:define name="content">
 			<h:form id="loginForm">
-				<p:fieldset styleClass="fieldset" legend="Authentication Form">
-					<p:messages />
+				<p:fieldset styleClass="fieldset" legend="#{msg['login.form']}">
+					<p:messages showDetail="true" autoUpdate="true" closable="true"/>
 
 					<h:panelGrid id="logPanelGrid" class="centerPanelGrid"
 								 cellspacing="8" columns="3">
 
 						<h:panelGroup>
-							<h:outputText value="Username:" />
+							<h:outputText value="#{msg['login.username']}: " />
 							<h:outputText style="color:red" value="*  " />
 						</h:panelGroup>
 						<p:inputText id="username" value="#{loginBean.username}"
-									 label="Username" title="Enter your Username!" />
+									 label="#{msg['login.username']}" title="#{msg['login.titles.username']}" />
 						<p:tooltip for="username" styleClass="tooltip" showEvent="focus"
 								   hideEvent="blur" />
 						<h:panelGroup>
-							<h:outputText value="Password:" />
+							<h:outputText value="#{msg['login.password']}: " />
 							<h:outputText style="color:red" value="*  " />
 						</h:panelGroup>
 						<p:password id="password" value="#{loginBean.password}"
-									label="Password" title="Please enter a password!" />
+									label="#{msg['login.password']}" title="#{msg['login.titles.password']}" />
 
 						<p:tooltip for="password" styleClass="tooltip" showEvent="focus"
 								   hideEvent="blur" />
 					</h:panelGrid>
 
 					<h:panelGrid class="centerPanelGrid" cellspacing="8" columns="1">
-						<p:commandButton action="#{loginBean.login}" value="Login"
+						<p:commandButton action="#{loginBean.login}" value="#{msg['login']}"
 										 update="logPanelGrid" />
 
 					</h:panelGrid>
