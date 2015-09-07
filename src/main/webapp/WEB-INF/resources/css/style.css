@@ -124,3 +124,8 @@ a.externLink {
 .dialog {
 	width: 200px;
 }
+
+.noBorderPanelGrid.ui-panelgrid>*>tr, .noBorderPanelGrid.ui-panelgrid .ui-panelgrid-cell
+	{
+	border: none;
+}

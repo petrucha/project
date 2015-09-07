@@ -9,95 +9,363 @@
 
 <h:body>
 	<ui:composition>
-
 		<h:form id="alarmForm">
 			<p:wizard>
+				<!-- Select Devices -->
 				<p:tab id="selectDevice" title="Select Devices">
-					<p:panelGrid id="alarmPanel">
-						<p:row>
-							<p:column>
-								<p:dataTable id="checkboxDevice" var="device"
-									value="#{alarmDeviceBean.devices}"
-									selection="#{alarmDeviceBean.selectedDevicesTabLeft}"
-									rowKey="#{device.mac}" scrollable="true" scrollHeight="325">
-									<f:facet name="header">
-            					Select one or more devices       
-						</f:facet>
-									<p:column selectionMode="multiple" class="columnSelection" />
-									<p:column headerText="mac">
-										<h:outputText value="#{device.mac}" />
-									</p:column>
-									<f:facet name="footer">
-										<p:commandButton process="checkboxDevice"
-											update=":alarmForm:deviceDetail" icon="ui-icon-search"
-											value="View" oncomplete="PF('deviceDetail').show()" />
-										<p:commandButton value="Refresh"
-											action="#{alarmDeviceBean.refreshLeftTab()}"
-											update="checkboxDevice" />
-									</f:facet>
-								</p:dataTable>
 
-								<p:dialog header="Selected Devices" widgetVar="deviceDetail"
-									modal="true" showEffect="fade" hideEffect="fade"
-									resizable="false" class="dialog">
-									<p:outputPanel id="deviceDetail" class="dialogPanel">
-										<ui:repeat value="#{alarmDeviceBean.selectedDevicesTabLeft}"
-											var="device">
-											<h:outputText value="#{device.mac}" class="dialogText" />
-										</ui:repeat>
-									</p:outputPanel>
-								</p:dialog>
-							</p:column>
+					<p:panelGrid id="alarmSelectPanel" styleClass="noBorderPanelGrid">
+						<p:column>
+							<p:dataTable id="checkboxDevice" var="device"
+								value="#{alarmDeviceBean.devices}"
+								selection="#{alarmDeviceBean.selectedDevicesTabLeft}"
+								rowKey="#{device.mac}" scrollable="true" scrollHeight="325">
+								<f:facet name="header">
+            								Select one or more devices       
+										</f:facet>
+								<p:column selectionMode="multiple" class="columnSelection" />
+								<p:column headerText="mac">
+									<h:outputText value="#{device.mac}" />
+								</p:column>
+								<f:facet name="footer">
+									<p:commandButton process="checkboxDevice"
+										update=":alarmForm:deviceDetail" icon="ui-icon-search"
+										value="View" oncomplete="PF('deviceDetail').show()" />
+									<p:commandButton value="Refresh"
+										action="#{alarmDeviceBean.refreshLeftTab()}"
+										update="checkboxDevice" />
+								</f:facet>
+							</p:dataTable>
 
-							<p:column>
+							<p:dialog header="Selected Devices" widgetVar="deviceDetail"
+								modal="true" showEffect="fade" hideEffect="fade"
+								resizable="false" class="dialog">
+								<p:outputPanel id="deviceDetail" class="dialogPanel">
+									<ui:repeat value="#{alarmDeviceBean.selectedDevicesTabLeft}"
+										var="device">
+										<h:outputText value="#{device.mac}" class="dialogText" />
+									</ui:repeat>
+								</p:outputPanel>
+							</p:dialog>
+						</p:column>
 
-								<p:commandButton action="#{alarmDeviceBean.move()}"
-									update="selectedTabDevice" value="Move >>" />
-							</p:column>
+						<p:column>
+
+							<p:commandButton action="#{alarmDeviceBean.move()}"
+								update="selectedTabDevice" value="Move >>" />
+						</p:column>
 
 
-							<p:column>
-								<p:dataTable id="selectedTabDevice" var="device"
-									value="#{alarmDeviceBean.selectedDevicesTabRight}"
-									selectionMode="single"
-									selection="#{alarmDeviceBean.selectedDevice}"
-									rowKey="#{device.mac}" scrollable="true" scrollHeight="325">
-									<f:facet name="header">
-        				   Selected devices
-        				</f:facet>
-									<p:column headerText="mac">
-										<h:outputText value="#{device.mac}" />
-									</p:column>
-									<f:facet name="footer">
-										<p:commandButton value="Delete"
-											action="#{alarmDeviceBean.deleteSelected()}"
-											update="selectedTabDevice" />
-										<p:commandButton value="Clear"
-											action="#{alarmDeviceBean.clearRightTab()}"
-											update="selectedTabDevice" />
-									</f:facet>
-								</p:dataTable>
+						<p:column>
+							<p:dataTable id="selectedTabDevice" var="device"
+								value="#{alarmDeviceBean.selectedDevicesTabRight}"
+								selectionMode="single"
+								selection="#{alarmDeviceBean.selectedDevice}"
+								rowKey="#{device.mac}" scrollable="true" scrollHeight="325">
+								<f:facet name="header">
+        				   					Selected devices
+        							</f:facet>
+								<p:column headerText="mac">
+									<h:outputText value="#{device.mac}" />
+								</p:column>
+								<f:facet name="footer">
+									<p:commandButton value="Delete"
+										action="#{alarmDeviceBean.deleteSelected()}"
+										update="selectedTabDevice" />
+									<p:commandButton value="Clear"
+										action="#{alarmDeviceBean.clearRightTab()}"
+										update="selectedTabDevice" />
+								</f:facet>
+							</p:dataTable>
 
-							</p:column>
-
-							<!-- 					<p:column>
-						<p:commandButton value="Create Alarm" />
-						<p:commandButton value="Delete Alarm" />
-					</p:column> -->
-						</p:row>
+						</p:column>
 
 					</p:panelGrid>
 				</p:tab>
+
+				<!-- Create Alarm -->
 				<p:tab id="createAlarm" title="Create Alarm">
-					<h:outputText value="Temperature: " />
-					<p:inputSwitch value="#{alarmDeviceBean.temperature}">
-						<f:ajax event="change" execute="@this" render="alarmTemperatureOn" />
-					</p:inputSwitch>
-					<h:panelGroup id="alarmTemperatureOn" >
-						<h:outputText rendered="#{alarmDeviceBean.temperature}"  value="Hello!"></h:outputText>
-					</h:panelGroup>
+
+					<p:panelGrid id="alarmTemperaturePanel"
+						styleClass="noBorderPanelGrid">
+						<h:outputText value="Temperature: " />
+						<p:inputSwitch value="#{alarmDeviceBean.temperature}">
+							<p:ajax event="change" update="alarmTemperatureOn"
+								listener="#{alarmDeviceBean.temperatureOnOffListener()}" />
+						</p:inputSwitch>
+					</p:panelGrid>
+
+					<p:outputPanel id="alarmTemperatureOn" layout="block">
+
+						<p:panelGrid rendered="#{alarmDeviceBean.temperature}"
+							styleClass="noBorderPanelGrid">
+							<p:row>
+								<p:column>
+									<p:selectBooleanCheckbox
+										value="#{alarmDeviceBean.temperatureAbsolute}">
+										<p:ajax event="change"
+											update="selectTypeAbT,alarmTemperatureAbSet"
+											listener="#{alarmDeviceBean.temperatureAbsoluteListener()}" />
+									</p:selectBooleanCheckbox>
+									<h:outputText value=" Absolute: " />
+								</p:column>
+
+								<p:column>
+									<h:panelGroup id="selectTypeAbT">
+										<p:selectOneRadio
+											rendered="#{alarmDeviceBean.temperatureAbsolute}"
+											value="#{alarmDeviceBean.temperatureAbType}">
+											<f:selectItem itemLabel="Min/Max" itemValue="minMaxAbT" />
+											<f:selectItem itemLabel=" Min " itemValue="minAbT" />
+											<f:selectItem itemLabel=" Max " itemValue="maxAbT" />
+											<p:ajax event="valueChange" update="alarmTemperatureAbSet" />
+										</p:selectOneRadio>
+									</h:panelGroup>
+								</p:column>
+							</p:row>
+						</p:panelGrid>
+
+						<p:panelGrid id="alarmTemperatureAbSet"
+							styleClass="noBorderPanelGrid"
+							rendered="#{alarmDeviceBean.temperature}">
+							<p:row>
+								<p:column>
+									<p:outputLabel for="valueMinAbT" value="If temperature &le; "
+										rendered="#{alarmDeviceBean.temperatureAbType eq 'minAbT' or alarmDeviceBean.temperatureAbType eq 'minMaxAbT'}" />
+								</p:column>
+								<p:column>
+									<p:spinner id="valueMinAbT" min="-100" max="100"
+										stepFactor="0.1"
+										value="#{alarmDeviceBean.valueTemperatureAbsoluteMin}"
+										rendered="#{alarmDeviceBean.temperatureAbType eq 'minAbT' or alarmDeviceBean.temperatureAbType eq 'minMaxAbT'}" />
+								</p:column>
+								<p:column>
+									<p:outputLabel for="valueTimeMinAbT"
+										value="&deg;C during time = "
+										rendered="#{alarmDeviceBean.temperatureAbType eq 'minAbT' or alarmDeviceBean.temperatureAbType eq 'minMaxAbT'}" />
+								</p:column>
+								<p:column>
+									<p:calendar id="valueTimeMinAbT"
+										value="#{alarmDeviceBean.valueTimeTemperatureAbsoluteMin}"
+										pattern="HH:mm" timeOnly="true"
+										rendered="#{alarmDeviceBean.temperatureAbType eq 'minAbT' or alarmDeviceBean.temperatureAbType eq 'minMaxAbT'}" />
+								</p:column>
+							</p:row>
+							<p:row>
+								<p:column>
+									<p:outputLabel for="valueMaxAbT" value="If temperature &ge; "
+										rendered="#{alarmDeviceBean.temperatureAbType eq 'maxAbT' or alarmDeviceBean.temperatureAbType eq 'minMaxAbT'}" />
+								</p:column>
+								<p:column>
+									<p:spinner id="valueMaxAbT" min="-100" max="100"
+										stepFactor="0.1"
+										value="#{alarmDeviceBean.valueTemperatureAbsoluteMax}"
+										rendered="#{alarmDeviceBean.temperatureAbType eq 'maxAbT' or alarmDeviceBean.temperatureAbType eq 'minMaxAbT'}" />
+								</p:column>
+								<p:column>
+									<p:outputLabel for="valueTimeMaxAbT"
+										value="&deg;C during time = "
+										rendered="#{alarmDeviceBean.temperatureAbType eq 'maxAbT' or alarmDeviceBean.temperatureAbType eq 'minMaxAbT'}" />
+								</p:column>
+								<p:column>
+									<p:calendar id="valueTimeMaxAbT"
+										value="#{alarmDeviceBean.valueTimeTemperatureAbsoluteMax}"
+										pattern="HH:mm" timeOnly="true"
+										rendered="#{alarmDeviceBean.temperatureAbType eq 'maxAbT' or alarmDeviceBean.temperatureAbType eq 'minMaxAbT'}" />
+								</p:column>
+							</p:row>
+						</p:panelGrid>
+
+						<p:panelGrid rendered="#{alarmDeviceBean.temperature}"
+							styleClass="noBorderPanelGrid">
+							<p:row>
+								<p:column>
+									<p:selectBooleanCheckbox
+										value="#{alarmDeviceBean.temperatureAverage}">
+										<p:ajax event="change"
+											update="selectTypeAvT,alarmTemperatureAvSet"
+											listener="#{alarmDeviceBean.temperatureAverageListener()}" />
+									</p:selectBooleanCheckbox>
+									<h:outputText value=" Average: " />
+								</p:column>
+
+								<p:column>
+									<h:panelGroup id="selectTypeAvT">
+										<p:selectOneRadio
+											rendered="#{alarmDeviceBean.temperatureAverage}"
+											value="#{alarmDeviceBean.temperatureAvType}">
+											<f:selectItem itemLabel="Min/Max" itemValue="minMaxAvT" />
+											<f:selectItem itemLabel=" Min " itemValue="minAvT" />
+											<f:selectItem itemLabel=" Max " itemValue="maxAvT" />
+											<p:ajax event="valueChange" update="alarmTemperatureAvSet" />
+										</p:selectOneRadio>
+									</h:panelGroup>
+								</p:column>
+							</p:row>
+						</p:panelGrid>
+
+						<p:panelGrid id="alarmTemperatureAvSet"
+							styleClass="noBorderPanelGrid"
+							rendered="#{alarmDeviceBean.temperature}">
+							<p:row>
+								<p:column>
+									<p:outputLabel for="valueMinAvT"
+										value="If average temperature &le; "
+										rendered="#{alarmDeviceBean.temperatureAvType eq 'minAvT' or alarmDeviceBean.temperatureAvType eq 'minMaxAvT'}" />
+								</p:column>
+								<p:column>
+									<p:spinner id="valueMinAvT" min="-100" max="100"
+										stepFactor="0.1"
+										value="#{alarmDeviceBean.valueTemperatureAverageMin}"
+										rendered="#{alarmDeviceBean.temperatureAvType eq 'minAvT' or alarmDeviceBean.temperatureAvType eq 'minMaxAvT'}" />
+								</p:column>
+								<p:column>
+									<p:outputLabel for="valueTimeMinAvT"
+										value="&deg;C during time = "
+										rendered="#{alarmDeviceBean.temperatureAvType eq 'minAvT' or alarmDeviceBean.temperatureAvType eq 'minMaxAvT'}" />
+								</p:column>
+								<p:column>
+									<p:calendar id="valueTimeMinAvT"
+										value="#{alarmDeviceBean.valueTimeTemperatureAverageMin}"
+										pattern="HH:mm" timeOnly="true"
+										rendered="#{alarmDeviceBean.temperatureAvType eq 'minAvT' or alarmDeviceBean.temperatureAvType eq 'minMaxAvT'}" />
+								</p:column>
+							</p:row>
+							<p:row>
+								<p:column>
+									<p:outputLabel for="valueMaxAvT"
+										value="If average temperature &ge; "
+										rendered="#{alarmDeviceBean.temperatureAvType eq 'maxAvT' or alarmDeviceBean.temperatureAvType eq 'minMaxAvT'}" />
+								</p:column>
+								<p:column>
+									<p:spinner id="valueMaxAvT" min="-100" max="100"
+										stepFactor="0.1"
+										value="#{alarmDeviceBean.valueTemperatureAverageMax}"
+										rendered="#{alarmDeviceBean.temperatureAvType eq 'maxAvT' or alarmDeviceBean.temperatureAvType eq 'minMaxAvT'}" />
+								</p:column>
+								<p:column>
+									<p:outputLabel for="valueTimeMaxAvT"
+										value="&deg;C during time = "
+										rendered="#{alarmDeviceBean.temperatureAvType eq 'maxAvT' or alarmDeviceBean.temperatureAvType eq 'minMaxAvT'}" />
+								</p:column>
+								<p:column>
+									<p:calendar id="valueTimeMaxAvT"
+										value="#{alarmDeviceBean.valueTimeTemperatureAverageMax}"
+										pattern="HH:mm" timeOnly="true"
+										rendered="#{alarmDeviceBean.temperatureAvType eq 'maxAvT' or alarmDeviceBean.temperatureAvType eq 'minMaxAvT'}" />
+								</p:column>
+							</p:row>
+						</p:panelGrid>
+					</p:outputPanel>
+
+
+
+
+					<p:panelGrid id="alarmHumidityPanel" styleClass="noBorderPanelGrid">
+						<p:row>
+							<p:column>
+								<h:outputText value="Humidity: " />
+							</p:column>
+							<p:column>
+								<p:inputSwitch value="#{alarmDeviceBean.humidity}">
+									<f:ajax event="change" execute="@this" render="alarmHumidityOn" />
+								</p:inputSwitch>
+							</p:column>
+						</p:row>
+					</p:panelGrid>
+					<p:outputPanel id="alarmHumidityOn" layout="block">
+						<p:panelGrid rendered="#{alarmDeviceBean.humidity}"
+							styleClass="noBorderPanelGrid">
+							<p:row>
+								<p:column>
+									<p:selectBooleanCheckbox value="#{alarmDeviceBean.humidityMax}" />
+								</p:column>
+								<p:column>
+									<h:outputText value="Hello Max!"></h:outputText>
+								</p:column>
+							</p:row>
+						</p:panelGrid>
+						<p:panelGrid rendered="#{alarmDeviceBean.humidity}"
+							styleClass="noBorderPanelGrid">
+							<p:row>
+								<p:column>
+									<p:selectBooleanCheckbox
+										value="#{alarmDeviceBean.humidityAverage}" />
+								</p:column>
+								<p:column>
+									<h:outputText value="Hello Average!"></h:outputText>
+								</p:column>
+							</p:row>
+						</p:panelGrid>
+
+					</p:outputPanel>
+
 				</p:tab>
+				<!-- Options -->
+				<p:tab id="optionsAlarm" title="Options">
+					<h:panelGrid columns="2" cellpadding="5">
+						<h:outputText
+							value="Send alarms on your email: #{alarmDeviceBean.userEmail} ? - " />
+						<p:selectBooleanButton id="emailYesNo"
+							value="#{alarmDeviceBean.alarmToEmail}" onLabel="Yes"
+							offLabel="No" style="width:60px" />
+					</h:panelGrid>
+				</p:tab>
+
+				<!-- Confirmation -->
 				<p:tab id="confirmationAlarm" title="Confirmation">
+
+					<p:dataList value="#{alarmDeviceBean.selectedDevicesTabRight}"
+						var="device" type="ordered" itemType="none" paginator="true"
+						rows="10" styleClass="paginated">
+						<f:facet name="header">
+           					 Selected Devices
+        				</f:facet>
+						<h:outputText value="#{device.mac}" />
+					</p:dataList>
+					<h:outputText value="Send alarm for:" />
+					<br />
+
+					<p:panelGrid rendered="#{alarmDeviceBean.temperature}"
+						styleClass="noBorderPanelGrid">
+						<h:outputText value="1) Temperature:" />
+						<br />
+
+						<h:panelGroup rendered="#{alarmDeviceBean.temperatureAbsolute}">
+							<h:outputText value="a) Absolute:" />
+							<br />
+							<h:outputText
+								value="- If temperature  &le; #{alarmDeviceBean.valueTemperatureAbsoluteMin}&deg;C  durint time = #{alarmDeviceBean.valueTimeTemperatureAbsoluteMin}"
+								rendered="#{alarmDeviceBean.temperatureAbType eq 'minAbT' or alarmDeviceBean.temperatureAbType eq 'minMaxAbT'}" />
+							<br />
+							<h:outputText
+								value="- If temperature  &ge; #{alarmDeviceBean.valueTemperatureAbsoluteMax}&deg;C  durint time = #{alarmDeviceBean.valueTimeTemperatureAbsoluteMax}"
+								rendered="#{alarmDeviceBean.temperatureAbType eq 'maxAbT' or alarmDeviceBean.temperatureAbType eq 'minMaxAbT'}" />
+							<br />
+						</h:panelGroup>
+						<h:panelGroup rendered="#{alarmDeviceBean.temperatureAverage}">
+							<h:outputText value="a) Average:"
+								rendered="#{!alarmDeviceBean.temperatureAbsolute}" />
+							<br />
+							<h:outputText value="b) Average:"
+								rendered="#{alarmDeviceBean.temperatureAbsolute}" />
+							<br />
+							<h:outputText
+								value="- If average temperature  &le; #{alarmDeviceBean.valueTemperatureAverageMin}&deg;C  durint time = #{alarmDeviceBean.valueTimeTemperatureAverageMin}"
+								rendered="#{alarmDeviceBean.temperatureAvType eq 'minAvT' or alarmDeviceBean.temperatureAvType eq 'minMaxAvT'}" />
+							<br />
+							<h:outputText
+								value="- If average temperature  &ge; #{alarmDeviceBean.valueTemperatureAverageMax}&deg;C  durint time = #{alarmDeviceBean.valueTimeTemperatureAverageMax}"
+								rendered="#{alarmDeviceBean.temperatureAvType eq 'maxAvT' or alarmDeviceBean.temperatureAvType eq 'minMaxAvT'}" />
+							<br />
+						</h:panelGroup>
+						<h:panelGroup rendered="#{alarmDeviceBean.alarmToEmail}">
+							<br />
+							<h:outputText
+								value="All alarms will send on your email: #{alarmDeviceBean.userEmail} " />
+							<br />
+						</h:panelGroup>
+					</p:panelGrid>
 				</p:tab>
 			</p:wizard>
 		</h:form>
